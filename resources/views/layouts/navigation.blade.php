@@ -15,6 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.kategori')" :active="request()->routeIs('admin.kategori')">
+                        {{ __('Kelola Kategori') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.brand')" :active="request()->routeIs('admin.brandi')">
+                        {{ __('Kelola Merek') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.FoamType')" :active="request()->routeIs('admin.FoamType')">
+                        {{ __('Kelola Jenis Busa') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.Size')" :active="request()->routeIs('admin.FoamType')">
+                        {{ __('Kelola Jenis Busa') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -69,6 +81,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.kategori')" :active="request()->routeIs('admin.kategori')">
+                {{ __('Kelola Kategori') }}
             </x-responsive-nav-link>
         </div>
 
