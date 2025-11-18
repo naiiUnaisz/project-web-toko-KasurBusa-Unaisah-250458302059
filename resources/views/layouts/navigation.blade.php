@@ -29,6 +29,9 @@
                     <x-nav-link :href="route('admin.sizes')" :active="request()->routeIs('admin.sizes')">
                         {{ __('Kelola Ukuran') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.products')" :active="request()->routeIs('admin.products')">
+                        {{ __('Kelola Produk') }}
+                    </x-nav-link>
                     @endif
                   
                 </div>
@@ -102,6 +105,9 @@
     
             <x-responsive-nav-link :href="route('admin.sizes')" :active="request()->routeIs('admin.sizes')">
                 {{ __('Kelola Ukuran') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.products')" :active="request()->routeIs('admin.products')">
+                {{ __('Kelola Produk') }}
             </x-responsive-nav-link>
             @endif
         </div>
