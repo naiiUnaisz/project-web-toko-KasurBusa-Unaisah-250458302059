@@ -38,13 +38,13 @@ class Product extends Model
     
 
 
-    // public function variants()
-    // {
-    //     return $this->hasMany(ProductVariant::class);
-    // }
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
 
-    // public function images()
-    // {
-    //     return $this->hasMany(ProductImage::class);
-    // }
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }

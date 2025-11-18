@@ -82,5 +82,6 @@ class ManageKategori extends Component
         
         $this->reset('editingKategoriId', 'editingKategoriName');
     }
+    
 
 }

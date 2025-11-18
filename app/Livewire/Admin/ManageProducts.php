@@ -75,16 +75,76 @@ class ManageProducts extends Component
     {
         $this->validate();
 
-        Product::create([
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'deskripsi' => $this->deskripsi,
-            'kategori_id' => $this->kategori_id,
-            'brand_id' => $this->brand_id,
-            'foam_type_id' => $this->foam_type_id,
-        ]);
+        if ($this->isEditing) {
+          
+            $product = Product::findOrFail($this->productIdBeingEdited);
+            $product->update([
+                'name' => $this->name,
+                'slug' => $this->slug,
+                'deskripsi' => $this->deskripsi,
+                'kategori_id' => $this->kategori_id,
+                'brand_id' => $this->brand_id,
+                'foam_type_id' => $this->foam_type_id,
+            ]);
+
+            $message = 'Produk berhasil diperbarui!';
+
+        } else{
+             
+           $product = Product::create([
+                'name' => $this->name,
+                'slug' => $this->slug,
+                'deskripsi' => $this->deskripsi,
+                'kategori_id' => $this->kategori_id,
+                'brand_id' => $this->brand_id,
+                'foam_type_id' => $this->foam_type_id,
+            ]);
+
+            $this->productIdBeingEdited = $product->id;
+            $this->isEditing = true;
+            
+            $message = 'Produk Utama dibuat! Silakan tambah Varian.';
+        }
+
+        session()->flash('message', $message);
 
         $this->closeModal();
-        $this->dispatch('notify', 'Produk Utama berhasil dibuat! Sekarang tambahkan Varian.');
+        // $this->dispatch('notify', 'Produk Utama berhasil dibuat! Sekarang tambahkan Varian.');
+    }
+
+    // Product::create([
+    //     'name' => $this->name,
+    //     'slug' => $this->slug,
+    //     'deskripsi' => $this->deskripsi,
+    //     'kategori_id' => $this->kategori_id,
+    //     'brand_id' => $this->brand_id,
+    //     'foam_type_id' => $this->foam_type_id,
+    // ]);
+
+
+
+    public function editProduct($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $this->productIdBeingEdited = $id;
+        $this->name = $product->name;
+        $this->slug = $product->slug;
+        $this->deskripsi = $product->deskripsi;
+        $this->kategori_id = $product->kategori_id;
+        $this->brand_id = $product->brand_id;
+        $this->foam_type_id = $product->foam_type_id;
+
+        $this->isEditing = true;
+        $this->showModal = true;
+        $this->resetValidation();
+    }
+
+    public function deleteProduct($productID)
+    {
+        $Products = Product::find($productID);
+        $Products->delete();
+
+        session()->flash('Delete', 'Jenis busa berhasil dihapus.');
     }
 }

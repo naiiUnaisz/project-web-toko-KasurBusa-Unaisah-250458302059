@@ -25,8 +25,13 @@
                             <td class="px-6 py-4">{{ $product->kategori->name ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $product->brand->name ?? '-' }}</td>
                             <td class="px-6 py-4">
-                                <button class="text-blue-600 hover:underline">Edit</button>
-                                <button class="text-red-600 hover:underline ml-2">Hapus</button>
+                                <button wire:click="editProduct({{ $product->id }})" class="text-blue-600 hover:underline">Edit</button>
+                                <button 
+                                    wire:click="deleteProduct({{ $product->id }})" 
+                                    wire:confirm="Yakin ingin menghapus produk {{ $product->name }}? Semua varian dan gambar akan ikut terhapus!"
+                                    class="text-red-600 hover:underline ml-2">
+                                    Hapus
+                                </button>
                             </td>
                         </tr>
                     @empty
@@ -75,6 +80,7 @@
                         <label class="block text-sm font-medium text-gray-700">Merek</label>
                         <select wire:model="brand_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                             <option value="">Pilih...</option>
+
                             @foreach($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
@@ -86,6 +92,7 @@
                         <label class="block text-sm font-medium text-gray-700">Jenis Busa</label>
                         <select wire:model="foam_type_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                             <option value="">Pilih...</option>
+
                             @foreach($foamTypes as $foam)
                                 <option value="{{ $foam->id }}">{{ $foam->name }}</option>
                             @endforeach
