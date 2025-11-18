@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\JenisBusa;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class FoamTypeSeeder extends Seeder
 {
@@ -13,9 +14,15 @@ class FoamTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        JenisBusa::create(['name' => 'Density 23 (D23)']);
-        JenisBusa::create(['name' => 'Density 24 (D24)']);
-        JenisBusa::create(['name' => 'Rebonded']);
-        JenisBusa::create(['name' => 'Density 25 (D25)']);
+        Schema::disableForeignKeyConstraints();
+
+        JenisBusa::truncate();
+
+        Schema::enableForeignKeyConstraints();
+
+        JenisBusa::create(['name' => 'Density 23 (D23)', 'slug' => 'density-23']);
+        JenisBusa::create(['name' => 'Density 24 (D24)', 'slug' => 'density-24']);
+        JenisBusa::create(['name' => 'Rebonded', 'slug' => 'rebonded']);
+        JenisBusa::create(['name' => 'Density 25 (D25)', 'slug' => 'density-25']);
     }
 }

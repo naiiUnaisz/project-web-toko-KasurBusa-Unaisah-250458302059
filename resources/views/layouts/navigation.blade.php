@@ -12,20 +12,20 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.kategori')" :active="request()->routeIs('admin.kategori')">
+                    <x-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')">
                         {{ __('Kelola Kategori') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.brand')" :active="request()->routeIs('admin.brandi')">
+                    
+                    <x-nav-link :href="route('admin.brands')" :active="request()->routeIs('admin.brands')">
                         {{ __('Kelola Merek') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.FoamType')" :active="request()->routeIs('admin.FoamType')">
+                    
+                    <x-nav-link :href="route('admin.foam-types')" :active="request()->routeIs('admin.foam-types')">
                         {{ __('Kelola Jenis Busa') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.Size')" :active="request()->routeIs('admin.FoamType')">
-                        {{ __('Kelola Jenis Busa') }}
+                    
+                    <x-nav-link :href="route('admin.sizes')" :active="request()->routeIs('admin.sizes')">
+                        {{ __('Kelola Ukuran') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -82,8 +82,19 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.kategori')" :active="request()->routeIs('admin.kategori')">
+            <x-responsive-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')">
                 {{ __('Kelola Kategori') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.brands')" :active="request()->routeIs('admin.brands')">
+                {{ __('Kelola Merek') }}
+            </x-responsive-nav-link>
+    
+            <x-responsive-nav-link :href="route('admin.foam-types')" :active="request()->routeIs('admin.foam-types')">
+                {{ __('Kelola Jenis Busa') }}
+            </x-responsive-nav-link>
+    
+            <x-responsive-nav-link :href="route('admin.sizes')" :active="request()->routeIs('admin.sizes')">
+                {{ __('Kelola Ukuran') }}
             </x-responsive-nav-link>
         </div>
 

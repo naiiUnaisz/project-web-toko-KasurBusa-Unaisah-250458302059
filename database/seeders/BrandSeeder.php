@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class BrandSeeder extends Seeder
@@ -13,12 +14,15 @@ class BrandSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Brand::truncate();
 
-        // Buat data baru
-        Brand::create(['name' => 'Royal']);
-        Brand::create(['name' => 'Inoac']);
-        Brand::create(['name' => 'Yukata']);
+        Schema::enableForeignKeyConstraints();
+   
+        Brand::create(['name' => 'Royal', 'slug' => 'royal']);
+        Brand::create(['name' => 'Inoac', 'slug' => 'inoac']);
+        Brand::create(['name' => 'Yukata', 'slug' => 'yukata']);
         
     }
 }

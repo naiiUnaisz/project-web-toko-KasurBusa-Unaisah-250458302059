@@ -19,10 +19,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/admin/kategori', ManageKategori::class)->name('admin.kategori');
-    Route::get('/admin/brands', ManageBrands::class)->name('admin.brand');
-    Route::get('/admin/FoamType', ManageJenisBusa::class)->name('admin.FoamType');
-    Route::get('/admin/Size', ManageSizes::class)->name('admin.Size');
+    
+});
+
+// Route Admin
+Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(function () {
+    Route::get('/kategori', ManageKategori::class)->name('categories');
+    Route::get('/brands', ManageBrands::class)->name('brands');
+    Route::get('/FoamType', ManageJenisBusa::class)->name('foam-types');
+    Route::get('/Size', ManageSizes::class)->name('sizes');
 });
 
 require __DIR__.'/auth.php';

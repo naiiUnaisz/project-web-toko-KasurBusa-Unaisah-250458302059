@@ -16,11 +16,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'Admin@gmail.com',
+            'password' => bcrypt('123456789'),
+            'role' => 'admin', 
+        ]);
+    
+        User::factory()->create([
+            'name' => 'User',
+            'email' => 'User@gmail.com',
+            'password' => bcrypt('123456789'),
+            'role' => 'customer', 
+        ]);
 
         $this->call([
             KategoriSeeder::class,
@@ -28,5 +37,6 @@ class DatabaseSeeder extends Seeder
             FoamTypeSeeder::class,
             SizeSeeder::class,
         ]);
+
     }
 }

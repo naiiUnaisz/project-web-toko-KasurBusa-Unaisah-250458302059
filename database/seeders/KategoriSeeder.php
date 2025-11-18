@@ -2,23 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\Kategori;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Schema; 
+use App\Models\Kategori;              
 
 class KategoriSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    
     public function run(): void
     {
+       
+        Schema::disableForeignKeyConstraints();
+      
         Kategori::truncate();
 
-        // Buat data baru
-        Kategori::create(['name' => 'Kasur Busa']);
-        Kategori::create(['name' => 'Kasur Springbed']);
-        Kategori::create(['name' => 'Kasur Lipat']);
-        Kategori::create(['name' => 'Busa Lembaran']);
+        Schema::enableForeignKeyConstraints();
+
+        Kategori::create(['name' => 'Kasur Busa', 'slug' => 'kasur-busa']);
+        Kategori::create(['name' => 'Kasur Springbed', 'slug' => 'kasur-springbed']);
+        Kategori::create(['name' => 'Kasur Lipat', 'slug' => 'kasur-lipat']);
+        Kategori::create(['name' => 'Busa Lembaran', 'slug' => 'busa-lembaran']);
     }
 }
