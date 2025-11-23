@@ -64,13 +64,12 @@ class ManageProducts extends Component
             'size_id' => 'required|exists:sizes,id',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
-            // SKU unik, kecuali jika produk sedang di-edit
             'sku' => ['nullable', 'string', 'max:100', 
                 $this->isEditing ? 'unique:products,sku,' . $this->productId : 'unique:products,sku'],
         ];
     }
 
-    // Lifecycle Hook: Dipanggil saat komponen di-load
+    
     public function mount()
     {
         // Muat semua data master untuk dropdown
@@ -80,7 +79,6 @@ class ManageProducts extends Component
         $this->foam_types = JenisBusa::all();
     }
     
-    // Watcher: Otomatis menghasilkan slug saat nama diubah
     public function updatedName($value)
     {
         $this->slug = Str::slug($value);
@@ -92,7 +90,7 @@ class ManageProducts extends Component
         $this->resetPage();
     }
 
-    // Fungsi untuk membuka modal tambah produk
+    
     public function createProduct()
     {
         $this->resetValidation();
@@ -101,7 +99,7 @@ class ManageProducts extends Component
         $this->showModal = true;
     }
 
-    // Fungsi untuk menyimpan produk baru
+   
     public function storeProduct()
     {
         $this->validate();
@@ -124,7 +122,7 @@ class ManageProducts extends Component
         $this->showModal = false;
     }
 
-    // Fungsi untuk mengisi form edit
+    
     public function editProduct($productId)
     {
         $this->resetValidation();
@@ -149,7 +147,7 @@ class ManageProducts extends Component
         $this->showModal = true;
     }
 
-    // Fungsi untuk menyimpan perubahan produk
+   
     public function updateProduct()
     {
         $this->validate();
@@ -189,7 +187,7 @@ class ManageProducts extends Component
         ]);
     }
     
-    // Render view dan fetch data
+   
     public function render()
     {
         // Query untuk mengambil data produk dengan relasi dan pencarian

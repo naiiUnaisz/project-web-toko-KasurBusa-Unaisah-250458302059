@@ -35,6 +35,12 @@
                     <x-nav-link :href="route('admin.imageDashboard')" :active="request()->routeIs('admin.imageDashboard')">
                         {{ __('Kelola Image') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        {{ __('Kelola User') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.usersAddress')" :active="request()->routeIs('admin.usersAddress')">
+                        {{ __('Kelola Alamat') }}
+                    </x-nav-link>
                     @endif
                   
                 </div>
@@ -114,6 +120,12 @@
             </x-responsive-nav-link>
             <x-nav-link :href="route('admin.imageDashboard')" :active="request()->routeIs('admin.imageDashboard')">
                 {{ __('Kelola Image') }}
+            </x-nav-link>
+            <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                {{ __('Kelola User') }}
+            </x-nav-link>
+            <x-nav-link :href="route('admin.usersAddress')" :active="request()->routeIs('admin.usersAddress')">
+                {{ __('Kelola Alamat') }}
             </x-nav-link>
             @endif
         </div>

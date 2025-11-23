@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\ManageKategori;
 use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageJenisBusa;
+use App\Livewire\Admin\Management\User;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Admin\Management\UserAddress;
 use App\Livewire\Admin\ProductImageDashboard;
 
 Route::get('/', function () {
@@ -35,6 +37,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/produk', ManageProducts::class)->name('products');
     Route::get('/images/dashboard', ProductImageDashboard::class)->name('imageDashboard');
     Route::get('/manage-image/{productId}', ManageImage::class)->name('images');
+    Route::get('/users', User::class)->name('users');
+    Route::get('/user-address', UserAddress::class)->name('usersAddress');
 });
 
 require __DIR__.'/auth.php';
