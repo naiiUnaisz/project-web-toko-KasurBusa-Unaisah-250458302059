@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_variants', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('produk_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('size_id')->nullable()->constrained('sizes')->onDelete('set null');
-            $table->decimal('price', 12, 2);
-            $table->integer('stock_quantity')->default(0);
-            $table->string('sku', 100)->unique()->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('product_variants', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('produk_id')->constrained('products')->onDelete('cascade');
+        //     $table->foreignId('size_id')->nullable()->constrained('sizes')->onDelete('set null');
+        //     $table->decimal('price', 12, 2);
+        //     $table->integer('stock_quantity')->default(0);
+        //     $table->string('sku', 100)->unique()->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

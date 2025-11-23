@@ -1,12 +1,15 @@
 <?php
 
+use App\Livewire\Admin\ManageImage;
 use App\Livewire\Admin\ManageSizes;
 use App\Livewire\Admin\ManageBrands;
+use App\Livewire\Admin\ManageVariant;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\ManageKategori;
 use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageJenisBusa;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Admin\ProductImageDashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +33,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/FoamType', ManageJenisBusa::class)->name('foam-types');
     Route::get('/Size', ManageSizes::class)->name('sizes');
     Route::get('/produk', ManageProducts::class)->name('products');
+    Route::get('/images/dashboard', ProductImageDashboard::class)->name('imageDashboard');
+    Route::get('/manage-image/{productId}', ManageImage::class)->name('images');
 });
 
 require __DIR__.'/auth.php';

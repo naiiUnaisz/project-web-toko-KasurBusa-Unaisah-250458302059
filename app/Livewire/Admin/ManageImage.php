@@ -6,111 +6,148 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\ProductImage;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Storage;
 
+#[Layout('layouts.app')]
 class ManageImage extends Component
 {
 
     use WithFileUploads;
 
+    public $productId; 
     public $product;
-    public $productId;
     public $images; 
-    public $newImages = []; 
-   
-    // protected $listeners = ['imageAdded' => 'loadImages']; 
+    public $productImages = []; 
+    public $alt_text = ''; 
     
-    // protected $listeners = ['imageAdded' => 'loadImages']; 
+    // Properti untuk Modal konfirmasi hapus
+    public $isDeleting = false;
+    public $imageToDeleteId = null;
+
 
     public function render()
     {
-        return view('livewire.admin.imgProduct.manage-image');
+
+        return view('livewire.admin.imgProduct.manage-image', [
+            'product' => $this->product,
+        ]);
     }
 
-   
+
     public function mount($productId)
     {
-        $this->productId = $productId;
+        // Pastikan produk ada dan muat data gambar
         $this->product = Product::findOrFail($productId);
-        $this->loadImages();
+        $this->productId = $productId;
+        $this->loadProductImages();
     }
 
-   
-    public function loadImages()
+    public function loadProductImages()
     {
-        // kolom 'is_primary' untuk pengurutan
-        $this->images = $this->product->images()->orderByDesc('is_primary')->get();
+        
+        $this->productImages = $this->product->images()
+                                            ->orderByDesc('is_primary')
+                                            ->get();
+    }
+
+    protected function rules()
+    {
+        return [
+            'images' => 'required|array|min:1|max:5', 
+            'images.*' => 'image|max:2048', 
+            'alt_text' => 'nullable|string|max:255',
+        ];
+    }
+
+
+    //  * CREATE: Mengunggah dan menyimpan gambar baru.
+    public function uploadImages()
+    {
+        $this->validate();
+        
+        $isFirstImage = $this->product->images()->doesntExist();
+
+        foreach ($this->images as $index => $image) {
+
+            $path = $image->store('product_images', 'public');
+
+            ProductImage::create([
+                'produk_id' => $this->productId,
+                'image_url' => $path, 
+                'alt_text' => $this->alt_text,
+                
+                'is_primary' => ($isFirstImage && $index === 0) ? true : false, 
+            ]);
+        }
+        
+        $this->reset(['images', 'alt_text']); 
+        $this->loadProductImages(); 
+        session()->flash('message', 'Gambar berhasil ditambahkan.');
     }
 
     
-    public function saveImages()
+    //  * UPDATE: Menandai gambar yang dipilih sebagai gambar utama (is_primary).
+    public function setMainImage($imageId)
     {
-        $this->validate([
-            'newImages.*' => 'image|max:2048', 
-        ], [
-            'newImages.*.image' => 'File harus berupa gambar.',
-            'newImages.*.max' => 'Ukuran gambar maksimal 2MB.',
-        ]);
+       
+        ProductImage::where('product_id', $this->productId)->update(['is_primary' => false]);
 
-        if (!empty($this->newImages)) {
-            // mengecek apakah produk sudah memiliki gambar
-            $hasExistingImages = $this->product->images()->exists();
-            
-            foreach ($this->newImages as $index => $file) {
-                
-                $path = $file->store('products/images', 'public');
-                
-                $isPrimary = (!$hasExistingImages && $index === 0) ? 1 : 0; 
-                
-                ProductImage::create([
-                    'produk_id' => $this->productId, 
-                    'image_url' => $path,           
-                    'is_primary' => $isPrimary,     
-                    'alt_text' => 'Gambar produk ' . $this->product->name,
-                ]);
-            }
-            
-            $this->reset('newImages'); 
-            $this->loadImages(); 
-            session()->flash('imageMessage', 'Gambar berhasil ditambahkan!');
-        } else {
-            session()->flash('imageError', 'Pilih minimal satu gambar untuk diupload.');
-        }
+    
+        ProductImage::where('id', $imageId)->update(['is_primary' => true]);
+        
+        $this->loadProductImages();
+        session()->flash('message', 'Gambar utama berhasil diperbarui.');
+    }
+    
+    // Logika Modal
+    public function confirmImageDeletion($imageId)
+    {
+        $this->isDeleting = true;
+        $this->imageToDeleteId = $imageId;
     }
 
-    public function deleteImage($imageId)
+    public function cancelImageDeletion()
     {
-        $image = ProductImage::findOrFail($imageId);
-        
+        $this->isDeleting = false;
+        $this->imageToDeleteId = null;
+    }
+
+   
+    //  * DELETE: Menghapus gambar dari storage dan database.
+    public function deleteImage()
+    {
+        if (!$this->imageToDeleteId) {
+            return;
+        }
+
+        $image = ProductImage::findOrFail($this->imageToDeleteId);
+
+      
         Storage::disk('public')->delete($image->image_url);
 
+        
         $image->delete();
-
-        // Jika gambar yang dihapus adalah primary, tetapkan gambar pertama yang tersisa sebagai primary
+        
         if ($image->is_primary) {
-            $newPrimary = $this->product->images()->first();
-            if ($newPrimary) {
-                $newPrimary->is_primary = 1;
-                $newPrimary->save();
+            $firstImage = $this->product->images()->orderBy('id')->first();
+            if ($firstImage) {
+                 $firstImage->update(['is_primary' => true]);
             }
         }
-        
-        $this->loadImages();
-        session()->flash('imageMessage', 'Gambar berhasil dihapus.');
+
+        $this->cancelImageDeletion();
+        $this->loadProductImages();
+        session()->flash('message', 'Gambar berhasil dihapus.');
     }
     
-    // Method untuk menandai gambar sebagai gambar utama (primary)
-    public function setAsPrimary($imageId)
+    //  kembali ke Dashboard Gambar
+    public function backToProducts()
     {
-    
-        $this->product->images()->update(['is_primary' => 0]);
-        
-        $image = ProductImage::findOrFail($imageId);
-        $image->is_primary = 1;
-        $image->save();
-        
-        $this->loadImages();
-        session()->flash('imageMessage', 'Gambar utama berhasil diubah.');
+        return redirect()->route('admin.imageDashboard');
     }
+
+
    
+       
 }

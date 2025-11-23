@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -17,6 +18,10 @@ class Product extends Model
         'foam_type_id',
         'name',
         'slug',
+        'size_id',
+        'price', 
+        'stock_quantity',
+        'sku',
         'deskripsi',
     ];
 
@@ -35,16 +40,17 @@ class Product extends Model
         return $this->belongsTo(JenisBusa::class, 'foam_type_id');
     }
 
-    
 
+   // Relasi ke Ukuran (Size)
+   public function size()
+   {
+       return $this->belongsTo(Size::class, 'size_id');
+   }
 
-    public function variants()
+    public function images(): HasMany
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductImage::class, 'produk_id'); 
     }
 
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class);
-    }
+   
 }

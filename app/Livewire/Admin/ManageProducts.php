@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Brand;
+use App\Models\Size;;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Kategori;
@@ -11,140 +12,196 @@ use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 
-#[Layout('layouts.app')]
 
+#[Layout('layouts.app')]
 class ManageProducts extends Component
 {
-
     use WithPagination;
-    // use WithFileUploads; 
 
-    public $name, $slug, $deskripsi;
-    public $kategori_id, $brand_id, $foam_type_id;
+    // Properti untuk Form Modal (Tambah/Edit)
+    public $productId;
+    public $name;
+    public $slug;
+    public $deskripsi;
+    public $kategori_id;
+    public $brand_id;
+    public $foam_type_id;
 
+    // Properti Varian (sesuai skema DB baru)
+    public $size_id;
+    public $price;
+    public $stock_quantity;
+    public $sku;
 
-    public $isEditing = false;
-    public $productIdBeingEdited;
+    // Properti Data Master (untuk Dropdown)
+    public $sizes;
+    public $categories;
+    public $brands;
+    public $foam_types;
 
+    // Properti UI/State
     public $showModal = false;
+    public $isEditing = false;
+    public $search = '';
+    public $perPage = 10;
+    
+    protected $paginationTheme = 'tailwind';
 
-    // Validasi Sementara
-    protected $rules = [
-        'name' => 'required|min:3',
-        'slug' => 'required|unique:products,slug',
-        'kategori_id' => 'required',
-        'brand_id' => 'required',
-        'foam_type_id' => 'required',
-        'deskripsi' => 'nullable',
-    ];
-
-    public function render()
+    // Aturan Validasi
+    protected function rules()
     {
-        
-        return view('livewire.admin.manage-products', [
-            'products' => Product::with(['kategori', 'brand'])->latest()->paginate(10),
-            'categories' => Kategori::all(),
-            'brands' => Brand::all(),
-            'foamTypes' => JenisBusa::all(),
-        ]);
-
-        
+        return [
+            'name' => 'required|string|max:255',
+            // Slug unik, kecuali jika produk sedang di-edit
+            'slug' => ['required', 'string', 'max:255', 
+                $this->isEditing ? 'unique:products,slug,' . $this->productId : 'unique:products,slug'],
+            'deskripsi' => 'nullable|string',
+            'kategori_id' => 'required|exists:kategories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'foam_type_id' => 'required|exists:foam_types,id',
+            
+            // Aturan Varian
+            'size_id' => 'required|exists:sizes,id',
+            'price' => 'required|numeric|min:0',
+            'stock_quantity' => 'required|integer|min:0',
+            // SKU unik, kecuali jika produk sedang di-edit
+            'sku' => ['nullable', 'string', 'max:100', 
+                $this->isEditing ? 'unique:products,sku,' . $this->productId : 'unique:products,sku'],
+        ];
     }
 
-
-    public function openModal()
+    // Lifecycle Hook: Dipanggil saat komponen di-load
+    public function mount()
     {
-        $this->resetValidation();
-        $this->reset();
-        $this->showModal = true;
-        $this->isEditing = false;
+        // Muat semua data master untuk dropdown
+        $this->sizes = Size::all();
+        $this->categories = Kategori::all();
+        $this->brands = Brand::all();
+        $this->foam_types = JenisBusa::all();
     }
-
- 
+    
+    // Watcher: Otomatis menghasilkan slug saat nama diubah
     public function updatedName($value)
     {
         $this->slug = Str::slug($value);
     }
-
-    public function closeModal()
+    
+    // Mengatur ulang paginasi saat pencarian diubah
+    public function updatedSearch()
     {
-        $this->showModal = false;
+        $this->resetPage();
     }
 
-    public function saveProduct()
+    // Fungsi untuk membuka modal tambah produk
+    public function createProduct()
+    {
+        $this->resetValidation();
+        $this->resetForm();
+        $this->isEditing = false;
+        $this->showModal = true;
+    }
+
+    // Fungsi untuk menyimpan produk baru
+    public function storeProduct()
     {
         $this->validate();
 
-        if ($this->isEditing) {
-          
-            $product = Product::findOrFail($this->productIdBeingEdited);
-            $product->update([
-                'name' => $this->name,
-                'slug' => $this->slug,
-                'deskripsi' => $this->deskripsi,
-                'kategori_id' => $this->kategori_id,
-                'brand_id' => $this->brand_id,
-                'foam_type_id' => $this->foam_type_id,
-            ]);
+        Product::create([
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'deskripsi' => $this->deskripsi,
+            'kategori_id' => $this->kategori_id,
+            'brand_id' => $this->brand_id,
+            'foam_type_id' => $this->foam_type_id,
+            'size_id' => $this->size_id,
+            'price' => $this->price,
+            'stock_quantity' => $this->stock_quantity,
+            'sku' => $this->sku,
+        ]);
 
-            $message = 'Produk berhasil diperbarui!';
-
-        } else{
-             
-           $product = Product::create([
-                'name' => $this->name,
-                'slug' => $this->slug,
-                'deskripsi' => $this->deskripsi,
-                'kategori_id' => $this->kategori_id,
-                'brand_id' => $this->brand_id,
-                'foam_type_id' => $this->foam_type_id,
-            ]);
-
-            $this->productIdBeingEdited = $product->id;
-            $this->isEditing = true;
-            
-            $message = 'Produk Utama dibuat! Silakan tambah Varian.';
-        }
-
-        session()->flash('message', $message);
-
-        $this->closeModal();
-        // $this->dispatch('notify', 'Produk Utama berhasil dibuat! Sekarang tambahkan Varian.');
+        session()->flash('success', 'Produk berhasil ditambahkan.');
+        $this->resetForm();
+        $this->showModal = false;
     }
 
-    // Product::create([
-    //     'name' => $this->name,
-    //     'slug' => $this->slug,
-    //     'deskripsi' => $this->deskripsi,
-    //     'kategori_id' => $this->kategori_id,
-    //     'brand_id' => $this->brand_id,
-    //     'foam_type_id' => $this->foam_type_id,
-    // ]);
-
-
-
-    public function editProduct($id)
+    // Fungsi untuk mengisi form edit
+    public function editProduct($productId)
     {
-        $product = Product::findOrFail($id);
+        $this->resetValidation();
+        $this->resetForm();
 
-        $this->productIdBeingEdited = $id;
+        $product = Product::findOrFail($productId);
+        $this->productId = $product->id;
         $this->name = $product->name;
         $this->slug = $product->slug;
         $this->deskripsi = $product->deskripsi;
         $this->kategori_id = $product->kategori_id;
         $this->brand_id = $product->brand_id;
         $this->foam_type_id = $product->foam_type_id;
+        
+        // Data Varian
+        $this->size_id = $product->size_id;
+        $this->price = $product->price;
+        $this->stock_quantity = $product->stock_quantity;
+        $this->sku = $product->sku;
 
         $this->isEditing = true;
         $this->showModal = true;
-        $this->resetValidation();
     }
 
-    public function deleteProduct($productID)
+    // Fungsi untuk menyimpan perubahan produk
+    public function updateProduct()
     {
-        $Products = Product::find($productID);
-        $Products->delete();
+        $this->validate();
 
-        session()->flash('Delete', 'Jenis busa berhasil dihapus.');
+        $product = Product::findOrFail($this->productId);
+        $product->update([
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'deskripsi' => $this->deskripsi,
+            'kategori_id' => $this->kategori_id,
+            'brand_id' => $this->brand_id,
+            'foam_type_id' => $this->foam_type_id,
+            'size_id' => $this->size_id,
+            'price' => $this->price,
+            'stock_quantity' => $this->stock_quantity,
+            'sku' => $this->sku,
+        ]);
+
+        session()->flash('success', 'Produk berhasil diperbarui.');
+        $this->resetForm();
+        $this->showModal = false;
+    }
+
+    // Fungsi untuk menghapus produk
+    public function deleteProduct($productId)
+    {
+        Product::destroy($productId);
+        session()->flash('success', 'Produk berhasil dihapus.');
+    }
+
+    // Fungsi reset form
+    protected function resetForm()
+    {
+        $this->reset([
+            'productId', 'name', 'slug', 'deskripsi', 'kategori_id', 'brand_id', 'foam_type_id',
+            'size_id', 'price', 'stock_quantity', 'sku'
+        ]);
+    }
+    
+    // Render view dan fetch data
+    public function render()
+    {
+        // Query untuk mengambil data produk dengan relasi dan pencarian
+        $products = Product::with(['kategori', 'brand', 'foamType', 'size'])
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('deskripsi', 'like', '%' . $this->search . '%')
+            ->orWhere('sku', 'like', '%' . $this->search . '%')
+            ->orderBy('id', 'desc')
+            ->paginate($this->perPage);
+
+        return view('livewire.admin.Product.manage-products', [
+            'products' => $products,
+        ]);
     }
 }

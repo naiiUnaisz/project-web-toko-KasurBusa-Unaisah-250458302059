@@ -32,6 +32,9 @@
                     <x-nav-link :href="route('admin.products')" :active="request()->routeIs('admin.products')">
                         {{ __('Kelola Produk') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.imageDashboard')" :active="request()->routeIs('admin.imageDashboard')">
+                        {{ __('Kelola Image') }}
+                    </x-nav-link>
                     @endif
                   
                 </div>
@@ -109,6 +112,9 @@
             <x-responsive-nav-link :href="route('admin.products')" :active="request()->routeIs('admin.products')">
                 {{ __('Kelola Produk') }}
             </x-responsive-nav-link>
+            <x-nav-link :href="route('admin.imageDashboard')" :active="request()->routeIs('admin.imageDashboard')">
+                {{ __('Kelola Image') }}
+            </x-nav-link>
             @endif
         </div>
 
