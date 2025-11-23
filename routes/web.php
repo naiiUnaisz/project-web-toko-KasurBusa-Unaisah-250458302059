@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use App\Livewire\Admin\ManageImage;
 use App\Livewire\Admin\ManageSizes;
 use App\Livewire\Admin\ManageBrands;
@@ -10,10 +11,10 @@ use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageJenisBusa;
 use App\Livewire\Admin\Management\User;
 use App\Http\Controllers\ProfileController;
-use App\Livewire\Admin\Management\UserAddress;
-use App\Livewire\Admin\ProductImageDashboard;
 use App\Livewire\Admin\Shop\OrderManagement;
-use App\Models\Order;
+use App\Livewire\Admin\ProductImageDashboard;
+use App\Livewire\Admin\Management\UserAddress;
+use App\Livewire\Admin\Shop\OrderItemManagement;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +43,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/users', User::class)->name('users');
     Route::get('/user-address', UserAddress::class)->name('usersAddress');
     Route::get('/order-management', OrderManagement::class)->name('orders');
+    Route::get('/order-items', OrderItemManagement::class)->name('orderItems');
 });
 
 require __DIR__.'/auth.php';
