@@ -12,6 +12,8 @@ use App\Livewire\Admin\Management\User;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\Management\UserAddress;
 use App\Livewire\Admin\ProductImageDashboard;
+use App\Livewire\Admin\Shop\OrderManagement;
+use App\Models\Order;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,6 +41,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/manage-image/{productId}', ManageImage::class)->name('images');
     Route::get('/users', User::class)->name('users');
     Route::get('/user-address', UserAddress::class)->name('usersAddress');
+    Route::get('/order-management', OrderManagement::class)->name('orders');
 });
 
 require __DIR__.'/auth.php';
