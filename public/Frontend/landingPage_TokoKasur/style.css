@@ -1,0 +1,49 @@
+:root {
+    --color-primary: #810000;      /* Merah Maroon */
+    --color-primary-dark: #bb8625; /* Kuning Kecoklatan (Hover) */
+    --color-whatsapp: #25d366;     /* Hijau WhatsApp */
+}
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb; /* Latar belakang cerah konsisten */
+    color: #1f2937; /* Warna teks gelap konsisten */
+}
+
+/* Kustomisasi Header */
+.header-sticky {
+    position: sticky;
+    top: 0;
+    background-color: #EEEBDD; /* Warna header konsisten */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 40;
+}
+
+/* Kelas Kustom untuk Warna Primer */
+.bg-primary-custom {
+    background-color: var(--color-primary);
+}
+.bg-primary-custom:hover {
+    background-color: var(--color-primary-dark);
+}
+.text-primary-custom {
+    color: var(--color-primary);
+}
+
+/* Kelas Kustom untuk WhatsApp Floating Button */
+.whatsapp-float {
+    background-color: var(--color-whatsapp);
+    transition: background-color 0.3s;
+}
+.whatsapp-float:hover {
+    background-color: #1da851; 
+}
+
+/* Transisi untuk semua tombol agar halus */
+.transition-button { 
+    transition: background-color 0.3s, transform 0.1s; 
+}
+.transition-button:active { 
+    transform: scale(0.98); 
+}

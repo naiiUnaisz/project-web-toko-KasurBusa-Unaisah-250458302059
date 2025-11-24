@@ -17,10 +17,13 @@ use App\Livewire\Admin\ProductImageDashboard;
 use App\Livewire\Admin\Management\UserAddress;
 use App\Livewire\Admin\Shop\OrderItemManagement;
 use App\Livewire\Admin\Shop\PaymentManagement;
+use App\Livewire\Front\LandingPage;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use function Termwind\render;
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -49,5 +52,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/Payment-confirm', PaymentManagement::class)->name('payments');
     Route::get('/Product-reviews', ReviewManagement::class)->name('reviews');
 });
+
+// Route frontend
+Route::get('/', LandingPage::class)->name('landingpage');
+
+
 
 require __DIR__.'/auth.php';
