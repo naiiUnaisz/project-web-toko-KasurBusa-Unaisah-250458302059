@@ -21,7 +21,6 @@ class ManageImage extends Component
     public $productImages = []; 
     public $alt_text = ''; 
     
-    // Properti untuk Modal konfirmasi hapus
     public $isDeleting = false;
     public $imageToDeleteId = null;
 
@@ -37,7 +36,7 @@ class ManageImage extends Component
 
     public function mount($productId)
     {
-        // Pastikan produk ada dan muat data gambar
+
         $this->product = Product::findOrFail($productId);
         $this->productId = $productId;
         $this->loadProductImages();
@@ -61,7 +60,6 @@ class ManageImage extends Component
     }
 
 
-    //  * CREATE: Mengunggah dan menyimpan gambar baru.
     public function uploadImages()
     {
         $this->validate();
@@ -87,7 +85,7 @@ class ManageImage extends Component
     }
 
     
-    //  * UPDATE: Menandai gambar yang dipilih sebagai gambar utama (is_primary).
+    //  Menandai gambar yang dipilih sebagai gambar utama (is_primary).
     public function setMainImage($imageId)
     {
        
@@ -114,7 +112,7 @@ class ManageImage extends Component
     }
 
    
-    //  * DELETE: Menghapus gambar dari storage dan database.
+    //  Menghapus gambar dari storage dan database.
     public function deleteImage()
     {
         if (!$this->imageToDeleteId) {
@@ -141,7 +139,6 @@ class ManageImage extends Component
         session()->flash('message', 'Gambar berhasil dihapus.');
     }
     
-    //  kembali ke Dashboard Gambar
     public function backToProducts()
     {
         return redirect()->route('admin.imageDashboard');

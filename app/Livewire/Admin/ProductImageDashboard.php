@@ -34,7 +34,7 @@ class ProductImageDashboard extends Component
         $this->resetPage();
     }
     
-    // Fungsi untuk mengarahkan ke komponen kelola gambar produk spesifik
+    
     public function goToManageImage($productId)
     {
        

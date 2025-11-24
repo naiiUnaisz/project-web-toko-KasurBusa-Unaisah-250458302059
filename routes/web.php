@@ -11,6 +11,7 @@ use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageJenisBusa;
 use App\Livewire\Admin\Management\User;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Admin\Management\ReviewManagement;
 use App\Livewire\Admin\Shop\OrderManagement;
 use App\Livewire\Admin\ProductImageDashboard;
 use App\Livewire\Admin\Management\UserAddress;
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/order-management', OrderManagement::class)->name('orders');
     Route::get('/order-items', OrderItemManagement::class)->name('orderItems');
     Route::get('/Payment-confirm', PaymentManagement::class)->name('payments');
+    Route::get('/Product-reviews', ReviewManagement::class)->name('reviews');
 });
 
 require __DIR__.'/auth.php';

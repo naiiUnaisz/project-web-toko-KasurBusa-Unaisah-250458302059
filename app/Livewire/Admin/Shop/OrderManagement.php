@@ -78,13 +78,10 @@ class OrderManagement extends Component
     // Method untuk menghapus order
     public function deleteOrder($orderId)
     {
-        // PENTING: Untuk order, biasanya hanya status CANCELLED atau PENDING yang boleh dihapus.
-        // Hapus juga order_items yang terkait (Cascading delete disarankan di DB)
         $order = Order::findOrFail($orderId);
         
         if (in_array($order->status, ['pending', 'cancelled'])) {
-             // Pastikan order_items dihapus juga di sini jika tidak menggunakan cascade di DB
-             // $order->orderItems()->delete(); 
+             
              $order->delete();
              session()->flash('success', "Order #{$order->order_number} berhasil dihapus.");
         } else {
@@ -92,12 +89,12 @@ class OrderManagement extends Component
         }
     }
 
-    // Method utama untuk mendapatkan data orders
+   
     public function getOrdersProperty()
     {
-        // Query Builder untuk Order
+        
         $query = Order::query()
-                     ->with(['user', 'address']) // Asumsi ada relasi 'address' ke user_address
+                     ->with(['user', 'address']) 
                      ->latest();
 
         // Logika Pencarian
@@ -114,7 +111,7 @@ class OrderManagement extends Component
             $query->where('status', $this->statusFilter);
         }
 
-        // Tampilkan 20 data per halaman (atau sesuai kebutuhan)
+        // Tampilkan data per halaman 
         return $query->paginate(20);
     }
 

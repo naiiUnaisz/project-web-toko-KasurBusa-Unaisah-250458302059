@@ -9,17 +9,14 @@
     
     <div class="bg-white shadow-lg rounded-xl p-4">
         <div class="flex justify-between items-center mb-4">
-            <!-- Pencarian -->
             <div class="w-1/3">
                 <input type="text" wire:model.live="search" placeholder="Cari nama atau email pengguna..." class="form-input w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200/50">
             </div>
-            {{-- <!-- Tombol untuk menuju Manajemen Alamat -->
-            <a href="/admin/addresses" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150">
+            {{-- <a href="/admin/addresses" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150">
                 Kelola Semua Alamat
-            </a> --}}
+            </a>  --}}
         </div>
     
-        <!-- Tabel Data Pengguna -->
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -63,7 +60,7 @@
         </div>
     </div>
     
-    <!-- Livewire Modal (Detail Pengguna & Role SAJA) -->
+    <!-- Modal Detail Pengguna & Role  -->
     @if ($showDetailModal && $selectedUser)
     <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
         <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 mx-4" @click.away="$wire.showDetailModal = false">

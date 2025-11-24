@@ -18,7 +18,6 @@ class PaymentManagement extends Component
     public $search = '';
     public $statusFilter = 'all';
 
-    // Daftar status yang akan digunakan di dropdown filter
     public $availableStatuses = [
         'pending' => 'Menunggu Verifikasi',
         'approved' => 'Disetujui',
@@ -44,14 +43,11 @@ class PaymentManagement extends Component
             $query->where('status', $this->statusFilter);
         }
         
-        // Memuat relasi 'order' untuk menghindari N+1 Query
-        // Relasi 'order' inilah yang Anda definisikan di Model Payment
                 return $query->with('order') 
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
     }
 
-    // Method untuk merender view dan mengirim variabel yang dibutuhkan
     public function render()
     {
         

@@ -1,8 +1,7 @@
 <div>
-    <!-- Judul dan Tombol Kembali ke Dashboard Gambar -->
     <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-800">Kelola Gambar Produk</h1>
-    <!-- Tombol kembali ke ProductImageDashboard -->
+   
     <a href="{{ route('admin.imageDashboard') }}" class="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 transition duration-150">
     &larr; Kembali ke Dashboard Gambar
     </a>
@@ -69,18 +68,15 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                 @foreach ($productImages as $image)
                     <div class="relative group bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300">
-                        <!-- Gambar (Menggunakan image_url dari DB) -->
                         <img src="{{ Storage::url($image->image_url) }}" alt="{{ $image->alt_text ?: $product->name . ' Gambar' }}" 
                              class="w-full h-40 object-cover">
                         
-                        <!-- Badge Gambar Utama (Menggunakan is_primary dari DB) -->
+                        <!-- Badge Gambar Utama  -->
                         @if ($image->is_primary)
                             <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">UTAMA</span>
                         @endif
     
-                        <!-- Overlay Aksi -->
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <!-- Tombol Set Main -->
                             @if (!$image->is_primary)
                                 <button wire:click="setMainImage({{ $image->id }})" 
                                         class="text-white bg-indigo-500 hover:bg-indigo-600 text-xs px-3 py-1 rounded-full mb-2 transition duration-150">
@@ -88,7 +84,6 @@
                                 </button>
                             @endif
                             
-                            <!-- Tombol Hapus -->
                             <button wire:click="confirmImageDeletion({{ $image->id }})" 
                                     class="text-white bg-red-600 hover:bg-red-700 text-xs px-3 py-1 rounded-full transition duration-150">
                                 Hapus
@@ -100,7 +95,7 @@
         @endif
     </div>
     
-    <!-- Modal Konfirmasi Hapus (Custom Modal) -->
+    <!-- Modal Konfirmasi Hapus -->
     @if ($isDeleting)
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
             <div class="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-2xl">

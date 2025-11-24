@@ -13,16 +13,14 @@ class User extends Component
     
     use WithPagination;
 
-    // Properti Global
     public $search = '';
     public $sortField = 'created_at';
     public $sortAsc = false;
     
-    // Properti untuk Modal Detail Pengguna
+    // Detail Pengguna
     public $showDetailModal = false;
     public ?UserModel $selectedUser = null; 
-    
-    // Daftar role yang tersedia
+  
     public $availableRoles = ['admin', 'Customer'];
     public $newRole = ''; 
 
@@ -47,9 +45,6 @@ class User extends Component
         $this->resetPage();
     }
 
-    /**
-     * Membuka modal detail pengguna (Hanya User dan Role)
-     */
     public function showUserDetail($userId)
     {
         $this->selectedUser = UserModel::findOrFail($userId);
@@ -57,9 +52,7 @@ class User extends Component
         $this->showDetailModal = true;
     }
     
-    /**
-     * Menyimpan role pengguna yang diperbarui
-     */
+    
     public function updateRole($userId)
     {
         $this->validate([

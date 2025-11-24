@@ -1,12 +1,9 @@
 <div>
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Kelola Gambar Produk</h1>
     
-    <!-- Search Box -->
     <div class="mb-4 flex justify-between items-center">
         <input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari Produk berdasarkan Nama..."
                class="p-2 border border-gray-300 rounded-lg shadow-sm w-full md:w-1/3 focus:ring-indigo-500 focus:border-indigo-500">
-        
-        <p class="text-sm text-gray-500 hidden sm:block">Pilih produk di bawah untuk mengelola gambarnya.</p>
     </div>
     
     <!-- Tabel Daftar Produk -->

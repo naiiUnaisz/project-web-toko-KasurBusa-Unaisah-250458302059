@@ -50,6 +50,9 @@
                     <x-nav-link :href="route('admin.payments')" :active="request()->routeIs('admin.payments')">
                         {{ __('Kelola pembayaran') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.reviews')" :active="request()->routeIs('admin.reviews')">
+                        {{ __('Kelola Review') }}
+                    </x-nav-link>
                     @endif
                   
                 </div>
@@ -144,6 +147,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('admin.payments')" :active="request()->routeIs('admin.payments')">
                 {{ __('Kelola Pembayaran') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('admin.reviews')" :active="request()->routeIs('admin.reviews')">
+                {{ __('Kelola Review') }}
             </x-responsive-nav-link>
             @endif
         </div>

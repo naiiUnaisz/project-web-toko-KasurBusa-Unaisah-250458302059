@@ -18,7 +18,6 @@ class ManageProducts extends Component
 {
     use WithPagination;
 
-    // Properti untuk Form Modal (Tambah/Edit)
     public $productId;
     public $name;
     public $slug;
@@ -27,7 +26,7 @@ class ManageProducts extends Component
     public $brand_id;
     public $foam_type_id;
 
-    // Properti Varian (sesuai skema DB baru)
+
     public $size_id;
     public $price;
     public $stock_quantity;
@@ -52,7 +51,6 @@ class ManageProducts extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            // Slug unik, kecuali jika produk sedang di-edit
             'slug' => ['required', 'string', 'max:255', 
                 $this->isEditing ? 'unique:products,slug,' . $this->productId : 'unique:products,slug'],
             'deskripsi' => 'nullable|string',
@@ -60,7 +58,6 @@ class ManageProducts extends Component
             'brand_id' => 'required|exists:brands,id',
             'foam_type_id' => 'required|exists:foam_types,id',
             
-            // Aturan Varian
             'size_id' => 'required|exists:sizes,id',
             'price' => 'required|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
@@ -171,14 +168,14 @@ class ManageProducts extends Component
         $this->showModal = false;
     }
 
-    // Fungsi untuk menghapus produk
+
     public function deleteProduct($productId)
     {
         Product::destroy($productId);
         session()->flash('success', 'Produk berhasil dihapus.');
     }
 
-    // Fungsi reset form
+
     protected function resetForm()
     {
         $this->reset([
@@ -190,7 +187,6 @@ class ManageProducts extends Component
    
     public function render()
     {
-        // Query untuk mengambil data produk dengan relasi dan pencarian
         $products = Product::with(['kategori', 'brand', 'foamType', 'size'])
             ->where('name', 'like', '%' . $this->search . '%')
             ->orWhere('deskripsi', 'like', '%' . $this->search . '%')

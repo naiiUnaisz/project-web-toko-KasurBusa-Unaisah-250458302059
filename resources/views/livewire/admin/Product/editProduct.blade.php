@@ -1,4 +1,3 @@
-<!-- Modal Tambah/Edit Produk -->
 @if($showModal)
 <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full flex items-center justify-center z-50">
     <div class="relative bg-white rounded-lg shadow-xl w-full max-w-3xl p-6" @click.away="$wire.showModal = false">
@@ -14,7 +13,6 @@
         <form wire:submit.prevent="{{ $isEditing ? 'updateProduct' : 'storeProduct' }}">
             
             <div class="grid grid-cols-2 gap-6 mb-4">
-                <!-- Kolom Kiri: Data Utama Produk -->
                 <div>
                     <h4 class="text-lg font-medium text-gray-700 border-b pb-2 mb-3">Data Produk Utama</h4>
                     
