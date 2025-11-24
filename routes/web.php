@@ -15,6 +15,7 @@ use App\Livewire\Admin\Shop\OrderManagement;
 use App\Livewire\Admin\ProductImageDashboard;
 use App\Livewire\Admin\Management\UserAddress;
 use App\Livewire\Admin\Shop\OrderItemManagement;
+use App\Livewire\Admin\Shop\PaymentManagement;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/user-address', UserAddress::class)->name('usersAddress');
     Route::get('/order-management', OrderManagement::class)->name('orders');
     Route::get('/order-items', OrderItemManagement::class)->name('orderItems');
+    Route::get('/Payment-confirm', PaymentManagement::class)->name('payments');
 });
 
 require __DIR__.'/auth.php';

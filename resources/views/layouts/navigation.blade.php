@@ -47,6 +47,9 @@
                     <x-nav-link :href="route('admin.orderItems')" :active="request()->routeIs('admin.orderItems')">
                         {{ __('Kelola Order Item') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.payments')" :active="request()->routeIs('admin.payments')">
+                        {{ __('Kelola pembayaran') }}
+                    </x-nav-link>
                     @endif
                   
                 </div>
@@ -138,6 +141,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link  :href="route('admin.orderItems')" :active="request()->routeIs('admin.orderItems')">
                 {{ __('Kelola Order Items') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('admin.payments')" :active="request()->routeIs('admin.payments')">
+                {{ __('Kelola Pembayaran') }}
             </x-responsive-nav-link>
             @endif
         </div>
