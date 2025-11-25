@@ -21,6 +21,9 @@ use App\Livewire\Front\DetailProduct;
 use App\Livewire\Front\Katalog;
 use App\Livewire\Front\Keranjang;
 use App\Livewire\Front\LandingPage;
+use App\Livewire\Front\Payment;
+use App\Livewire\Front\Wislist;
+use App\Models\Wishlist;
 
 use function Termwind\render;
 
@@ -61,6 +64,8 @@ Route::get('/', LandingPage::class)->name('landingpage');
 Route::get('/katalog', Katalog::class)->name('User.katalog');
 Route::get('/detail-product', DetailProduct::class)->name('User.detailProduct');
 Route::get('/Cart-Shopping', Keranjang::class)->name('User.CartShopping');
+Route::get('/Cart-Payment', Payment::class)->name('User.CartPayment');
+Route::get('/Cart-Wishlist', Wislist::class)->name('User.CartWishlist');
 
 
 

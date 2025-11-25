@@ -37,8 +37,8 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <button class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150"><i class="fa-regular fa-heart"></i></i></button>
-                    <button class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150"><i class="fa-solid fa-cart-shopping"></i></button>
+                    <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150"><i class="fa-regular fa-heart"></i></i></button>
+                    <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150"><i class="fa-solid fa-cart-shopping"></i></a>
                     
                 </div>
             </div>
@@ -48,7 +48,7 @@
    @yield('katalog')
     
     <!-- FLOATING WHATSAPP CHAT-->
-    <a href="https://wa.me/62812xxxx?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20produk%20kasur%20Anda." target="_blank" class="whatsapp-float fixed bottom-6 right-6 p-4 rounded-full shadow-xl text-white z-50">
+    <a href="https://wa.me/6283890909067?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20produk%20kasur%20Anda." target="_blank" class="whatsapp-float fixed bottom-6 right-6 p-4 rounded-full shadow-xl text-white z-50">
         <div class="flex items-center space-x-2">
             <i class="fa-brands fa-whatsapp" ></i>
             <span class="font-semibold hidden md:inline">Chat via WhatsApp</span>

@@ -90,7 +90,7 @@
                         <span class="text-2xl font-extrabold text-red-600">Rp 2.000.000</span>
                     </div>
                     
-                    <a href="#" class="w-full mt-8 bg-primary-custom text-white py-3 px-12 rounded-full font-bold text-lg transition-button hover:bg-primary-dark shadow-lg ">
+                    <a href="{{route('User.CartPayment')}}" class="w-full mt-8 bg-primary-custom text-white py-3 px-12 rounded-full font-bold text-lg transition-button hover:bg-primary-dark shadow-lg ">
                         Lanjut ke Pembayaran
                     </a>
                 </div>
