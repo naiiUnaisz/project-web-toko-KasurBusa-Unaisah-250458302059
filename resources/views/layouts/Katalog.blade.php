@@ -6,8 +6,7 @@
     <title>Toko Kasur - Landing Page Blueprint</title>
    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="{{asset('Frontend/landingPage_TokoKasur/style.css')}}">
 
     <link rel="shortcut icon" href="{{asset('Frontend/landingPage_TokoKasur/img/logo_buscil.png')}}" type="image/x-icon">
 

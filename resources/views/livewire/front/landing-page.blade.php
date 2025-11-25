@@ -30,9 +30,9 @@
                         <i class="fa-regular fa-heart"></i>
                     </button>
                     <!-- Keranjang Belanja  -->
-                    <button class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150">
+                    <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150">
                         <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
+                    </a>
                     @if (Route::has('login'))
                         
                     <a href="{{route('login')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full transition duration-150 bg-primary-custom:hover">Login</a>
@@ -115,9 +115,9 @@
                                 Detail
                             </button>
                             
-                            <button class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
+                            <a href="{{ route('User.CartShopping')}}" class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
                                Tambah Keranjang
-                            </button>
+                            </a>
                         </div>
                         </div>
                     </div>
@@ -169,9 +169,9 @@
                             <p class="mt-2 text-xl font-bold text-primary-custom"> Rp 1.350.000</p>
 
                             <div class="flex space-x-2 mt-4"> 
-                                <button class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150">
+                                <a href="{{route('User.detailProduct')}}" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 ">
                                     Detail
-                                </button>
+                                </a>
                             
                             <button class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
                                Tambah Keranjang

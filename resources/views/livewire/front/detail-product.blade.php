@@ -1,5 +1,4 @@
-@extends('layouts.detailProduct')
-@section('detail')
+
 
 <div>
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
@@ -14,7 +13,7 @@
         <div class="bg-white p-6 md:p-10 rounded-xl shadow-lg grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             <div class="lg:sticky lg:top-20 h-fit">
                 <!-- Gambar Utama -->
-                <img id="main-image" src="img/inoac-D24.jpg" 
+                <img id="main-image" src="{{asset('Frontend/landingPage_TokoKasur/img/inoac-D24.jpg')}}" 
                      alt="Kasur Busa Inoac" class="w-full h-auto rounded-xl shadow-md object-cover">
                 
                 <!-- Galeri Gambar Mini -->
@@ -31,7 +30,6 @@
                 </div>
             </div>
             
-            <!-- Kolom Kanan: Informasi & Aksi -->
             <div>
                 <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Kasur Busa Inoac EON D-23 (200x180x20)</h1>
                 
@@ -116,11 +114,11 @@
             <div id="tab-container">
                 <!-- Tab Headers -->
                 <div class="flex border-b mb-6">
-                    <button onclick="changeTab('description')" id="tab-description" 
+                    <button onclick="#" id="tab-description" 
                             class="tab-button px-4 py-2 text-lg font-semibold transition duration-150 border-b-2 border-primary-custom text-primary-custom">
                         Deskripsi Produk
                     </button>
-                    <button onclick="changeTab('reviews')" id="tab-reviews"
+                    <button onclick="#" id="tab-reviews"
                             class="tab-button px-4 py-2 text-lg font-semibold transition duration-150 text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
                         Ulasan (125)
                     </button>
@@ -163,4 +161,3 @@
         </div>
     </main>
 </div>
-@endsection

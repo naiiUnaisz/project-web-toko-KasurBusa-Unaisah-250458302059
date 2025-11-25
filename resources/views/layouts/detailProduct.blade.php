@@ -6,8 +6,7 @@
     <title>|| Busa Cileungsi</title>
    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="{{ asset('Frontend/landingPage_TokoKasur/style.css')}}">
 
     <link rel="shortcut icon" href="img/logo_buscil.png" type="image/x-icon">
 
@@ -23,7 +22,7 @@
                 <!-- Logo -->
                 <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
                     <img
-                      src="/img/logo_buscil.png"
+                      src="{{asset('Frontend/landingPage_TokoKasur/img/logo_buscil.png')}}"
                       alt="logo"
                       class="h-7 w-auto object-contain"
                     />
@@ -48,7 +47,7 @@
     </header>
     
     <!-- Konten Utama Detail Produk -->
-   @yield('detail')
+   {    {$slot}}
 
     <!-- Footer -->
     <footer class="bg-[#1B1717] text-white py-12">
@@ -58,7 +57,7 @@
                 <div>
                     <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
                         <img
-                          src="/img/logo_buscil.png"
+                          src="{{asset('Frontend/landingPage_TokoKasur/img/logo_buscil.png')}}"
                           alt="logo"
                           class="h-7 w-auto object-contain"
                         />

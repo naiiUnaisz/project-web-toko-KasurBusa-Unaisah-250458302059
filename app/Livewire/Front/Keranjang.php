@@ -5,12 +5,11 @@ namespace App\Livewire\Front;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
-#[Layout('layouts.detailProduct')]
-
-class DetailProduct extends Component
+#[Layout('layouts.keranjangCart')]
+class Keranjang extends Component
 {
     public function render()
     {
-        return view('livewire.front.detail-product');
+        return view('livewire.front.keranjang');
     }
 }
