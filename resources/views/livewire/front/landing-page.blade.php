@@ -64,11 +64,13 @@
                             <br>Solusi bagi Anda yang ingin tidur nyenyak tanpa khawatir kasur cepat rusak.
                         </p>
                         <div class="mt-8 flex space-x-4">
-                            
-                            <a href="#" class="bg-primary-custom text-white text-lg font-medium py-3 px-8 rounded-full shadow-lg transition duration-300 bg-primary-custom:hover">
+                            @if (Route::has('login'))
+                                
+                            <a href="{{route('login')}}" class="bg-primary-custom text-white text-lg font-medium py-3 px-8 rounded-full shadow-lg transition duration-300 bg-primary-custom:hover">
                                 Beli Sekarang
                             </a>
-                            <a href="#" class=" border border-primary-custom text-amber-400 text-lg font-medium py-3 px-8 rounded-full hover:bg-primary-custom hover:text-white transition duration-300">
+                            @endif
+                            <a href="{{route ('User.katalog')}}" class=" border border-primary-custom text-amber-400 text-lg font-medium py-3 px-8 rounded-full hover:bg-primary-custom hover:text-white transition duration-300">
                                 Lihat Katalog
                             </a>
                         </div>
@@ -352,7 +354,7 @@
     </footer>
     
     <!-- FLOATING WHATSAPP CHAT -->
-    <a href="https://wa.me/62812xxxx?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20produk%20kasur%20Anda." target="_blank" class="whatsapp-float fixed bottom-6 right-6 p-4 rounded-full shadow-xl text-white z-50">
+    <a href="https://wa.me/6283890909067" target="_blank" class="whatsapp-float fixed bottom-6 right-6 p-4 rounded-full shadow-xl text-white z-50">
         <div class="flex items-center space-x-2">
             <i class="fa-brands fa-whatsapp" ></i>
             <span class="font-semibold hidden md:inline">Chat via WhatsApp</span>

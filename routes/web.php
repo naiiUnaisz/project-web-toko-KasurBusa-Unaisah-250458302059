@@ -17,6 +17,8 @@ use App\Livewire\Admin\ProductImageDashboard;
 use App\Livewire\Admin\Management\UserAddress;
 use App\Livewire\Admin\Shop\OrderItemManagement;
 use App\Livewire\Admin\Shop\PaymentManagement;
+use App\Livewire\Front\DetailProduct;
+use App\Livewire\Front\Katalog;
 use App\Livewire\Front\LandingPage;
 
 use function Termwind\render;
@@ -55,6 +57,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
 
 // Route frontend
 Route::get('/', LandingPage::class)->name('landingpage');
+Route::get('/katalog', Katalog::class)->name('User.katalog');
+Route::get('/detail-product', DetailProduct::class)->name('User.detailProduct');
 
 
 

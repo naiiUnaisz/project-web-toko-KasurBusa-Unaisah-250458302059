@@ -20,7 +20,8 @@
 
     @yield('content')
 
-  
+    
+    
     @livewireScripts 
     
 </body>

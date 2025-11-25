@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>|| Busa Cileungsi</title>
+   
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="shortcut icon" href="img/logo_buscil.png" type="image/x-icon">
+
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+   
+</head>
+<body class="bg-gray-50">
+
+    <!-- HEADER (Disalin dari landing-page.blade.php) -->
+    <header class="sticky top-0 bg-[#EEEBDD] shadow-md z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
+                    <img src="https://placehold.co/100x28/EFDADA/444?text=LOGO" alt="logo" class="h-7 w-auto object-contain"/>
+                </div>
+                
+                <!-- Pencarian  -->
+                <div class="hidden md:flex flex-grow max-w-lg mx-10">
+                    <input type="search" placeholder="Cari kasur, busa, atau merek..." class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary-custom focus:border-primary-custom">
+                    <button class="bg-primary-custom text-white p-2 rounded-r-md transition-button">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Wishlist  -->
+                    <a href="wishlist.html" class="text-gray-900 hover:text-primary-custom relative">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">2</span>
+                    </a>
+                    <!-- Keranjang  -->
+                    <a href="cart.html" class="text-gray-900 hover:text-primary-custom relative">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                    </a>
+                    
+                    <!-- Login / Register / Dashboard (Simulasi sudah login) -->
+                    <div class="flex space-x-2">
+                        <a href="#" class="text-sm text-gray-700 hover:text-primary-custom transition duration-150 font-medium border border-gray-300 py-2 px-4 rounded-full">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT: Checkout -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-8 text-center border-b pb-4">
+            <i class="fa-solid fa-credit-card text-primary-custom mr-3"></i>
+            Proses Pembayaran
+        </h1>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 space-y-8">
+            
+            <!-- Langkah 1: Detail Pengiriman -->
+            <div class="border-b pb-6">
+                <h2 class="text-2xl font-bold text-primary-custom mb-4">1. Alamat Pengiriman</h2>
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" placeholder="Nama Penerima Lengkap" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom" required>
+                        <input type="tel" placeholder="Nomor Telepon (mis: 0812xxxx)" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom" required>
+                    </div>
+                    <div class="mt-4">
+                        <textarea placeholder="Alamat Lengkap (Jalan, Nomor Rumah, RT/RW, Kecamatan, Kota)" rows="3" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom" required></textarea>
+                    </div>
+                    <div class="mt-4 flex items-center">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-gray-500 mr-2"></i>
+                        <p class="text-sm text-gray-500">Pastikan alamat Anda benar untuk menghindari keterlambatan.</p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Langkah 2: Metode Pengiriman -->
+            <div class="border-b pb-6">
+                <h2 class="text-2xl font-bold text-primary-custom mb-4">2. Opsi Pengiriman</h2>
+                <div class="space-y-3">
+                    
+                    <!-- Opsi 1: Kurir Toko (Rekomendasi) -->
+                    <label class="flex items-center bg-gray-50 p-4 rounded-lg cursor-pointer border border-primary-custom shadow-sm">
+                        <input type="radio" name="shipping_method" value="store_courier" checked class="form-radio text-primary-custom h-5 w-5">
+                        <div class="ml-4 flex justify-between w-full items-center">
+                            <div>
+                                <p class="font-semibold text-gray-900">Kurir Toko (Area Cileungsi & Sekitarnya)</p>
+                                <p class="text-sm text-gray-500">Estimasi 1-2 hari kerja.</p>
+                            </div>
+                            <span class="font-bold text-green-600">GRATIS</span>
+                        </div>
+                    </label>
+                    
+                    <!-- Opsi 2: Ekspedisi Reguler -->
+                    <label class="flex items-center bg-white p-4 rounded-lg cursor-pointer border border-gray-200 hover:border-gray-400 transition-colors">
+                        <input type="radio" name="shipping_method" value="regular" class="form-radio text-primary-custom h-5 w-5">
+                        <div class="ml-4 flex justify-between w-full items-center">
+                            <div>
+                                <p class="font-semibold text-gray-900">JNE / Sicepat / J&T</p>
+                                <p class="text-sm text-gray-500">Estimasi 3-5 hari kerja.</p>
+                            </div>
+                            <span class="font-bold text-red-600">Rp 75.000</span>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- Langkah 3: Metode Pembayaran -->
+            <div class="border-b pb-6">
+                <h2 class="text-2xl font-bold text-primary-custom mb-4">3. Metode Pembayaran</h2>
+                <div class="space-y-3">
+                    
+                    <!-- Opsi 1: Transfer Bank (BCA) -->
+                    <label class="flex items-center bg-gray-50 p-4 rounded-lg cursor-pointer border border-primary-custom shadow-sm">
+                        <input type="radio" name="payment_method" value="bank_transfer" checked class="form-radio text-primary-custom h-5 w-5">
+                        <div class="ml-4">
+                            <p class="font-semibold text-gray-900">Transfer Bank (BCA)</p>
+                            <p class="text-sm text-gray-500">Pembayaran ke Rekening Resmi Toko Kasur</p>
+                        </div>
+                    </label>
+                    
+                    <!-- Opsi 2: COD (Cash on Delivery) -->
+                    <label class="flex items-center bg-white p-4 rounded-lg cursor-pointer border border-gray-200 hover:border-gray-400 transition-colors">
+                        <input type="radio" name="payment_method" value="cod" class="form-radio text-primary-custom h-5 w-5">
+                        <div class="ml-4">
+                            <p class="font-semibold text-gray-900">Bayar di Tempat (COD)</p>
+                            <p class="text-sm text-gray-500">Hanya berlaku untuk total pesanan di bawah Rp 5 Juta.</p>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+            
+            <!-- Ringkasan Akhir dan Tombol Bayar -->
+            <div class="pt-6">
+                <h2 class="text-2xl font-bold text-primary-custom mb-4">4. Konfirmasi Pesanan</h2>
+                <div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg mb-6 border border-gray-200">
+                    <span class="text-xl font-bold text-gray-900">Total Akhir Pesanan</span>
+                    <span class="text-3xl font-extrabold text-red-600">Rp 2.000.000</span>
+                </div>
+                
+                <button class="w-full bg-primary-custom text-white py-4 rounded-full font-bold text-xl transition-button hover:bg-primary-dark shadow-2xl">
+                    <i class="fa-solid fa-lock mr-2"></i>
+                    Lakukan Pembayaran
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER (Disalin dari landing-page.blade.php) -->
+    <footer class="bg-[#1B1717] text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Kolom 1: Logo & Deskripsi -->
+                <div>
+                    <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
+                        <img
+                          src="/img/logo_buscil.png"
+                          alt="logo"
+                          class="h-7 w-auto object-contain"
+                        />
+                      </div>
+                      <br>
+                    <p class="text-sm text-gray-400">Spesialis kasur kualitas terbaik dengan berbagai varian ukuran dan busa</p>
+                </div>
+                <!-- Kolom 2: Tautan Cepat -->
+                <div>
+                    <h3 class="font-semibold text-base mb-4">Informasi</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+                <!-- Kolom 3: Produk & Akun -->
+                <div>
+                    <h3 class="font-semibold text-base mb-4">Akun Saya</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Katalog Produk</a></li>
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Keranjang Belanja</a></li>
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Riwayat Pesanan</a></li>
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Wishlist </a></li>
+                    </ul>
+                </div>
+                <!-- Kolom 4: Kontak & Sosial (Fitur 10) -->
+                <div>
+                    <h3 class="font-semibold text-base mb-4">Hubungi Kami</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Instagram : @busa_cileungsi </a></li>
+                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Telepon: +62 838 9090 9067</a></li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <i data-lucide="facebook" class="w-6 h-6 hover:text-primary-custom cursor-pointer"></i>
+                        <i data-lucide="instagram" class="w-6 h-6 hover:text-primary-custom cursor-pointer"></i>
+                        <i data-lucide="twitter" class="w-6 h-6 hover:text-primary-custom cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 pt-6 border-t border-gray-700 text-center text-sm text-gray-400">
+                &copy; 2024 KasurBusaCileungsi. Hak Cipta Dilindungi.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- FLOATING WHATSAPP CHAT -->
+    <a href="https://wa.me/62812xxxx?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20produk%20kasur%20Anda." target="_blank" 
+       class="whatsapp-float fixed bottom-6 right-6 p-4 rounded-full shadow-xl text-white z-50 transition duration-300 transform hover:scale-105">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+    
+</body>
+</html>
