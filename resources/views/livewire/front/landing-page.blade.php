@@ -1,52 +1,6 @@
-@extends('layouts.landingPage')
-@section('content')
-
+{{-- @extends('layouts.landingPage')
+@section('content') --}}
 <div>
-
-    <header class="sticky top-0 bg-[#EEEBDD] shadow-md z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
-                    <img
-                      src="{{asset('Frontend/landingPage_TokoKasur/img/logo_buscil.png')}}"
-                      alt="logo"
-                      class="h-7 w-auto object-contain"
-                    />
-                  </div>
-                
-                <!-- Pencarian  -->
-                <div class="hidden md:flex flex-grow max-w-lg mx-10">
-                    <input type="search" placeholder="Cari kasur, busa, atau merek..." class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary focus:border-primary">
-                    <button class="bg-primary-custom text-white p-2 rounded-r-md transition duration-150 bg-primary-custom:hover">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
-                
-                
-                <div class="flex items-center space-x-4">
-                    <!-- Wishlist  -->
-                    <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150">
-                        <i class="fa-regular fa-heart"></i>
-                    </a>
-                    <!-- Keranjang Belanja  -->
-                    <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                    @if (Route::has('login'))
-                        
-                    <a href="{{route('login')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full transition duration-150 bg-primary-custom:hover">Login</a>
-                    @endif
-
-                    @if (Route::has('register'))
-                        
-                    <a href="{{route('register')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full transition duration-150 bg-primary-custom:hover">Register</a>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </header>
-    
     <main>
         
         <!-- BLOK 2: HERO SECTION (Call to Action untuk Filter/Sorting) -->
@@ -169,7 +123,7 @@
                             <p class="mt-2 text-xl font-bold text-primary-custom"> Rp 1.350.000</p>
 
                             <div class="flex space-x-2 mt-4"> 
-                                <a href="{{route('User.detailProduct')}}" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 ">
+                                <a href="{{ route('User.detailProduct', 1) }}" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 ">
                                     Detail
                                 </a>
                             
@@ -298,69 +252,8 @@
 
     </main>
     
-    <!-- BLOK 6: FOOTER -->
-    <footer class="bg-[#1B1717] text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <!-- Kolom 1: Logo & Deskripsi -->
-                <div>
-                    <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
-                        <img
-                          src="{{asset("Frontend/landingPage_TokoKasur/img/logo_buscil.png")}}"
-                          alt="logo"
-                          class="h-7 w-auto object-contain"
-                        />
-                      </div>
-                      <br>
-                    <p class="text-sm text-gray-400">Spesialis kasur kualitas terbaik dengan berbagai varian ukuran dan busa</p>
-                </div>
-                <!-- Kolom 2: Tautan Cepat -->
-                <div>
-                    <h3 class="font-semibold text-base mb-4">Informasi</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Syarat & Ketentuan</a></li>
-                    </ul>
-                </div>
-                <!-- Kolom 3: Produk & Akun -->
-                <div>
-                    <h3 class="font-semibold text-base mb-4">Akun Saya</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Katalog Produk</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Keranjang Belanja</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Riwayat Pesanan</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Wishlist </a></li>
-                    </ul>
-                </div>
-                <!-- Kolom 4: Kontak & Sosial (Fitur 10) -->
-                <div>
-                    <h3 class="font-semibold text-base mb-4">Hubungi Kami</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Instagram : @busa_cileungsi </a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Telepon: +62 838 9090 9067</a></li>
-                    </ul>
-                    <div class="flex space-x-4 mt-4">
-                        <i data-lucide="facebook" class="w-6 h-6 hover:text-primary-custom cursor-pointer"></i>
-                        <i data-lucide="instagram" class="w-6 h-6 hover:text-primary-custom cursor-pointer"></i>
-                        <i data-lucide="twitter" class="w-6 h-6 hover:text-primary-custom cursor-pointer"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-10 pt-6 border-t border-gray-700 text-center text-sm text-gray-400">
-                &copy; 2024 KasurBusaCileungsi. Hak Cipta Dilindungi.
-            </div>
-        </div>
-    </footer>
-    
-    <!-- FLOATING WHATSAPP CHAT -->
-    <a href="https://wa.me/6283890909067?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20produk%20kasur%20Anda." target="_blank" class="whatsapp-float fixed bottom-6 right-6 p-4 rounded-full shadow-xl text-white z-50">
-        <div class="flex items-center space-x-2">
-            <i class="fa-brands fa-whatsapp" ></i>
-            <span class="font-semibold hidden md:inline">Chat via WhatsApp</span>
-        </div>
-    </a>
+  
 </div>
-@endsection  
+{{-- @endsection   --}}
 
 

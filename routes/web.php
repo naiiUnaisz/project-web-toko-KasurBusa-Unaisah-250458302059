@@ -62,7 +62,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
 // Route frontend
 Route::get('/', LandingPage::class)->name('landingpage');
 Route::get('/katalog', Katalog::class)->name('User.katalog');
-Route::get('/detail-product', DetailProduct::class)->name('User.detailProduct');
+Route::get('/detail-product/{product}', DetailProduct::class)->name('User.detailProduct');
 Route::get('/Cart-Shopping', Keranjang::class)->name('User.CartShopping');
 Route::get('/Cart-Payment', Payment::class)->name('User.CartPayment');
 Route::get('/Cart-Wishlist', Wislist::class)->name('User.CartWishlist');

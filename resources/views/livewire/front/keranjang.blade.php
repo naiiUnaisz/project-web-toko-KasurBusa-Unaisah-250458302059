@@ -12,14 +12,14 @@
             <!-- Daftar Item -->
             <div class="lg:col-span-2 space-y-6">
 
-                <!-- Contoh Item Keranjang 1 -->
                 <div class="flex flex-col sm:flex-row items-center bg-white rounded-xl shadow-md p-4">
-                    <img src="https://placehold.co/100x100/F0F3F4/444?text=Kasur+Inoac" alt="Kasur Busa Inoac EON D-23" class="w-24 h-24 object-cover rounded-lg mr-6 mb-4 sm:mb-0">
+                    {{-- gambar produk --}}
+                    <img src="{{ $item['image_url'] ?? 'https://placehold.co/100x100/F0F3F4/444?text=Produk' }}" alt="{{ $item['name'] }}" class="w-24 h-24 object-cover rounded-lg mr-6 mb-4 sm:mb-0 border border-gray-100">
                     
                     <div class="flex-grow">
-                        <a href="#" class="text-lg font-semibold text-gray-900 hover:text-primary-custom transition duration-150">Kasur Busa Inoac EON D-23</a>
-                        <p class="text-sm text-gray-500 mt-1">Ukuran: 160x200x20cm, Warna: Biru</p>
-                        <p class="text-md font-bold text-red-600 mt-2">Rp 1.650.000</p>
+                        <a href="#" class="text-lg font-semibold text-gray-900 hover:text-primary-custom transition duration-150">{{ $item['name'] }}</a>
+                        <p class="text-sm text-gray-500 mt-1">Ukuran: {{ $item['size'] ?? '-' }}, Warna: {{ $item['color'] ?? '-' }}</p>
+                        <p class="text-md font-bold text-red-600 mt-2">Rp {{ number_format($item['price'] ?? 0, 0, ',', '.') }}</p>
                     </div>
 
                     <div class="flex items-center space-x-4 mt-4 sm:mt-0">
