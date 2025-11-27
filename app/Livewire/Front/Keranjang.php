@@ -3,79 +3,84 @@
 namespace App\Livewire\Front;
 
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
+use App\Models\CartItem;
+use Illuminate\Support\Facades\Auth;
 
 #[Layout('layouts.keranjangCart')]
 class Keranjang extends Component
 {
-
     public $cartItems = [];
     public $subtotal = 0;
-    
-    #[On('keranjangDiperbarui')] 
-
-    public function render()
-    {
-        return view('livewire.front.keranjang');
-    }
 
     public function mount()
     {
         $this->loadCart();
     }
 
+    public function render()
+    {
+        return view('livewire.front.keranjang');
+    }
+
     private function loadCart()
     {
-        $this->cartItems = session()->get('cart', []);
+        if (!Auth::check()) {
+            $this->cartItems = [];
+            return;
+        }
+
+        $dbItems = CartItem::where('user_id', Auth::id())
+            ->with(['product', 'product.primaryImage', 'product.size'])
+            ->get();
+
+        // ▶️ UI kamu butuh array session-style
+        $cart = [];
+
+        foreach ($dbItems as $item) {
+            $cart[$item->id] = [
+                'name'      => $item->product->name,
+                'price'     => $item->product->price,
+                'quantity'  => $item->quantity,
+                'size'      => $item->product->size->name ?? '-',
+                'image_url' => $item->product->primaryImage->image_url 
+                                ?? asset('Frontend/landingPage_TokoKasur/img/default.jpg'),
+            ];
+        }
+
+        $this->cartItems = $cart;
+
         $this->calculateTotals();
     }
 
     private function calculateTotals()
     {
         $this->subtotal = 0;
+
         foreach ($this->cartItems as $item) {
-    
-            $price = $item['price'] ?? 0;
-            $quantity = $item['quantity'] ?? 0;
-            $this->subtotal += $price * $quantity;
+            $this->subtotal += $item['price'] * $item['quantity'];
         }
     }
 
-   
-    public function updateQuantity($productId, $action)
+    public function updateQuantity($cartId, $action)
     {
-        if (!isset($this->cartItems[$productId])) {
-            return;
+        $cartItem = CartItem::find($cartId);
+
+        if (!$cartItem) return;
+
+        if ($action == 'increase') {
+            $cartItem->quantity++;
+        } elseif ($action == 'decrease' && $cartItem->quantity > 1) {
+            $cartItem->quantity--;
         }
 
-        if ($action === 'increase') {
-            $this->cartItems[$productId]['quantity']++;
-        } elseif ($action === 'decrease') {
-       
-            if ($this->cartItems[$productId]['quantity'] > 1) {
-                $this->cartItems[$productId]['quantity']--;
-            }
-        }
-        
-        session()->put('cart', $this->cartItems);
-        $this->calculateTotals();
-    
-        $this->dispatch('keranjangDiperbarui'); 
-        session()->flash('success', 'Kuantitas berhasil diperbarui.');
+        $cartItem->save();
+        $this->loadCart();
     }
 
-    public function removeItem($productId)
+    public function removeItem($cartId)
     {
-        if (isset($this->cartItems[$productId])) {
-            $productName = $this->cartItems[$productId]['name'];
-            unset($this->cartItems[$productId]);
-            
-            session()->put('cart', $this->cartItems);
-            $this->calculateTotals();
-            
-            $this->dispatch('keranjangDiperbarui');
-            session()->flash('success', $productName . ' berhasil dihapus dari keranjang.');
-        }
+        CartItem::where('id', $cartId)->delete();
+        $this->loadCart();
     }
 }

@@ -15,7 +15,7 @@
                 <div class="flex flex-col sm:flex-row items-center bg-white rounded-xl shadow-md p-4">
 
                     {{-- gambar produk --}}
-                    <img src="{{ $item['image_url'] ?? 'https://placehold.co/100x100?text=Produk' }}" alt="{{ $item['name'] }}" class="w-24 h-24 object-cover rounded-lg mr-6 mb-4 sm:mb-0 border border-gray-100">
+                    <img src="{{asset('/storage/' . $item['image_url'] ?? 'https://placehold.co/100x100?text=Produk') }}" alt="{{ $item['name'] }}" class="w-24 h-24 object-cover rounded-lg mr-6 mb-4 sm:mb-0 border border-gray-100">
                     
                     <div class="flex-grow">
                         <a href="#" class="text-lg font-semibold text-gray-900 hover:text-primary-custom transition duration-150">{{ $item['name'] }}</a>
@@ -72,7 +72,7 @@
             <!-- Ringkasan Belanja -->
 
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-xl shadow-lg p-6 sticky top-20 border border-gray-100">
+                <div class="bg-white rounded-xl shadow-lg p-6 sticky top-20 border border-gray-100 flex flex-col">
                     <h2 class="text-2xl font-bold text-gray-900 mb-5 border-b pb-3">Ringkasan Pesanan</h2>
                     
                     <div class="space-y-3 text-gray-700">
@@ -93,7 +93,7 @@
                         </span>
                     </div>
                     
-                    <a href="{{route('User.CartPayment')}}" class="w-full mt-8 bg-primary-custom text-white py-3 px-12 rounded-full font-bold text-lg transition-button hover:bg-primary-dark shadow-lg ">
+                    <a href="{{route('User.CartPayment')}}" class="w-full mt-8 bg-primary-custom text-white py-3 px-12 rounded-full font-bold text-lg transition-button hover:bg-primary-dark shadow-lg text-center">
                         Lanjut ke Pembayaran
                     </a>
                 </div>
