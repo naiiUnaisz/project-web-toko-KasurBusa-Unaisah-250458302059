@@ -41,7 +41,11 @@
                         <i class="fa-regular fa-heart text-xl"></i>
                        
                     </a>
-                    
+                     <!-- Keranjang  -->
+                     <a href="cart.html" class="text-gray-900 hover:text-primary-custom relative">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                       
+                    </a>
                 </div>
             </div>
         </div>
