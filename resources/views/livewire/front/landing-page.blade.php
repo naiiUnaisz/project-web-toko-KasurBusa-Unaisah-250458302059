@@ -44,95 +44,42 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                    
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative">
-                        <!-- Wishlist  -->
-                        <button class="absolute top-3 right-3 p-2 bg-white/80 rounded-full text-red-500 hover:text-red-700 transition duration-150">
-                            <i data-lucide="heart" class="w-5 h-5 fill-red-500"></i>
-                        </button>
-                        <img src="{{ asset('Frontend/landingPage_TokoKasur/img/kasur-Royal.jpg')}}" alt="Produk 1" class="w-full h-100 object-cover">
-                        <div class="p-5">
-                            <h3 class="text-lg font-semibold text-gray-900">Kasur Royal D25 180 x 20</h3>
-                            <!-- Rating  -->
-                            <div class="flex items-center mt-1">
-                                <span class="flex text-yellow-400">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i data-lucide="star" class="w-4 h-4 text-gray-300"></i>
-                                </span>
-                                <span class="ml-2 text-sm text-gray-500">(4.2)</span>
-                            </div>
-                            <p class="mt-2 text-xl font-bold text-primary-custom"> Rp 1.580.000</p>
-                            <div class="flex space-x-2 mt-4"> 
-                            <button class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150">
-                                Detail
-                            </button>
-                            
-                            <a href="{{ route('User.CartShopping')}}" class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
-                               Tambah Keranjang
-                            </a>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- Kartu Produk 2 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative">
-                        <button class="absolute top-3 right-3 p-2 bg-white/80 rounded-full text-gray-400 hover:text-red-700 transition duration-150">
-                            <i data-lucide="heart" class="w-5 h-5"></i>
-                        </button>
-                        <img src="{{asset ('Frontend/landingPage_TokoKasur/img/inoac-D24.jpg')}}" alt="Produk 2" class="w-full h-100 object-cover">
-                        <div class="p-5">
-                            <h3 class="text-lg font-semibold text-gray-900">INOAC  D24  160 x 20</h3>
-                            <div class="flex items-center mt-1">
-                                <span class="flex text-yellow-400">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </span>
-                                <span class="ml-2 text-sm text-gray-500">(5.0)</span>
-                            </div>
-                            <p class="mt-2 text-xl font-bold text-primary-custom">Rp 1.380.000</p>
-                        <div class="flex space-x-2 mt-4"> 
-                        <button class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150">
-                                Detail
-                            </button>
-                            
-                            <button class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
-                               Tambah Keranjang
-                            </button>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- Kartu Produk 3 -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative">
-                        <button class="absolute top-3 right-3 p-2 bg-white/80 rounded-full text-gray-400 hover:text-red-700 transition duration-150">
-                            <i data-lucide="heart" class="w-5 h-5"></i>
-                        </button>
-                        <img src="{{ asset ('Frontend/landingPage_TokoKasur/img/sofabed.jpg')}}" alt="Produk 3" class="w-full h-100 object-cover">
-                        <div class="p-5">
-                            <h3 class="text-lg font-semibold text-gray-900">Sofabed Royal 120 x 20</h3>
-                            <div class="flex items-center mt-1">
-                                <span class="flex text-yellow-400">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </span>
-                                <span class="ml-2 text-sm text-gray-500">(2.8)</span>
-                            </div>
-                            <p class="mt-2 text-xl font-bold text-primary-custom"> Rp 1.350.000</p>
+                    @foreach ($products as $product)
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-xl relative flex flex-col">
 
-                            <div class="flex space-x-2 mt-4"> 
-                                <a href="{{ route('User.detailProduct', 1) }}" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 ">
+                        <img 
+                            src="{{ $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : asset('Frontend/default/no-image.png') }}"
+                            alt="{{ $product->name }}"
+                            class="w-full h-80 object-cover"
+                        >
+                    
+                        <div class="p-5 flex flex-col flex-1">
+                            <h3 class="text-lg font-semibold text-gray-900">{{ $product->name }}</h3>
+                    
+                            <p class="mt-2 text-xl font-bold text-primary-custom">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                            </p>
+                    
+                            <!-- Tombol selalu di bawah -->
+                            <div class="mt-auto flex space-x-2 pt-4">
+                    
+                                <a href="{{ route('User.detailProduct', $product->id) }}"
+                                   class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 text-center">
                                     Detail
                                 </a>
-                            
-                            <button class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
-                               Tambah Keranjang
-                            </button>
-                        </div>
+                    
+                                <button 
+                                    wire:click="addToCart({{ $product->id }})"
+                                    class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
+                                    Tambah Keranjang
+                                </button>
+                    
+                            </div>
+                    
                         </div>
                     </div>
+                    
+                @endforeach
                 </div>
             </div>
         </section>

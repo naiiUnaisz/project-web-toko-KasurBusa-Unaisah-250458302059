@@ -4,34 +4,37 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
     
         <nav class="text-sm mb-6">
-            <a href="#" class="text-gray-500 hover:text-primary-custom">Home</a> 
-            <a href="#" class="text-gray-500 hover:text-primary-custom">Produk</a> 
-            <span class="font-medium text-gray-700">Kasur Busa Inoac</span>
+            <a href="{{ url('/') }}" class="text-gray-500 hover:text-primary-custom">Home</a> 
+            <a href="{{ route('User.katalog') }}" class="text-gray-500 hover:text-primary-custom">Produk</a> 
+            <span class="font-medium text-gray-700">{{ $product->name }}</span>
+
+
         </nav>
 
 
         <div class="bg-white p-6 md:p-10 rounded-xl shadow-lg grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             <div class="lg:sticky lg:top-20 h-fit">
                 <!-- Gambar Utama -->
-                <img id="main-image" src="{{asset('Frontend/landingPage_TokoKasur/img/inoac-D24.jpg')}}" 
-                     alt="Kasur Busa Inoac" class="w-full h-auto rounded-xl shadow-md object-cover">
+                <img id="main-image"
+                src="{{ asset('storage/' . $product->primaryImage?->image_url) }}"
+                class="w-full h-auto rounded-xl shadow-md object-cover">
+           
                 
                 <!-- Galeri Gambar Mini -->
                 <div class="flex space-x-3 mt-4 overflow-x-auto">
-                    <!-- Thumbnail 1  -->
-                    <img src="img/inoac-D24.jpg" data-full-img="https://placehold.co/800x600/F0F3F4/444?text=INOAC+UTAMA"
-                         alt="Thumbnail 1" class="thumbnail w-20 h-20 rounded-lg object-cover border-2 border-primary-custom cursor-pointer transition duration-150">
-                    <!-- Thumbnail 2 -->
-                    <img src="img/kasur-Royal.jpg" data-full-img="https://placehold.co/800x600/F0F3F4/444?text=DETAIL+BUSA"
-                         alt="Thumbnail 2" class="thumbnail w-20 h-20 rounded-lg object-cover border-2 border-gray-200 cursor-pointer hover:border-primary-custom transition duration-150">
-                    <!-- Thumbnail 3 -->
-                    <img src="img/logo_buscil.png" data-full-img="https://placehold.co/800x600/F0F3F4/444?text=MOTIF+SARUNG"
-                         alt="Thumbnail 3" class="thumbnail w-20 h-20 rounded-lg object-cover border-2 border-gray-200 cursor-pointer hover:border-primary-custom transition duration-150">
+                    @foreach ($product->images as $img)
+                    <img src="{{ asset('storage/' . $img->image_url) }}"
+                    data-full-img="{{ asset('storage/' . $img->image_url) }}"
+                    class="thumbnail w-20 h-20 rounded-lg object-cover border-2 border-gray-200 cursor-pointer hover:border-primary-custom transition duration-150">
+
+                     @endforeach
                 </div>
             </div>
-            
             <div>
-                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Kasur Busa Inoac EON D-23 (200x180x20)</h1>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">
+                    {{ $product->name }}
+                </h1>
+                
                 
                 <!-- Rating dan Ulasan -->
                 <div class="flex items-center mb-4 border-b pb-4">
@@ -48,9 +51,10 @@
                 </div>
                 
                 <!-- Harga -->
-                <div class="mb-6">
-                    <p class="text-2xl font-bold text-red-600">Rp 1.650.000</p>
-                </div>
+                <p class="text-2xl font-bold text-red-600">
+                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                </p>
+                
 
                 <!-- Pilihan Varian -->
                 <div class="mb-6">
@@ -82,12 +86,17 @@
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
-                    <span class="text-sm text-gray-500">Stok Tersedia: 10</span>
+                    <span class="text-sm text-gray-500">
+                        Stok Tersedia: {{ $product->stock_quantity }}
+                    </span>
+                    
                 </div>
 
                 <!-- Tombol Aksi -->
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <button class="flex-1 px-6 py-3 rounded-xl bg-primary-custom hover:bg-primary-dark text-white font-bold text-lg transition-button flex items-center justify-center space-x-2">
+                    <button 
+                    wire:click="addToCart"
+                    class="flex-1 px-6 py-3 rounded-xl bg-primary-custom hover:bg-primary-dark text-white font-bold text-lg transition-button flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>TAMBAH KE KERANJANG</span>
                     </button>
@@ -127,7 +136,9 @@
                 <!-- Tab Content: Deskripsi -->
                 <div id="content-description" class="tab-content">
                     <h3 class="text-xl font-semibold mb-3">Kasur Busa Inoac EON D-23</h3>
-                    <p class="text-gray-700 mb-4">Kasur busa premium dari Inoac dengan density EON D-23 yang terkenal padat, empuk, dan memiliki daya tahan tinggi. Ideal untuk menopang tulang belakang dan menjamin tidur nyenyak bertahun-tahun. Garansi resmi 10 Tahun.</p>
+                    <p class="text-gray-700 mb-4">
+                        {!! nl2br(e($product->deskripsi)) !!}
+                    </p>
                     <ul class="list-disc list-inside space-y-2 text-gray-700">
                         <li>**Density Busa:** EON D-23 (High Density)</li>
                     </ul>
@@ -145,19 +156,63 @@
                             <p class="text-gray-700 italic mb-2">"Busa padat sekali, sesuai deskripsi. Pengiriman cepat. Recommended seller!"</p>
                             <p class="text-xs text-gray-500">Diupload 2 minggu lalu</p>
                         </div>
-                         <!-- Ulasan 2 -->
-                        <div class="border-b pb-4">
-                            <div class="flex items-center space-x-1 text-yellow-400 mb-2">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star text-gray-300"></i>
-                                <span class="ml-2 text-sm font-semibold text-gray-700">Santi W.</span>
-                            </div>
-                            <p class="text-gray-700 italic mb-2">"Agak keras di awal, tapi sangat nyaman setelah terbiasa. Kualitas busa top!"</p>
-                            <p class="text-xs text-gray-500">Diupload 1 bulan lalu</p>
-                        </div>
+                         
+
                         <p class="text-center text-primary-custom hover:opacity-80 cursor-pointer font-medium mt-4">Lihat Semua Ulasan (125)</p>
+                        
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- PRODUK REKOMENDASI -->
+<div class="mt-16">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
+        Produk Serupa yang Mungkin Kamu Suka
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        @forelse ($relatedProducts as $item)
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                
+                <!-- Gambar -->
+                <a href="{{ route('User.detailProduct', $item->id) }}">
+                    <img src="{{ asset('storage/' . $item->primaryImage?->image_url) }}"
+                         class="w-full h-48 object-cover"
+                         alt="{{ $item->name }}">
+                </a>
+
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800">
+                        {{ $item->name }}
+                    </h3>
+
+                    <p class="text-red-600 font-bold mt-2">
+                        Rp {{ number_format($item->price, 0, ',', '.') }}
+                    </p>
+
+                    <div class="flex space-x-2 mt-4">
+                        <a href="{{ route('User.detailProduct', $item->id) }}"
+                            class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 text-center">
+                            Detail
+                        </a>
+
+                        <button 
+                            wire:click="addToCart({{ $item->id }})" 
+                            class="flex-1 bg-primary-custom text-white py-2 rounded-full text-sm font-semibold hover:bg-primary-dark">
+                            Keranjang
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        @empty
+            <p class="text-gray-500 text-center w-full">Tidak ada produk terkait.</p>
+        @endforelse
+
+    </div>
+</div>
+
     </main>
 </div>
