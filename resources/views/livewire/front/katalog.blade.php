@@ -69,7 +69,7 @@
                         type="range" 
                         wire:model.live="maxPrice" 
                         min="500000" 
-                        max="15000000" 
+                        max="10000000" 
                         step="100000"
                         class="w-full"
                     >
@@ -128,15 +128,15 @@
                         <!-- Tombol selalu di bawah -->
                         <div class="mt-auto flex space-x-2 pt-4">
                     
-                            <a href="#"
+                            <a href="{{route('User.detailProduct', $p->id)}}"
                                class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 text-center">
                                 Detail
                             </a>
                 
                             <button 
-                                wire:click="#"
+                                wire:click="addToCart({{ $p->id }})"
                                 class="flex-1 bg-red-700 text-white  rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
-                                Tambah Keranjang
+                                Keranjang
                             </button>
                 
                         </div>

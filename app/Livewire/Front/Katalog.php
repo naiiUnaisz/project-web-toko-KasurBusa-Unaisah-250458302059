@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Front;
 
+use App\Models\Size;
 use App\Models\Brand;
 use App\Models\Product;
 use Livewire\Component;
+use App\Models\CartItem;
 use App\Models\JenisBusa;
 use Livewire\Attributes\Layout;
-use App\Models\Size;
+use Illuminate\Support\Facades\Auth;
 
 
 #[Layout('layouts.landingPage')]
@@ -66,5 +68,30 @@ class Katalog extends Component
             'foams'    => JenisBusa::all(),
             'sizes'    => Size::all(),
         ]);
+    }
+
+    public function addToCart($productId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+    
+        $cartItem = CartItem::where('user_id', Auth::id())
+                    ->where('produk_id', $productId)
+                    ->first();
+    
+        if ($cartItem) {
+            $cartItem->quantity += 1;
+            $cartItem->save();
+        } else {
+            CartItem::create([
+                'user_id'   => Auth::id(),
+                'produk_id' => $productId,
+                'quantity'  => 1,
+            ]);
+        }
+    
+        session()->flash('success', 'Produk berhasil ditambahkan ke keranjang!');
+        $this->dispatch('keranjangDiperbarui');
     }
 }

@@ -12,11 +12,12 @@
                   </div>
                 
                 <!-- Pencarian  -->
-                <div class="hidden md:flex flex-grow max-w-lg mx-10">
-                    <input type="search" placeholder="Cari kasur, busa, atau merek..." class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary focus:border-primary">
-                    <button class="bg-primary-custom text-white p-2 rounded-r-md transition duration-150 bg-primary-custom:hover">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                <div class="hidden md:flex flex-grow max-w-lg mx-10 ">
+                    <nav class="hidden md:flex space-x-8 ">
+                        <a href="{{route('landingpage')}}" class="text-gray-900 hover:text-primary-custom transition duration-150 font-medium">Home</a>
+                        <a href="{{route('User.katalog')}}" class="text-gray-900 hover:text-primary-custom transition duration-150 font-medium">Katalog</a>
+                        <a href="#" class="text-gray-900 hover:text-primary-custom transition duration-150 font-medium">Shopping</a>
+                    </nav>
                 </div>
                 
                 
