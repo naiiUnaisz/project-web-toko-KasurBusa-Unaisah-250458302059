@@ -124,6 +124,23 @@
                         <p class="text-red-700 font-bold mt-1">
                             Rp {{ number_format($p->price) }}
                         </p>
+
+                        <!-- Tombol selalu di bawah -->
+                        <div class="mt-auto flex space-x-2 pt-4">
+                    
+                            <a href="#"
+                               class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition duration-150 text-center">
+                                Detail
+                            </a>
+                
+                            <button 
+                                wire:click="#"
+                                class="flex-1 bg-red-700 text-white  rounded-full text-sm font-semibold hover:bg-red-800 transition duration-150">
+                                Tambah Keranjang
+                            </button>
+                
+                        </div>
+                
                     </div>
                 @empty
                     <div class="col-span-full text-center p-10 bg-white rounded-xl shadow">

@@ -33,42 +33,26 @@ class Katalog extends Component
     {
         $query = Product::query();
 
-        /** ========================
-         *  SEARCH
-         =========================*/
         if ($this->search) {
             $query->where('name', 'like', '%' . $this->search . '%');
         }
 
-        /** ========================
-         *  FILTER BRAND
-         =========================*/
         if (!empty($this->brand)) {
             $query->whereIn('brand_id', $this->brand);
         }
 
-        /** ========================
-         *  FILTER JENIS BUSA
-         =========================*/
         if (!empty($this->foam)) {
             $query->whereIn('foam_type_id', $this->foam);
         }
 
-        /** ========================
-         *  FILTER SIZE
-         =========================*/
         if (!empty($this->size)) {
             $query->whereIn('size_id', $this->size);
         }
 
-        /** ========================
-         *  FILTER HARGA
-         =========================*/
         $query->where('price', '<=', $this->maxPrice);
 
-        /** ========================
-         *  SORTING
-         =========================*/
+    //  sorting
+    
         if ($this->sort === 'price-asc') {
             $query->orderBy('price', 'asc');
         } 

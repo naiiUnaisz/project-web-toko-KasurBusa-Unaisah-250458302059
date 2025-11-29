@@ -2,7 +2,7 @@
       <!-- BLOK 6: FOOTER -->
       <footer class="bg-[#1B1717] text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Kolom 1: Logo & Deskripsi -->
                 <div>
                     <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
@@ -14,15 +14,6 @@
                       </div>
                       <br>
                     <p class="text-sm text-gray-400">Spesialis kasur kualitas terbaik dengan berbagai varian ukuran dan busa</p>
-                </div>
-                <!-- Kolom 2: Tautan Cepat -->
-                <div>
-                    <h3 class="font-semibold text-base mb-4">Informasi</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-primary-custom transition duration-150">Syarat & Ketentuan</a></li>
-                    </ul>
                 </div>
                 <!-- Kolom 3: Produk & Akun -->
                 <div>

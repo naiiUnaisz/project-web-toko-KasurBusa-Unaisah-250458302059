@@ -35,10 +35,10 @@
                 </nav>
                 <!-- Ikon Kanan -->
                 <div class="flex items-center space-x-4">
-                    <a href="#" class="text-gray-900 hover:text-primary-custom relative">
+                    <a href="{{route('User.CartWishlist')}}" class="text-gray-900 hover:text-primary-custom relative">
                         <i class="fa-regular fa-heart"></i>
                     </a>
-                    <a href="#" class="text-gray-900 hover:text-primary-custom">
+                    <a href="{{route('User.CartShopping')}}" class="text-gray-900 hover:text-primary-custom">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                 </div>

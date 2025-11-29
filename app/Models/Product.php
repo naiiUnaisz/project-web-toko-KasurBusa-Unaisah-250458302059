@@ -57,5 +57,11 @@ class Product extends Model
         return $this->hasOne(ProductImage::class, 'produk_id')
                     ->where('is_primary', true);
     }
+
+        public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id');
+    }
+
    
 }

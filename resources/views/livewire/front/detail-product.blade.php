@@ -4,8 +4,8 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
     
         <nav class="text-sm mb-6">
-            <a href="{{ url('/') }}" class="text-gray-500 hover:text-primary-custom">Home</a> 
-            <a href="{{ route('User.katalog') }}" class="text-gray-500 hover:text-primary-custom">Produk</a> 
+            <a href="{{ url('/') }}" class="text-gray-500 hover:text-primary-custom">Home /</a> 
+            <a href="{{ route('User.katalog') }}" class="text-gray-500 hover:text-primary-custom">Produk /</a> 
             <span class="font-medium text-gray-700">{{ $product->name }}</span>
 
 
@@ -30,7 +30,7 @@
                      @endforeach
                 </div>
             </div>
-            <div>
+            <div class="flex flex-col justify-center">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">
                     {{ $product->name }}
                 </h1>
@@ -39,24 +39,30 @@
                 <!-- Rating dan Ulasan -->
                 <div class="flex items-center mb-4 border-b pb-4">
                     <div class="flex items-center space-x-1">
-                        <i class="fas fa-star w-4 h-4 text-yellow-400"></i>
-                        <i class="fas fa-star w-4 h-4 text-yellow-400"></i>
-                        <i class="fas fa-star w-4 h-4 text-yellow-400"></i>
-                        <i class="fas fa-star w-4 h-4 text-yellow-400"></i>
-                        <i class="fas fa-star w-4 h-4 text-gray-300"></i>
-                        <span class="text-lg font-bold ml-1 text-gray-800">4.8</span>
-                    </div>
-                    <span class="text-sm text-gray-500 ml-4">(125 Ulasan)</span>
-                    <span class="text-sm text-gray-500 ml-4">| Terjual: 375</span>
+                        @for ($i = 1; $i <= 5; $i++)
+                        <i class="fas fa-star w-4 h-4 
+                            {{ $averageRating >= $i ? 'text-yellow-400' : 'text-gray-300' }}">
+                        </i>
+                    @endfor
+                
+                    <span class="text-lg font-bold ml-1 text-gray-800">
+                        {{ $averageRating ? number_format($averageRating, 1) : '' }}
+                    </span>
+                </div>
+                
+                <span class="text-sm text-gray-500 ml-4">
+                    ({{ $reviews->count() }} Ulasan)
+                </span>
+                    {{-- <span class="text-sm text-gray-500 ml-4">| Terjual: 375</span> --}}
                 </div>
                 
                 <!-- Harga -->
-                <p class="text-2xl font-bold text-red-600">
+                <p class="text-2xl font-bold text-red-600 py-11 mb-6">
                     Rp {{ number_format($product->price, 0, ',', '.') }}
                 </p>
                 
 
-                <!-- Pilihan Varian -->
+                {{-- <!-- Pilihan Varian -->
                 <div class="mb-6">
                     <label class="block text-lg font-semibold text-gray-900 mb-2">Pilih Ukuran:</label>
                     <div class="flex flex-wrap gap-3">
@@ -71,7 +77,7 @@
                             200x120x20 (Rp 1.100rb)
                         </button>
                     </div>
-                </div>
+                </div> --}}
                 
                 <!-- Kontrol Kuantitas & Stok -->
                 <div class="mb-8 flex items-center space-x-6">
@@ -115,55 +121,110 @@
             </div>
         </div>
 
-        <!-- Sesi Tambahan: Deskripsi & Ulasan -->
-        <div class="mt-10 bg-white p-6 md:p-10 rounded-xl shadow-lg">
-            <h2 class="text-2xl font-bold text-gray-900 border-b pb-3 mb-6">Deskripsi & Ulasan</h2>
-            
-            <!-- Tabs -->
-            <div id="tab-container">
-                <!-- Tab Headers -->
-                <div class="flex border-b mb-6">
-                    <button onclick="#" id="tab-description" 
-                            class="tab-button px-4 py-2 text-lg font-semibold transition duration-150 border-b-2 border-primary-custom text-primary-custom">
-                        Deskripsi Produk
-                    </button>
-                    <button onclick="#" id="tab-reviews"
-                            class="tab-button px-4 py-2 text-lg font-semibold transition duration-150 text-gray-500 hover:text-gray-700 border-b-2 border-transparent">
-                        Ulasan (125)
-                    </button>
-                </div>
+       <!-- Sesi Tambahan: Deskripsi & Ulasan -->
+<div class="mt-10 bg-white p-6 md:p-10 rounded-xl shadow-lg">
+    <h2 class="text-2xl font-bold text-gray-900 border-b pb-3 mb-6">Deskripsi & Ulasan</h2>
 
-                <!-- Tab Content: Deskripsi -->
-                <div id="content-description" class="tab-content">
-                    <h3 class="text-xl font-semibold mb-3">Kasur Busa Inoac EON D-23</h3>
-                    <p class="text-gray-700 mb-4">
-                        {!! nl2br(e($product->deskripsi)) !!}
-                    </p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li>**Density Busa:** EON D-23 (High Density)</li>
-                    </ul>
-                </div>
+    <!-- Tabs -->
+    <div id="tab-container">
+        
+        <!-- Tab Headers -->
+        <div class="flex border-b mb-6">
+            <button id="tab-description"
+                class="tab-button px-4 py-2 text-lg font-semibold border-b-2 border-primary-custom text-primary-custom">
+                Deskripsi Produk
+            </button>
 
-                <!-- Tab Content: Ulasan -->
-                <div id="content-reviews" class="tab-content hidden">
-                    <div class="space-y-6">
-                        <!-- Ulasan 1 -->
-                        <div class="border-b pb-4">
-                            <div class="flex items-center space-x-1 text-yellow-400 mb-2">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                <span class="ml-2 text-sm font-semibold text-gray-700">Budi S.</span>
-                            </div>
-                            <p class="text-gray-700 italic mb-2">"Busa padat sekali, sesuai deskripsi. Pengiriman cepat. Recommended seller!"</p>
-                            <p class="text-xs text-gray-500">Diupload 2 minggu lalu</p>
-                        </div>
-                         
-
-                        <p class="text-center text-primary-custom hover:opacity-80 cursor-pointer font-medium mt-4">Lihat Semua Ulasan (125)</p>
-                        
-                    </div>
-                </div>
-            </div>
+            <button id="tab-reviews"
+                class="tab-button px-4 py-2 text-lg font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700">
+                Ulasan ({{ $reviews->count() }})
+            </button>
         </div>
+
+        <!-- Tab Content: Deskripsi -->
+        <div id="content-description" class="tab-content">
+            <h3 class="text-xl font-semibold mb-3">{{ $product->name }}</h3>
+            <p class="text-gray-700 mb-4">
+                {!! nl2br(e($product->deskripsi)) !!}
+            </p>
+        </div>
+
+        <!-- Tab Content: ULASAN -->
+        <div id="content-reviews" class="tab-content hidden">
+            <div class="space-y-6">
+
+                @forelse ($reviews as $review)
+                    <div class="border-b pb-4">
+                        
+                        <div class="flex items-center space-x-1 text-yellow-400 mb-2">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <i class="fas fa-star {{ $i <= $review->rating ? '' : 'text-gray-300' }}"></i>
+                            @endfor
+
+                            <span class="ml-2 text-sm font-semibold text-gray-700">
+                                {{ $review->user->name ?? 'Pengguna' }}
+                            </span>
+
+                            <span class="ml-2 text-xs text-gray-500">
+                                {{ $review->created_at->format('d M Y') }}
+                            </span>
+                        </div>
+
+                        <p class="text-gray-700 italic">"{{ $review->comment }}"</p>
+                    </div>
+                @empty
+                    <p class="text-gray-500 italic">Belum ada ulasan untuk produk ini.</p>
+                @endforelse
+
+            </div>
+
+            <!-- FORM ULASAN -->
+            @if(auth()->check())
+                <div class="mt-8 bg-gray-50 p-6 rounded-xl border">
+
+                    <h3 class="text-xl font-semibold mb-4">Tulis Ulasan Anda</h3>
+
+                    <form wire:submit.prevent="submitReview" class="space-y-4">
+
+                        <!-- Rating -->
+                        <div>
+                            <label class="block font-medium mb-1">Rating:</label>
+
+                            <div class="flex space-x-2">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <span 
+                                        wire:click="$set('rating', {{ $i }})"
+                                        class="cursor-pointer text-3xl 
+                                            {{ $rating >= $i ? 'text-yellow-400' : 'text-gray-300' }}">
+                                        ★
+                                    </span>
+                                @endfor
+                            </div>
+                        </div>
+
+                        <!-- Review Text -->
+                        <div>
+                            <label class="block font-medium mb-1">Ulasan:</label>
+                            <textarea wire:model.defer="reviewText" rows="4"
+                                class="w-full border rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom"></textarea>
+
+                            @error('reviewText') 
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <button type="submit"
+                            class="bg-primary-custom text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-dark">
+                            Kirim Ulasan
+                        </button>
+
+                    </form>
+                </div>
+            @endif
+
+        </div>
+    </div>
+</div>
 
         <!-- PRODUK REKOMENDASI -->
 <div class="mt-16">

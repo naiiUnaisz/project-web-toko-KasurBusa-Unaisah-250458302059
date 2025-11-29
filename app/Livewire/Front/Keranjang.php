@@ -34,7 +34,7 @@ class Keranjang extends Component
             ->with(['product', 'product.primaryImage', 'product.size'])
             ->get();
 
-        // ▶️ UI kamu butuh array session-style
+        
         $cart = [];
 
         foreach ($dbItems as $item) {
