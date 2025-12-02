@@ -88,7 +88,9 @@ php artisan key:generate
 Contoh:
 
 DB_DATABASE=kasur_busa
+
 DB_USERNAME=root
+
 DB_PASSWORD=
 
 8. Migration & Seeder (opsional)
