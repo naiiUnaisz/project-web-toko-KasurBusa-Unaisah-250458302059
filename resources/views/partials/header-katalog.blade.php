@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     <header class="sticky top-0 bg-[#EEEBDD] shadow-md z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -12,8 +12,11 @@
                 </div>
                 
                 <div class="flex flex-grow max-w-lg mx-10">
-                    <input type="search" id="search-input" placeholder="Cari kasur di katalog..." class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary-500 focus:border-primary-500">
-                    <button id="search-button" class="bg-primary-custom text-white p-2 rounded-r-md transition duration-150 bg-primary-custom:hover">
+                    <input type="search"  
+                    wire:model.debounce.300ms="search"
+                    placeholder="Cari kasur di katalog..." 
+                    class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary-500 focus:border-primary-500">
+                    <button class="bg-primary-custom text-white p-2 rounded-r-md transition duration-150 bg-primary-custom:hover">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
@@ -27,7 +30,7 @@
             </div>
         </div>
     </header>
-</div>
+</div> --}}
 
 
 

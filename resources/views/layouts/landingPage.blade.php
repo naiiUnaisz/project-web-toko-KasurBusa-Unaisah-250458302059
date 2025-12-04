@@ -17,11 +17,9 @@
 </head>
 <body>
 
-    @if (Request::is('/') || Request::is('home'))
+  
         @include('partials.header-landing')
-    @else
-        @include('partials.header-katalog')
-    @endif
+   
 
    {{$slot}}
 

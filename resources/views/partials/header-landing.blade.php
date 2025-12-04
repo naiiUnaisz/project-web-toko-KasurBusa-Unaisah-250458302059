@@ -12,27 +12,28 @@
                   </div>
                 
                 <!-- Pencarian  -->
-                <div class="hidden md:flex flex-grow max-w-lg mx-10 ">
-                    <nav class="hidden md:flex space-x-8 ">
-                        <a href="{{route('landingpage')}}" class="text-gray-900 hover:text-primary-custom transition duration-150 font-medium">Home</a>
-                        <a href="{{route('User.katalog')}}" class="text-gray-900 hover:text-primary-custom transition duration-150 font-medium">Katalog</a>
-                        <a href="#" class="text-gray-900 hover:text-primary-custom transition duration-150 font-medium">Shopping</a>
+                <div class="flex justify-center md:flex flex-grow max-w-lg mx-10 ">
+                    <nav class="  md:flex space-x-8 ">
+                        <a href="{{route('landingpage')}}" class="text-gray-900 hover:text-yellow-700  font-medium">Home</a>
+                        <a href="{{route('User.katalog')}}" class="text-gray-900 hover:text-yellow-700 font-medium">Katalog</a>
+                        <a href="#" class="text-gray-900 hover:text-yellow-700 font-medium">Shopping</a>
+
                     </nav>
                 </div>
                 
                 
                 <div class="flex items-center space-x-4">
                     <!-- Wishlist  -->
-                    <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150">
+                    <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-yellow-700">
                         <i class="fa-regular fa-heart"></i>
                     </a>
                     <!-- Keranjang Belanja  -->
-                    <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-primary-custom transition duration-150">
+                    <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-yellow-700 ">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                     @if (Route::has('login'))
                         
-                    <a href="{{route('login')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full transition duration-150 bg-primary-custom:hover">Login</a>
+                    <a href="{{route('login')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full  bg-primary-custom:hover">Login</a>
                     @endif
     
                     @if (Route::has('register'))

@@ -1,6 +1,8 @@
 
 <div>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+
+    <main class="bg- max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Katalog Produk</h1>
 
         <!--  SIDEBAR FILTER  -->
@@ -84,6 +86,18 @@
 
             <!-- AREA HASIL PRODUK -->
             <section class="flex-grow">
+                
+
+                <div class="flex justify-between items-center mb-6 p-4 ">
+                    <input type="search"
+                    wire:model.live.debounce.300ms="search"
+                    placeholder="Cari kasur di katalog..." 
+                    class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary-500 focus:border-primary-500">
+                    <button class="bg-primary-custom text-white p-2 rounded-r-md transition duration-150 bg-primary-custom:hover">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
                 <!-- Sorting Produk (dan Statistik -->
                 <div class="flex justify-between items-center mb-6 p-4 bg-white rounded-lg shadow-md">
                     <p id="product-count" class="text-gray-600 text-sm">Menampilkan {{ $products->count() }} produk</p>
@@ -100,6 +114,9 @@
                     
                     </div>
                 </div>
+
+                
+               
 
                 <!-- Daftar Kartu Produk (Hasil Pencarian/Filter) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

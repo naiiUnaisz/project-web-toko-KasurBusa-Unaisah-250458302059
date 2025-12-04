@@ -69,4 +69,5 @@ Route::get('/Cart-Wishlist', Wislist::class)->name('User.CartWishlist');
 
 
 
+
 require __DIR__.'/auth.php';
