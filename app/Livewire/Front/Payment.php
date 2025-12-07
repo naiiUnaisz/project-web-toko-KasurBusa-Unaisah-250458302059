@@ -7,10 +7,11 @@ use App\Models\Order;
 use Livewire\Component;
 use App\Models\CartItem;
 use App\Models\OrderItem;
-use App\Models\Payment as PaymentModel;
+use App\Models\AlamatUser;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Payment as PaymentModel;
 
 #[Layout('layouts.PaymentCart')]
 
@@ -18,10 +19,33 @@ class Payment extends Component
 {
     use WithFileUploads;
 
-    // properti alamat
+// ================================
+    //  ALAMAT YANG DIPILIH
+    // ================================
     public $recipientName;
     public $recipientPhone;
     public $deliveryAddress;
+
+    public $selectedAddressId;
+    public $addresses = [];
+
+    // ================================
+    //  MODAL
+    // ================================
+    public $isModalOpen = false;          // Modal tambah/edit alamat
+    public $showAddressModal = false;     // Modal pilih alamat
+    public $isEditing = false;            // Mode edit alamat
+    public $editAddressId;
+    public $userAddresses;
+    // Form alamat
+    public $address_label;
+    public $recipient_name;
+    public $phone_number;
+    public $address_line;
+    public $city;
+    public $province;
+    public $postal_code;
+
 
     // properti pilihan
     public $shippingMethod = 'store_courier'; 
@@ -32,7 +56,7 @@ class Payment extends Component
     
     // -payment confirmation
     public $bankName = 'BCA'; 
-    public $accountName = 'PT Kasur Busa Jaya'; 
+    public $accountName; 
 
     // properti keuangan
     public $baseTotal = 0;
@@ -49,13 +73,24 @@ class Payment extends Component
     {
         
         if (!Auth::check()) {
-            return redirect()->route('login'); 
+            return redirect()->route('login');
         }
-        
-        $this->loadCartData();
 
+        $this->addresses = AlamatUser::where('user_id', Auth::id())->get();
+
+        // ambil default address
+        $default = collect($this->addresses) 
+        ->where('is_default', 1) 
+        ->first();
+
+        if ($default) {
+            $this->applyAddress($default->id);
+        }
+
+        $this->loadCartData();
         $this->calculateTotals();
     }
+
 
     protected function loadCartData()
     {
@@ -82,6 +117,7 @@ class Payment extends Component
         $this->cartItems = $items;
         $this->baseTotal = $newBaseTotal; 
     }
+
 
     public function updated($propertyName)
     {
@@ -113,18 +149,23 @@ class Payment extends Component
 
     public function placeOrder()
     {
+        
 
         if ($this->baseTotal <= 0) {
             session()->flash('error', 'Tidak ada item di keranjang. Transaksi dibatalkan.');
             return redirect('/');
         }
         
+
+        if (!$this->selectedAddressId) {
+            session()->flash('error', 'Silakan pilih alamat pengiriman.');
+            return;
+        }
+    
+
         $this->calculateTotals();
 
         $validationRules = [
-            'recipientName' => 'required|string|max:255',
-            'recipientPhone' => 'required|string|max:20',
-            'deliveryAddress' => 'required|string|min:10',
             'shippingMethod' => 'required|in:store_courier,regular',
             'paymentMethod' => 'required|in:transfer,QRIS,cod', 
         ];
@@ -146,31 +187,28 @@ class Payment extends Component
 
         
         $order = Order::create([
-            'user_id' => Auth::id(), 
-            'order_number' => 'INV-' . time(), 
-            'recipient_name' => $this->recipientName,
-            'recipient_phone' => $this->recipientPhone,
-            'delivery_address' => $this->deliveryAddress,
-            'shipping_method' => $this->shippingMethod,
-            'base_total' => $this->baseTotal,
-            'shipping_cost' => $this->shippingCost,
-            'order_total' => $this->orderTotal,
-            'payment_method' => $this->paymentMethod, 
-            'status' => ($this->paymentMethod === 'cod') ? 'Order Placed (COD)' : 'Waiting for Confirmation',
+            'user_id'        => Auth::id(),
+            'user_address_id' => $this->selectedAddressId,
+            'order_number'   => 'INV-' . time(),
+            'total_amount'   => $this->orderTotal, 
+            'status'         => 'pending',
+            'courier_name'   => $this->shippingMethod, 
+            'tracking_number' => null,
+            'notes'           => null,
         ]);
         
-        
+
         foreach ($this->cartItems as $cartItem) {
              OrderItem::create([
                  'order_id' => $order->id,
-                 'product_id' => $cartItem->product_id,
+                 'produk_id' => $cartItem->produk_id,
                  'quantity' => $cartItem->quantity,
-
-                 'price_at_checkout' => $cartItem->product->price ?? 0, 
+                 'price' => $cartItem->product->price ?? 0,
+                 'product_name_snapshot' => $cartItem-> product->name ?? 'unknown', 
              ]);
         }
 
-        // simpan payment confirmation COD
+    //   payment proof
         if (in_array($this->paymentMethod, ['transfer', 'QRIS'])) {
             $proofPath = $this->paymentProof->store('proofs', 'public'); 
 
@@ -179,7 +217,7 @@ class Payment extends Component
                 'order_id' => $order->id,
                 'proof_image_url' => $proofPath,
                 'payment_method' => $this->paymentMethod,
-                'bank_name' => $this->bankName, 
+                'bank_name' => $this->bankName ?: 'BCA', 
                 'account_name' => $this->accountName, 
                 'status' => 'pending', 
             ]);
@@ -190,9 +228,167 @@ class Payment extends Component
 
         
         session()->flash('success', 'Pesanan berhasil dibuat. Kami sedang menunggu konfirmasi pembayaran Anda.');
-        return redirect()->route('order.status', ['order_id' => $order->id]); 
+        return redirect()->route('User.CartShopping', ['order_id' => $order->id]); 
     }
+
+
+    public function openModal()
+    {
+        $this->resetAddressForm();
+        $this->isEditing = false;
     
+        // Ambil semua alamat user
+        $this->userAddresses = AlamatUser::where('user_id', Auth::id())->get();
+    
+        if ($this->userAddresses->count() == 0) {
+           
+            $this->isModalOpen = true;
+            $this->showAddressModal = false;
+        } else {
+
+            $this->showAddressModal = true;
+            $this->isModalOpen = false;
+        }
+    }
+
+    public function closeModal()
+    {
+        $this->isModalOpen = false;
+    }
+
+    public function openAddressModal()
+{
+    $this->isEditing = false;
+    $this->showAddressModal = true;
+}
+
+public function closeAddressModal()
+{
+    $this->showAddressModal = false;
+}
+
+
+    public function resetAddressForm()
+    {
+        $this->address_label = '';
+        $this->recipient_name = '';
+        $this->phone_number = '';
+        $this->address_line = '';
+        $this->city = '';
+        $this->province = '';
+        $this->postal_code = '';
+    }
+
+    
+    public function saveAddress()
+    {
+        $this->validate([
+            'address_label' => 'required',
+            'recipient_name' => 'required',
+            'phone_number' => 'required',
+            'address_line' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'postal_code' => 'required'
+        ]);
+
+        if ($this->isEditing) {
+            // update alamat
+            AlamatUser::where('id', $this->editAddressId)->update([
+                'address_label' => $this->address_label,
+                'recipient_name' => $this->recipient_name,
+                'phone_number' => $this->phone_number,
+                'address_line' => $this->address_line,
+                'city' => $this->city,
+                'province' => $this->province,
+                'postal_code' => $this->postal_code,
+            ]);
+        } else {
+            // alamat baru
+            AlamatUser::create([
+                'user_id' => Auth::id(),
+                'address_label' => $this->address_label,
+                'recipient_name' => $this->recipient_name,
+                'phone_number' => $this->phone_number,
+                'address_line' => $this->address_line,
+                'city' => $this->city,
+                'province' => $this->province,
+                'postal_code' => $this->postal_code,
+                'is_default' => 0
+            ]);
+        }
+
+        $this->addresses = AlamatUser::where('user_id', Auth::id())->get();
+        $this->isModalOpen = false;
+    }
+
+
+    public function editAddress($id)
+    {
+        $addr = AlamatUser::find($id);
+        if (!$addr) return;
+
+        $this->editAddressId = $id;
+        $this->isEditing = true;
+
+        $this->address_label = $addr->address_label;
+        $this->recipient_name = $addr->recipient_name;
+        $this->phone_number = $addr->phone_number;
+        $this->address_line = $addr->address_line;
+        $this->city = $addr->city;
+        $this->province = $addr->province;
+        $this->postal_code = $addr->postal_code;
+
+        $this->isModalOpen = true;
+        $this->showAddressModal = false;
+    }
+
+   
+    public function deleteAddress($id)
+    {
+        $addr = AlamatUser::find($id);
+        if (!$addr) return;
+
+        $addr->delete();
+        $this->addresses = AlamatUser::where('user_id', Auth::id())->get();
+
+        if ($this->selectedAddressId == $id) {
+            $this->selectedAddressId = null;
+            $this->recipientName = null;
+            $this->recipientPhone = null;
+            $this->deliveryAddress = null;
+        }
+    }
+
+    
+    public function applyAddress($id)
+    {
+        $addr = AlamatUser::find($id);
+        if (!$addr) return;
+
+        $this->selectedAddressId = $id;
+        $this->recipientName = $addr->recipient_name;
+        $this->recipientPhone = $addr->phone_number;
+
+        $this->deliveryAddress =
+            $addr->address_label . " — " .
+            $addr->address_line . ", " .
+            $addr->city . ", " .
+            $addr->province . ", " .
+            $addr->postal_code;
+
+        $this->showAddressModal = false;
+    }
+
+        public function openAddAddressForm()
+    {
+        $this->resetAddressForm();
+        $this->isEditing = false;
+
+        $this->showAddressModal = false;
+        $this->isModalOpen = true;
+    }
+
     
     public function render()
     {
@@ -206,3 +402,5 @@ class Payment extends Component
         return view('livewire.front.payment');
     }
 }
+
+

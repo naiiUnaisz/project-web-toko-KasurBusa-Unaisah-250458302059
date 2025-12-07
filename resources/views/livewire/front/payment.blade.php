@@ -25,48 +25,27 @@
         </h1>
 
         <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 space-y-8">
-            
-            <!-- Langkah 1: Alamat Pengiriman -->
-            <div class="border-b pb-6">
-                <h2 class="text-2xl font-bold text-primary-custom mb-4">1. Alamat Pengiriman</h2>
-                <div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Input Nama Penerima -->
-                        <div>
-                            <input type="text" placeholder="Nama Penerima Lengkap" 
-                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom" 
-                                wire:model.defer="recipientName" required>
-                            @error('recipientName') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <!-- Input Nomor Telepon -->
-                        <div>
-                            <input type="tel" placeholder="Nomor Telepon (mis: 0812xxxx)" 
-                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom" 
-                                wire:model.defer="recipientPhone" required>
-                            @error('recipientPhone') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <!-- Input Alamat Lengkap -->
-                        <textarea placeholder="Alamat Lengkap (Jalan, Nomor Rumah, RT/RW, Kecamatan, Kota)" rows="3" 
-                                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-primary-custom focus:border-primary-custom" 
-                                wire:model.defer="deliveryAddress" required></textarea>
-                        @error('deliveryAddress') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                    </div>
-                    
-                    <div class="mt-4 flex items-center">
-                        <!-- Saran: Tambahkan info Wilayah/Kode Pos jika diperlukan -->
-                        <i class="fa-solid fa-map-pin text-gray-500 mr-2"></i> 
-                        <p class="text-sm text-gray-500">Pastikan alamat Anda benar dan lengkap untuk pengiriman yang cepat.</p>
-                    </div>
-                </div>
+
+                <!-- Alamat Pengiriman -->
+            @if($selectedAddressId)
+            <div class="p-4 border rounded-lg bg-gray-50 mb-4">
+                <p class="font-bold">{{ $recipientName }} ({{ $recipientPhone }})</p>
+                <p class="text-sm">{{ $deliveryAddress }}</p>
+                <button wire:click="openAddressModal" class="text-blue-500 underline">
+                    Ubah Alamat
+                </button>
             </div>
-            
-            <!-- Langkah 2: Opsi Pengiriman -->
+            @else
+            <button wire:click="openModal" 
+                    class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-yellow-500 transition shadow-md">
+                + Masukkan Alamat
+            </button>
+            @endif
+
+        
+            <!--  Opsi Pengiriman -->
             <div class="border-b pb-6">
-                <h2 class="text-2xl font-bold text-primary-custom mb-4">2. Opsi Pengiriman</h2>
+                <h4 class="italic text-slate-700 mb-4">Pilih Opsi Pengiriman</h4>
                 <div class="space-y-3">
                     
                     <!-- Opsi Kurir Toko (GRATIS) -->
@@ -107,9 +86,10 @@
                 </div>
             </div>
 
-            <!-- Langkah 3: Metode Pembayaran -->
+            <!--  Metode Pembayaran -->
             <div class="border-b pb-6">
-                <h2 class="text-2xl font-bold text-primary-custom mb-4">3. Metode Pembayaran</h2>
+                <h4 class="italic text-slate-700 mb-4">Metode Pembayaran</h4>
+                {{-- <h2 class="text-2xl font-bold text-primary-custom mb-4">Metode Pembayaran</h2> --}}
                 <div class="space-y-3">
                     
                     <!-- Opsi 1: Transfer Bank (BCA) -->
@@ -174,7 +154,7 @@
                                     <i class="fa-solid fa-copy"></i> Salin
                                 </button>
                             </div>
-                            <p class="text-sm mt-1">Atas Nama: **[Nama Pemilik Rekening]**</p>
+                            <p class="text-sm mt-1">Atas Nama: Toko Kasur</p>
                             <p class="mt-3 text-xs italic">Mohon transfer sesuai jumlah Total Akhir Pesanan.</p>
                         @elseif($paymentMethod === 'QRIS')
                             <p class="text-sm">Silakan siapkan aplikasi pembayaran Anda (Gopay/OVO/Dana/dll).</p>
@@ -185,9 +165,9 @@
                 @endif
             </div>
 
-            <!-- Langkah 4 & 5: Konfirmasi Pesanan, Total, dan Unggah Bukti Bayar -->
+            <!--  Konfirmasi Pesanan, Total, dan Unggah Bukti Bayar -->
             <div class="pt-6">
-                <h2 class="text-2xl font-bold text-primary-custom mb-4">4. Rincian Biaya & Konfirmasi</h2>
+                <h2 class="text-2xl font-bold text-primary-custom mb-4">Rincian Biaya & Konfirmasi</h2>
 
                 <!-- Ringkasan Total Biaya Detail -->
                 <div class="space-y-2 mb-4">
@@ -218,10 +198,29 @@
 
                 <!-- Bagian 5. Unggah Bukti Bayar (KHUSUS Transfer/QRIS) -->
                 @if(in_array($paymentMethod, ['transfer', 'QRIS']))
+
+                <div class="mb-6">
+                    @if($paymentMethod === 'transfer')
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Nama Pengirim (Rekening Anda)
+                            </label>
+                            <input type="text" 
+                                wire:model="accountName" 
+                                class="w-full p-2 border rounded-lg" 
+                                placeholder="Masukkan Nama Pemilik Rekening">
+                            @error('accountName') 
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
+                </div>
+
+
                     <div class="mb-6 p-4 border border-dashed border-gray-400 rounded-lg bg-gray-50 shadow-sm">
                         <h3 class="text-xl font-bold text-primary-custom mb-3 flex items-center">
                             <!-- Asumsi fa-solid fa-cloud-arrow-up tersedia melalui FontAwesome -->
-                            <i class="fa-solid fa-cloud-arrow-up w-6 h-6 mr-2"></i> 5. Unggah Bukti Bayar
+                            <i class="fa-solid fa-cloud-arrow-up w-6 h-6 mr-2"></i> Unggah Bukti Bayar
                         </h3>
                         
                         <!-- Input file untuk upload bukti bayar -->
@@ -238,8 +237,6 @@
                             <p class="mt-2 text-xs text-green-700 font-medium">
                                 File terpilih: {{ $paymentProof->getClientOriginalName() }}
                             </p>
-                            <!-- Tambahkan Pratinjau Gambar jika itu adalah file gambar (opsional, tergantung Livewire) -->
-                            <!-- Jika $paymentProof adalah instance UploadedFile, Anda bisa menggunakan $paymentProof->temporaryUrl() -->
                             {{-- <img src="{{ $paymentProof->temporaryUrl() }}" class="mt-2 w-32 h-32 object-cover rounded-lg border" /> --}}
                         @endif
 
@@ -268,4 +265,124 @@
 
         </div>
     </main>
+
+    {{-- Modal Tambah Alamat --}}
+    @if($isModalOpen)
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white w-full max-w-lg p-6 rounded-xl shadow-xl">
+    
+            <h2 class="text-2xl font-bold mb-4 text-primary-custom">Tambah Alamat Baru</h2>
+    
+            <div class="space-y-3">
+    
+                <input type="text" wire:model="address_label"
+                    class="w-full p-2 border rounded"
+                    placeholder="Label Alamat (Rumah, Kantor, dll)">
+    
+                <input type="text" wire:model="recipient_name"
+                    class="w-full p-2 border rounded"
+                    placeholder="Nama Penerima">
+    
+                <input type="text" wire:model="phone_number"
+                    class="w-full p-2 border rounded"
+                    placeholder="Nomor HP">
+    
+                <textarea wire:model="address_line"
+                    class="w-full p-2 border rounded"
+                    placeholder="Detail Alamat"></textarea>
+    
+                <input type="text" wire:model="city"
+                    class="w-full p-2 border rounded"
+                    placeholder="Kota">
+    
+                <input type="text" wire:model="province"
+                    class="w-full p-2 border rounded"
+                    placeholder="Provinsi">
+    
+                <input type="text" wire:model="postal_code"
+                    class="w-full p-2 border rounded"
+                    placeholder="Kode Pos">
+            </div>
+    
+            <div class="flex justify-end mt-4 gap-3">
+                <button wire:click="closeModal"
+                    class="px-4 py-2 bg-gray-300 rounded">
+                    Batal
+                </button>
+    
+                <button wire:click="saveAddress"
+                    class="px-4 py-2 bg-primary-custom text-white rounded">
+                    Simpan
+                </button>
+            </div>
+    
+        </div>
+    </div>
+    @endif
+    
+
+    @if($showAddressModal)
+<div class="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+    <div class="bg-white p-4 rounded-xl shadow-xl w-96">
+
+        <h3 class="font-semibold mb-3 text-lg">Alamat Saya</h3>
+
+        @foreach($addresses as $address)
+        <div 
+        class="border rounded-lg px-4 py-3 mb-3 cursor-pointer hover:border-blue-500 transition relative 
+               @if($selectedAddressId == $address->id) border-blue-600 @else border-gray-300 @endif"
+        wire:click="applyAddress({{ $address->id }})"
+    >
+        <!-- RADIO BUTTON -->
+        <div class="absolute left-3 top-1/2 -translate-y-1/2">
+            <input 
+                type="radio" 
+                name="selectedAddress" 
+                value="{{ $address->id }}" 
+                class="h-4 w-4 cursor-pointer"
+                @checked($selectedAddressId == $address->id)
+            >
+        </div>
+    
+        <div class="pl-8">
+            <div class="flex items-center gap-2">
+                <h3 class="font-semibold text-gray-800">{{ $address->recipient_name }}</h3>
+    
+                @if($address->is_default)
+                    <span class="bg-blue-600 text-white text-xs px-2 py-0.5 rounded">
+                        Utama
+                    </span>
+                @endif
+            </div>
+    
+            <div class="text-sm text-gray-600">{{ $address->phone_number }}</div>
+    
+            <div class="text-sm text-gray-700 mt-1 leading-5">
+                {{ $address->address_label }} — {{ $address->address_line }},
+                {{ $address->city }}, {{ $address->province }}, {{ $address->postal_code }}
+            </div>
+    
+            <div class="flex gap-4 mt-3 text-sm font-medium">
+                <button wire:click.stop="editAddress({{ $address->id }})" class="text-blue-600 hover:underline">Ubah</button>
+                <button wire:click.stop="deleteAddress({{ $address->id }})" class="text-red-600 hover:underline">Hapus</button>
+            </div>
+        </div>
+    </div>
+        @endforeach
+
+        <button wire:click="openAddAddressForm" class="mt-2 text-primary-custom font-medium">
+            + Tambah Alamat Baru
+        </button>
+
+        <div class="flex justify-end mt-4">
+            <button wire:click="closeAddressModal" 
+                class="px-4 py-2 bg-gray-300 rounded">
+                Tutup
+            </button>
+        </div>
+
+    </div>
+</div>
+@endif
+
 </div>

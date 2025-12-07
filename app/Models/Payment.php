@@ -15,6 +15,7 @@ class Payment extends Model
         'proof_image_url',
         'payment_method',
         'bank_name',
+        'account_name',
         'status',
 
     ];

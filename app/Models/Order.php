@@ -10,7 +10,7 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'User_address_id',
+        'user_address_id',
         'order_number',
         'total_amount',
         'status',
@@ -26,6 +26,6 @@ class Order extends Model
 
     public function address()
     {
-        return $this->belongsTo(User::class, 'user_address_id');
+        return $this->belongsTo(AlamatUser::class, 'user_address_id');
     }
 }

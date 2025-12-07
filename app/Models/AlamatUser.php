@@ -25,8 +25,9 @@ class AlamatUser extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function Orders()
+        public function orders()
     {
-        return $this->belongsTo(Order::class, 'Orders_id');
+        return $this->hasMany(Order::class, 'address_id');
     }
+
 }
