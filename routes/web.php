@@ -17,6 +17,7 @@ use App\Livewire\Admin\ProductImageDashboard;
 use App\Livewire\Admin\Management\UserAddress;
 use App\Livewire\Admin\Shop\OrderItemManagement;
 use App\Livewire\Admin\Shop\PaymentManagement;
+use App\Livewire\Front\Checkout;
 use App\Livewire\Front\DetailProduct;
 use App\Livewire\Front\Katalog;
 use App\Livewire\Front\Keranjang;
@@ -66,6 +67,7 @@ Route::get('/detail-product/{product}', DetailProduct::class)->name('User.detail
 Route::get('/Cart-Shopping', Keranjang::class)->name('User.CartShopping');
 Route::get('/Cart-Payment', Payment::class)->name('User.CartPayment');
 Route::get('/Cart-Wishlist', Wislist::class)->name('User.CartWishlist');
+Route::get('/Status-Pembayaran', Checkout::class)->name('User.Checkout');
 
 
 

@@ -1,5 +1,4 @@
-{{-- @extends('layouts.landingPage')
-@section('content') --}}
+
 <div>
     <main>
         

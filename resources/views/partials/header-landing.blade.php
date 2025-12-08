@@ -16,7 +16,7 @@
                     <nav class="  md:flex space-x-8 ">
                         <a href="{{route('landingpage')}}" class="text-gray-900 hover:text-yellow-700  font-medium">Home</a>
                         <a href="{{route('User.katalog')}}" class="text-gray-900 hover:text-yellow-700 font-medium">Katalog</a>
-                        <a href="#" class="text-gray-900 hover:text-yellow-700 font-medium">Shopping</a>
+                        <a href="{{route('User.Checkout')}}" class="text-gray-900 hover:text-yellow-700 font-medium">Shopping</a>
 
                     </nav>
                 </div>
