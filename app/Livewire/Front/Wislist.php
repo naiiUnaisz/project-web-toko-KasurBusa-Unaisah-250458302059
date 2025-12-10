@@ -3,13 +3,57 @@
 namespace App\Livewire\Front;
 
 use Livewire\Component;
+use App\Models\Wishlist;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Auth;
 
-#[Layout('layouts.wishlistCart')]
+#[Layout('layouts.landingPage')]
 class Wislist extends Component
 {
+
     public function render()
     {
-        return view('livewire.front.wislist');
+        $items = Wishlist::where('user_id', Auth::id())
+        ->with('product.size')
+        ->get();
+
+        return view('livewire.front.wislist', compact('items'));
     }
+
+
+        public function deleteWishlist($productId)
+    {
+        Wishlist::where('user_id', Auth::id())
+            ->where('product_id', $productId)
+            ->delete();
+
+        session()->flash('success', 'Item Berhasil Dihapus dari Wishlist.');
+    }
+
+
+
+    // public function addWishlist($productId)
+    // {
+    //     $user = Auth::user();
+
+    //     if (!$user) {
+    //         session()->flash('error', 'You must be logged in to add items to your wishlist.');
+    //         return;
+    //     }
+
+    //     $wishlist = Wishlist::where('user_id', $user->id)
+    //     ->where('product_id', $productId)
+    //     ->first();
+
+    //     if ($wishlist) {
+    //         session()->flash('info', 'This item is already in your wishlist.');
+    //     } else {
+    //         Wishlist::create([
+    //             'user_id' => $user->id,
+    //             'product_id' => $productId,
+    //         ]);
+        
+    //         session()->flash('success', 'Item added to your wishlist.');
+    //     }
+    // }   
 }

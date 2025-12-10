@@ -41,28 +41,29 @@
  
                  <!-- Header Card -->
                  <div class="flex items-center gap-3">
-                     <i class="fa-solid fa-store text-primary-custom text-xl"></i>
-                     <span class="font-semibold">Busa Cileungsi</span>
-                     <span class="text-sm text-gray-500 ml-2">{{ $item->created_at->format('d M Y') }}</span>
+                     <i class="fa-solid fa-bag-shopping text-primary-custom text-xl"></i>
+                     <span class="font-semibold">Belanja</span>
+                     <span class="text-sm text-black  ml-2">{{ $item->created_at->format('d M Y') }}</span>
  
-                     <span class="ml-4 px-3 py-1 text-xs rounded-full font-semibold
-                         @if($item->status=='pending') bg-yellow-100 text-yellow-700
-                         @elseif($item->status=='completed') bg-green-100 text-green-700
-                         @else bg-gray-200 text-gray-700 
-                         @endif">
-                         {{ ucfirst($item->status) }}
+                     <span class=" text-gray-500 text-sm">
+                        || {{ $item->order_number }}
                      </span>
- 
-                     <span class="ml-auto text-gray-500 text-sm">
-                         {{ $item->order_number }}
-                     </span>
+
+                     <span class=" ml-auto  px-3 py-1 text-xs rounded-full font-semibold
+                         {{ $item->status == 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                         {{ $item->status == 'processing' ? 'bg-blue-100 text-blue-800' : '' }}
+                         {{ $item->status == 'shipped' ? 'bg-indigo-100 text-indigo-800' : '' }}
+                         {{ $item->status == 'completed' ? 'bg-green-100 text-green-800' : '' }}
+                         {{ $item->status == 'cancelled' ? 'bg-red-100 text-red-800' : '' }}">
+                     {{ ucfirst($item->status) }}
+                 </span>
                  </div>
  
                  <!-- Produk -->
                  @foreach ($item->orderItems as $i)
                  <div class="mt-4 flex gap-4">
                      <img 
-                         src="{{ $i->product->image_url ?? 'https://via.placeholder.com/90' }}"
+                         src="{{ asset('storage/' . $i->product->image_url ?? 'https://via.placeholder.com/90') }}"
                          class="w-20 h-20 rounded-lg object-cover border">
  
                      <div class="flex flex-col justify-between flex-grow">

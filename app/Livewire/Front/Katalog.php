@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\CartItem;
+use App\Models\Wishlist;
 use App\Models\JenisBusa;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
@@ -105,15 +106,28 @@ class Katalog extends Component
         $this->dispatch('keranjangDiperbarui');
     }
 
-    // public function getProducts()
-    // {
-    //     $query = Product::query();
+    public function addWishlist($productId)
+    {
+        $user = Auth::user();
 
-    //     if($this->search){
-    //         $query->where('name', 'like', '%' .$this->search . '%');
-    //     }else{
-    //         $query = Product::all();
-    //     }
+        if (!$user) {
+            session()->flash('error', 'You must be logged in to add items to your wishlist.');
+            return;
+        }
 
-    // }
+        $wishlist = Wishlist::where('user_id', $user->id)
+        ->where('product_id', $productId)
+        ->first();
+
+        if ($wishlist) {
+            session()->flash('info', 'This item is already in your wishlist.');
+        } else {
+            Wishlist::create([
+                'user_id' => $user->id,
+                'product_id' => $productId,
+            ]);
+        
+            session()->flash('success', 'Item added to your wishlist.');
+        }
+    }   
 }

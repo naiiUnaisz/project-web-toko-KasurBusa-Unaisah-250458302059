@@ -106,7 +106,9 @@
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>TAMBAH KE KERANJANG</span>
                     </button>
-                    <button class="px-6 py-3 rounded-xl border-2 border-primary-custom text-primary-custom font-bold text-lg hover:bg-primary-custom hover:text-yellow-600 transition-button flex items-center justify-center space-x-2">
+                    <button 
+                    wire:click="addWishlist({{ $product->id }})"
+                    class="px-6 py-3 rounded-xl border-2 border-primary-custom text-primary-custom font-bold text-lg hover:bg-primary-custom hover:text-yellow-600 transition-button flex items-center justify-center space-x-2">
                         <i class="fa-regular fa-heart"></i>
                         <span>Wishlist</span>
                     </button>
