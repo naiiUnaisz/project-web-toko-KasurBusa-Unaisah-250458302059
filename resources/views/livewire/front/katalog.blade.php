@@ -5,10 +5,10 @@
     <main class="bg- max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Katalog Produk</h1>
 
-        <!--  SIDEBAR FILTER  -->
+         {{-- SIDEBAR FILTER  --}}
         <div class="flex flex-col lg:flex-row gap-8">
             
-            <!-- SIDEBAR FILTER (Fitur 2) -->
+           {{-- SIDEBAR FILTER  --}}
             <aside class="w-full lg:w-64 bg-white p-6 rounded-xl shadow-lg flex-shrink-0">
                 <h2 class="text-xl font-semibold mb-4 border-b pb-2">Filter Berlapis</h2>
             
@@ -84,7 +84,7 @@
             </aside>
             
 
-            <!-- AREA HASIL PRODUK -->
+           {{-- DAFTAR PRODUK --}}
             <section class="flex-grow">
                 
 
@@ -93,12 +93,12 @@
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari kasur di katalog..." 
                     class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary-500 focus:border-primary-500">
-                    <button class="bg-primary-custom text-white p-2 rounded-r-md transition duration-150 bg-primary-custom:hover">
+                    <button class="bg-primary-custom text-white p-2 rounded-r-md bg-primary-custom:hover">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
 
-                <!-- Sorting Produk (dan Statistik -->
+                {{-- SORTING PRODUK --}}
                 <div class="flex justify-between items-center mb-6 p-4 bg-white rounded-lg shadow-md">
                     <p id="product-count" class="text-gray-600 text-sm">Menampilkan {{ $products->count() }} produk</p>
                     <div class="flex items-center space-x-2">
@@ -118,7 +118,7 @@
                 
                
 
-                <!-- Daftar Kartu Produk (Hasil Pencarian/Filter) -->
+                {{-- CARD PRODUK --}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
                     @forelse ($products as $p)
@@ -161,7 +161,7 @@
                     </div>
                 @empty
                     <div class="col-span-full text-center p-10 bg-white rounded-xl shadow">
-                        <i data-lucide="package-search" class="w-12 h-12 mx-auto mb-4 text-primary-custom"></i>
+                        <i class="fa-solid fa-box text-primary-custom"></i>
                         <p>Tidak ada produk ditemukan.</p>
                     </div>
                 @endforelse

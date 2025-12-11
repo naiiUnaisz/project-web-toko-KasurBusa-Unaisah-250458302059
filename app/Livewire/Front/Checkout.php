@@ -37,7 +37,7 @@ class Checkout extends Component
     public function render()
     {
         $query = Order::where('user_id', Auth::id())
-            ->with(['orderItems.product']) 
+        ->with(['orderItems.product.images'])
             ->latest();
 
         // FILTER SEARCH berdasarkan nama produk

@@ -61,10 +61,14 @@
  
                  <!-- Produk -->
                  @foreach ($item->orderItems as $i)
+                 @php
+            $image = optional($i->product->images)->first();
+        @endphp
                  <div class="mt-4 flex gap-4">
-                     <img 
-                         src="{{ asset('storage/' . $i->product->image_url ?? 'https://via.placeholder.com/90') }}"
-                         class="w-20 h-20 rounded-lg object-cover border">
+                    <img 
+                    src="{{ $image ? asset('storage/' . $image->image_url) : 'https://via.placeholder.com/90' }}"
+                    class="w-20 h-20 rounded-lg border object-cover"
+                >
  
                      <div class="flex flex-col justify-between flex-grow">
                          <div>

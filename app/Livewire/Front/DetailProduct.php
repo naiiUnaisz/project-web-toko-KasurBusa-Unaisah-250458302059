@@ -104,7 +104,7 @@ public function submitReview()
         'product_id'=> $this->product->id,
         'rating'    => $this->rating,
         'comment'   => $this->reviewText,
-        'is_approved' => 0,  // admin perlu verifikasi dulu
+        'is_approved' => 0,  
         'approved_byadmin_id' => null,
     ]);
 
@@ -114,28 +114,27 @@ public function submitReview()
     session()->flash('success', 'Ulasan berhasil dikirim! Menunggu verifikasi admin.');
 }
 
+
 public function addWishlist($productId)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            session()->flash('error', 'You must be logged in to add items to your wishlist.');
-            return;
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        $wishlist = Wishlist::where('user_id', $user->id)
+        $wishlist = Wishlist::where('user_id', Auth::id())
         ->where('product_id', $productId)
         ->first();
 
         if ($wishlist) {
-            session()->flash('info', 'This item is already in your wishlist.');
+            $wishlist->delete();
+            session()->flash('info', 'item dihapus dari wishlist.');
         } else {
             Wishlist::create([
-                'user_id' => $user->id,
+                'user_id' => Auth::id(),
                 'product_id' => $productId,
             ]);
         
-            session()->flash('success', 'Item added to your wishlist.');
+            session()->flash('success', 'item ditambahkan ke wishlist.');
         }
     }   
 

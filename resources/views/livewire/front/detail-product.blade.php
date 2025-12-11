@@ -14,18 +14,20 @@
 
         <div class="bg-white p-6 md:p-10 rounded-xl shadow-lg grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             <div class="lg:sticky lg:top-20 h-fit">
-                <!-- Gambar Utama -->
+               {{-- Gambar Utama --}}
                 <img id="main-image"
                 src="{{ asset('storage/' . $product->primaryImage?->image_url) }}"
                 class="w-full h-auto rounded-xl shadow-md object-cover">
            
                 
-                <!-- Galeri Gambar Mini -->
+                 {{-- Galeri Gambar Mini --}}
                 <div class="flex space-x-3 mt-4 overflow-x-auto">
+
                     @foreach ($product->images as $img)
+
                     <img src="{{ asset('storage/' . $img->image_url) }}"
                     data-full-img="{{ asset('storage/' . $img->image_url) }}"
-                    class="thumbnail w-20 h-20 rounded-lg object-cover border-2 border-gray-200 cursor-pointer hover:border-primary-custom transition duration-150">
+                    class="thumbnail w-20 h-20 rounded-lg object-cover border-2 border-gray-200 cursor-pointer hover:border-primary-custom">
 
                      @endforeach
                 </div>
@@ -36,10 +38,10 @@
                 </h1>
                 
                 
-                <!-- Rating dan Ulasan -->
+                {{-- Rating Ulasan --}}
                 <div class="flex items-center mb-4 border-b pb-4">
                     <div class="flex items-center space-x-1">
-                        @for ($i = 1; $i <= 5; $i++)
+                    @for ($i = 1; $i <= 5; $i++)
                         <i class="fas fa-star w-4 h-4 
                             {{ $averageRating >= $i ? 'text-yellow-400' : 'text-gray-300' }}">
                         </i>
@@ -53,10 +55,9 @@
                 <span class="text-sm text-gray-500 ml-4">
                     ({{ $reviews->count() }} Ulasan)
                 </span>
-                    {{-- <span class="text-sm text-gray-500 ml-4">| Terjual: 375</span> --}}
                 </div>
                 
-                <!-- Harga -->
+                {{-- Harga --}}
                 <p class="text-2xl font-bold text-red-600 py-11 mb-6">
                     Rp {{ number_format($product->price, 0, ',', '.') }}
                 </p>
@@ -79,7 +80,7 @@
                     </div>
                 </div> --}}
                 
-                <!-- Kontrol Kuantitas & Stok -->
+                {{-- Kontrol kuantitas & stok --}}
                 <div class="mb-8 flex items-center space-x-6">
                     <label class="text-lg font-semibold text-gray-900">Kuantitas:</label>
                     <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
@@ -98,7 +99,7 @@
                     
                 </div>
 
-                <!-- Tombol Aksi -->
+                {{-- Tombol Aksi --}}
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                     <button 
                     wire:click="addToCart"
@@ -114,7 +115,7 @@
                     </button>
                 </div>
                 
-                <!-- Tombol Chat WA -->
+                {{-- Tombol chat WA --}}
                 <a href="https://wa.me/6283890909067?text=Halo%2C%20saya%20tertarik%20dengan%20produk%20Kasur%20Busa%20Inoac%20EON%20D-23." target="_blank"
                     class="mt-4 w-full flex items-center justify-center space-x-2 whatsapp-float text-white px-6 py-3 rounded-xl font-bold text-lg transition-button">
                     <i class="fab fa-whatsapp text-xl"></i>
@@ -123,27 +124,26 @@
             </div>
         </div>
 
-       <!-- Sesi Tambahan: Deskripsi & Ulasan -->
+       {{-- Tambah Deskripsi & Ulasan --}}
 <div class="mt-10 bg-white p-6 md:p-10 rounded-xl shadow-lg">
     <h2 class="text-2xl font-bold text-gray-900 border-b pb-3 mb-6">Deskripsi & Ulasan</h2>
 
-    <!-- Tabs -->
     <div id="tab-container">
-        
-        <!-- Tab Headers -->
+       {{-- tab  --}}
         <div class="flex border-b mb-6">
             <button id="tab-description"
                 class="tab-button px-4 py-2 text-lg font-semibold border-b-2 border-primary-custom text-primary-custom">
                 Deskripsi Produk
             </button>
 
-            <button id="tab-reviews"
+            <button
+                id="tab-reviews"
                 class="tab-button px-4 py-2 text-lg font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700">
                 Ulasan ({{ $reviews->count() }})
             </button>
         </div>
 
-        <!-- Tab Content: Deskripsi -->
+       {{-- tab deskripsi --}}
         <div id="content-description" class="tab-content">
             <h3 class="text-xl font-semibold mb-3">{{ $product->name }}</h3>
             <p class="text-gray-700 mb-4">
@@ -151,7 +151,7 @@
             </p>
         </div>
 
-        <!-- Tab Content: ULASAN -->
+       {{-- tab ulasan --}}
         <div id="content-reviews" class="tab-content hidden">
             <div class="space-y-6">
 
@@ -180,7 +180,7 @@
 
             </div>
 
-            <!-- FORM ULASAN -->
+           {{-- form ulasan --}}
             @if(auth()->check())
                 <div class="mt-8 bg-gray-50 p-6 rounded-xl border">
 
@@ -204,7 +204,7 @@
                             </div>
                         </div>
 
-                        <!-- Review Text -->
+                       {{-- review text --}}
                         <div>
                             <label class="block font-medium mb-1">Ulasan:</label>
                             <textarea wire:model.defer="reviewText" rows="4"
@@ -216,6 +216,7 @@
                         </div>
 
                         <button type="submit"
+                            wire:click="submitReview"
                             class="bg-primary-custom text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-dark">
                             Kirim Ulasan
                         </button>
@@ -228,7 +229,7 @@
     </div>
 </div>
 
-        <!-- PRODUK REKOMENDASI -->
+{{-- produk rekomendasi --}}
 <div class="mt-16">
     <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">
         Produk Serupa yang Mungkin Kamu Suka
@@ -239,7 +240,7 @@
         @forelse ($relatedProducts as $item)
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                 
-                <!-- Gambar -->
+               {{-- gambar --}}
                 <a href="{{ route('User.detailProduct', $item->id) }}">
                     <img src="{{ asset('storage/' . $item->primaryImage?->image_url) }}"
                          class="w-full h-48 object-cover"
@@ -279,3 +280,36 @@
 
     </main>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabDescription = document.getElementById('tab-description');
+        const tabReviews = document.getElementById('tab-reviews');
+    
+        const contentDescription = document.getElementById('content-description');
+        const contentReviews = document.getElementById('content-reviews');
+    
+        tabDescription.addEventListener('click', function () {
+            // tampilkan deskripsi
+            contentDescription.classList.remove('hidden');
+            contentReviews.classList.add('hidden');
+    
+            // style aktif
+            tabDescription.classList.add('border-primary-custom', 'text-primary-custom');
+            tabReviews.classList.remove('border-primary-custom', 'text-primary-custom');
+            tabReviews.classList.add('text-gray-500');
+        });
+    
+        tabReviews.addEventListener('click', function () {
+            // tampilkan ulasan
+            contentReviews.classList.remove('hidden');
+            contentDescription.classList.add('hidden');
+    
+            // style aktif
+            tabReviews.classList.add('border-primary-custom', 'text-primary-custom');
+            tabDescription.classList.remove('border-primary-custom', 'text-primary-custom');
+            tabDescription.classList.add('text-gray-500');
+        });
+    });
+    </script>
+    

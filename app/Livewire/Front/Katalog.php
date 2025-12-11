@@ -43,6 +43,7 @@ class Katalog extends Component
     {
         $query = Product::query();
 
+        // search
         if ($this->search) {
             $query->where('name', 'like', "%{$this->search}%")
                 ->orWhereHas('brand', function ($q) {
@@ -50,6 +51,7 @@ class Katalog extends Component
                 });
         }
 
+        // filter
         if (!empty($this->brand)) {
             $query->whereIn('brand_id', $this->brand);
         }
@@ -62,6 +64,7 @@ class Katalog extends Component
             $query->whereIn('size_id', $this->size);
         }
 
+        // price filter
         $query->where('price', '<=', $this->maxPrice);
 
 
@@ -108,26 +111,24 @@ class Katalog extends Component
 
     public function addWishlist($productId)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            session()->flash('error', 'You must be logged in to add items to your wishlist.');
-            return;
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        $wishlist = Wishlist::where('user_id', $user->id)
+        $wishlist = Wishlist::where('user_id', Auth::id())
         ->where('product_id', $productId)
         ->first();
 
         if ($wishlist) {
-            session()->flash('info', 'This item is already in your wishlist.');
+            $wishlist->delete();
+            session()->flash('info', 'item dihapus dari wishlist.');
         } else {
             Wishlist::create([
-                'user_id' => $user->id,
+                'user_id' => Auth::id(),
                 'product_id' => $productId,
             ]);
         
-            session()->flash('success', 'Item added to your wishlist.');
+            session()->flash('success', 'item ditambahkan ke wishlist.');
         }
     }   
 }

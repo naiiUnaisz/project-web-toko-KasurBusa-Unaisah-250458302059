@@ -8,7 +8,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Daftar Item -->
+           {{-- Daftar Item --}}
             <div class="lg:col-span-2 space-y-6">
 
                 @forelse ($cartItems as $productId => $item)
@@ -18,7 +18,7 @@
                     <img src="{{asset('/storage/' . $item['image_url'] ?? 'https://placehold.co/100x100?text=Produk') }}" alt="{{ $item['name'] }}" class="w-24 h-24 object-cover rounded-lg mr-6 mb-4 sm:mb-0 border border-gray-100">
                     
                     <div class="flex-grow">
-                        <a href="#" class="text-lg font-semibold text-gray-900 hover:text-primary-custom transition duration-150">{{ $item['name'] }}</a>
+                        <a href="#" class="text-lg font-semibold text-gray-900 hover:text-primary-custom ">{{ $item['name'] }}</a>
 
                         <p class="text-sm text-gray-500 mt-1">Ukuran: {{ $item['size'] ?? '-' }}</p>
                         

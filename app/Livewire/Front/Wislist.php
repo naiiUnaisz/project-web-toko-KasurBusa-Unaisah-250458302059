@@ -37,7 +37,7 @@ class Wislist extends Component
     //     $user = Auth::user();
 
     //     if (!$user) {
-    //         session()->flash('error', 'You must be logged in to add items to your wishlist.');
+    //         session()->flash('error', 'login untuk menambahkan wishlist.');
     //         return;
     //     }
 
@@ -46,14 +46,14 @@ class Wislist extends Component
     //     ->first();
 
     //     if ($wishlist) {
-    //         session()->flash('info', 'This item is already in your wishlist.');
+    //         session()->flash('info', 'item ini sudah tersedia di wishlist.');
     //     } else {
     //         Wishlist::create([
     //             'user_id' => $user->id,
     //             'product_id' => $productId,
     //         ]);
         
-    //         session()->flash('success', 'Item added to your wishlist.');
+    //         session()->flash('success', 'item ditambahkan ke wishlist.');
     //     }
     // }   
 }

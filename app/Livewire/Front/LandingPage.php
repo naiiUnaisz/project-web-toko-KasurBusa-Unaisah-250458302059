@@ -25,6 +25,7 @@ class LandingPage extends Component
     ]);
     }
 
+    // Menambahkan produk ke keranjang
     public function addToCart($productId)
 {
     if (!Auth::check()) {
@@ -47,32 +48,30 @@ class LandingPage extends Component
     }
 
     session()->flash('success', 'Produk berhasil ditambahkan ke keranjang!');
-    $this->dispatch('keranjangDiperbarui');
+    $this->dispatch('keranjang Diperbarui');
 }
 
 
 public function addWishlist($productId)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            session()->flash('error', 'You must be logged in to add items to your wishlist.');
-            return;
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        $wishlist = Wishlist::where('user_id', $user->id)
+        $wishlist = Wishlist::where('user_id', Auth::id())
         ->where('product_id', $productId)
         ->first();
 
         if ($wishlist) {
-            session()->flash('info', 'This item is already in your wishlist.');
+            $wishlist->delete();
+            session()->flash('info', 'item dihapus dari wishlist.');
         } else {
             Wishlist::create([
-                'user_id' => $user->id,
+                'user_id' => Auth::id(),
                 'product_id' => $productId,
             ]);
         
-            session()->flash('success', 'Item added to your wishlist.');
+            session()->flash('success', 'item ditambahkan ke wishlist.');
         }
     }   
 }

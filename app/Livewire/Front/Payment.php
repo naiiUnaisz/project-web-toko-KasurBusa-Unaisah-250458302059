@@ -19,9 +19,7 @@ class Payment extends Component
 {
     use WithFileUploads;
 
-// ================================
-    //  ALAMAT YANG DIPILIH
-    // ================================
+//   PROPERTI ALAMAT PENGIRIMAN
     public $recipientName;
     public $recipientPhone;
     public $deliveryAddress;
@@ -29,14 +27,13 @@ class Payment extends Component
     public $selectedAddressId;
     public $addresses = [];
 
-    // ================================
-    //  MODAL
-    // ================================
-    public $isModalOpen = false;          // Modal tambah/edit alamat
-    public $showAddressModal = false;     // Modal pilih alamat
-    public $isEditing = false;            // Mode edit alamat
+    // Modal alamat
+    public $isModalOpen = false;          
+    public $showAddressModal = false;     
+    public $isEditing = false;            
     public $editAddressId;
     public $userAddresses;
+    
     // Form alamat
     public $address_label;
     public $recipient_name;
@@ -228,7 +225,7 @@ class Payment extends Component
 
         
         session()->flash('success', 'Pesanan berhasil dibuat. Kami sedang menunggu konfirmasi pembayaran Anda.');
-        return redirect()->route('User.CartShopping', ['order_id' => $order->id]); 
+        return redirect()->route('User.Checkout', ['order_id' => $order->id]); 
     }
 
 
