@@ -16,7 +16,7 @@
     @livewireStyles
 </head>
 <body class="text-gray-900">
-    <header class="header-sticky">
+    {{-- <header class="header-sticky">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -44,12 +44,12 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> --}}
     
     <!-- Konten Utama Detail Produk -->
    {{$slot}}
 
-    <!-- Footer -->
+    {{-- <!-- Footer -->
     <footer class="bg-[#1B1717] text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -102,7 +102,7 @@
                 &copy; 2024 KasurBusaCileungsi. Hak Cipta Dilindungi.
             </div>
         </div>
-    </footer>
+    </footer> --}}
     
     @livewireScripts
  

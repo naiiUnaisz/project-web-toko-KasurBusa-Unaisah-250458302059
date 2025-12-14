@@ -11,7 +11,7 @@ use App\Models\Wishlist;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 
-#[Layout('layouts.detailProduct')]
+#[Layout('layouts.LandingPage')]
 
 class DetailProduct extends Component
 {
@@ -20,29 +20,33 @@ class DetailProduct extends Component
 
     public $rating = 5;
     public $reviewText = '';
+    public $tab = 'description';
+    public $quantity;
+
+    public $wishlistId = [];
 
 
     public function mount(Product $product)
     {
         $this->product = $product;
+        $this->quantity = 1;
 
         $this->relatedProducts = Product::where('kategori_id', $product->kategori_id)
             ->where('id', '!=', $product->id) 
             ->take(4) 
             ->with('primaryImage')
             ->get();
+
+            $this->wishlistId = Wishlist::where('user_id', Auth::id())
+            ->pluck('product_id')
+            ->toArray();
     }
 
     public function render()
     {
-        $product = Product::with(['images', 'primaryImage', 'Size'])->findOrFail($this->product->id);
+        $product = $this->product->load(['images', 'primaryImage', 'size']);
 
-    
-        $relatedProducts = Product::with('primaryImage')
-        ->where('kategori_id', $product->kategori_id)
-        ->where('id', '!=', $product->id)
-        ->take(4)
-        ->get();
+        $relatedProducts = $this->relatedProducts;
 
         $reviews = Review::with('user')
         ->where('product_id', $product->id)
@@ -52,13 +56,16 @@ class DetailProduct extends Component
 
         $averageRating = $reviews->avg('rating');
 
-        // $reviewsCount = $reviews->count();
+        $items = Wishlist::where('user_id', Auth::id())
+        ->with('product.size')
+        ->get();
 
         return view('livewire.front.detail-product', [
         'product'        => $product,
             'relatedProducts'=> $relatedProducts,
             'reviews'        => $reviews,
             'averageRating'  => $averageRating,
+            'items'          => $items,
     ]);
     }
 
@@ -88,6 +95,20 @@ class DetailProduct extends Component
     ]);
 }
 
+    public function maxQty()
+    {
+        if ($this->quantity < $this->product->stock_quantity) {
+            $this->quantity++;
+        }
+    }
+
+    public function minQty()
+    {
+        if ($this->quantity > 1) {
+            $this->quantity--;
+        }
+    }
+
 public function submitReview()
 {
     if (!Auth::check()) {
@@ -114,6 +135,11 @@ public function submitReview()
     session()->flash('success', 'Ulasan berhasil dikirim! Menunggu verifikasi admin.');
 }
 
+public function setTab($tab)
+{
+    $this->tab = $tab;
+}
+
 
 public function addWishlist($productId)
     {
@@ -121,12 +147,16 @@ public function addWishlist($productId)
             return redirect()->route('login');
         }
 
-        $wishlist = Wishlist::where('user_id', Auth::id())
+        $wishlistId = Wishlist::where('user_id', Auth::id())
         ->where('product_id', $productId)
         ->first();
 
-        if ($wishlist) {
-            $wishlist->delete();
+        if ($wishlistId) {
+   
+            Wishlist::where('user_id', Auth::id())
+                ->where('product_id', $productId)
+                ->delete();
+
             session()->flash('info', 'item dihapus dari wishlist.');
         } else {
             Wishlist::create([
@@ -136,6 +166,11 @@ public function addWishlist($productId)
         
             session()->flash('success', 'item ditambahkan ke wishlist.');
         }
+
+         // Refresh list supaya icon berubah
+         $this->wishlistId = Wishlist::where('user_id', Auth::id())
+        ->pluck('product_id')
+        ->toArray();
     }   
 
 }

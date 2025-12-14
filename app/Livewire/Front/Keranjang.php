@@ -7,7 +7,7 @@ use Livewire\Attributes\Layout;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 
-#[Layout('layouts.keranjangCart')]
+#[Layout('layouts.landingPage')]
 class Keranjang extends Component
 {
     public $cartItems = [];
@@ -39,6 +39,7 @@ class Keranjang extends Component
 
         foreach ($dbItems as $item) {
             $cart[$item->id] = [
+                'product_id' => $item->product->id,
                 'name'      => $item->product->name,
                 'price'     => $item->product->price,
                 'quantity'  => $item->quantity,

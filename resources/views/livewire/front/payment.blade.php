@@ -1,7 +1,7 @@
 <div>
-    <!-- Container utama untuk tampilan checkout -->
+
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
-        <!-- Notifikasi Livewire (Sukses/Warning/Error) -->
+        {{-- Notifikasi Livewire (Sukses/Warning/Error)  --}}
         @if (session()->has('success'))
             <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
                 <span class="font-medium">Berhasil!</span> {{ session('success') }}
@@ -18,15 +18,20 @@
             </div>
         @endif
         
-        <h1 class="text-4xl font-extrabold text-gray-900 mb-8 text-center border-b pb-4">
-            <!-- Asumsi fa-solid fa-credit-card tersedia melalui FontAwesome -->
+        <h1 class="text-4xl font-extrabold mb-8 text-center border-b pb-4">
             <i class="fa-solid fa-credit-card text-primary-custom mr-3"></i>
             Proses Pembayaran & Konfirmasi
         </h1>
 
         <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 space-y-8">
+            <div>
+                <h2 class="text-xl font-bold text-primary-custom mb-4">
+                    <i class="fa-solid fa-location-dot text-primary-custom"></i>
+                    Alamat Pengiriman
+                </h2>
+            </div>
 
-                <!-- Alamat Pengiriman -->
+                {{-- Alamat Pengiriman --}}
             @if($selectedAddressId)
             <div class="p-4 border rounded-lg bg-gray-50 mb-4">
                 <p class="font-bold">{{ $recipientName }} ({{ $recipientPhone }})</p>
@@ -37,46 +42,48 @@
             </div>
             @else
             <button wire:click="openModal" 
-                    class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-yellow-500 transition shadow-md">
+                    class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-yellow-500 shadow-md">
                 + Masukkan Alamat
             </button>
             @endif
 
         
-            <!--  Opsi Pengiriman -->
+            {{-- opsi pengiriman --}}
             <div class="border-b pb-6">
                 <h4 class="italic text-slate-700 mb-4">Pilih Opsi Pengiriman</h4>
                 <div class="space-y-3">
                     
-                    <!-- Opsi Kurir Toko (GRATIS) -->
-                    <label class="flex items-center p-4 rounded-lg cursor-pointer border transition-colors 
+                    {{-- Opsi Kurir Toko --}}
+                    <label class="flex items-center p-4 rounded-lg cursor-pointer border 
                                 @if($shippingMethod === 'store_courier') border-primary-custom bg-primary-custom/10 shadow-md 
                                 @else border-gray-200 hover:border-gray-400 bg-white 
                                 @endif">
                         <input type="radio" name="shipping_method" value="store_courier" 
-                                wire:model="shippingMethod" class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
+                                wire:model="shippingMethod" 
+                                class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
+
                         <div class="ml-4 flex justify-between w-full items-center">
                             <div>
                                 <p class="font-semibold text-gray-900">Kurir Toko (Area Cileungsi & Sekitarnya)</p>
-                                <p class="text-sm text-gray-500">Estimasi 1-2 hari kerja.</p>
                             </div>
                             <span class="font-bold text-green-600">GRATIS</span>
                         </div>
                     </label>
                     
-                    <!-- Opsi Reguler (Berbayar) -->
-                    <label class="flex items-center p-4 rounded-lg cursor-pointer border transition-colors
+                    {{-- Metode Pembayaran --}}
+                    <label class="flex items-center p-4 rounded-lg cursor-pointer border 
                                 @if($shippingMethod === 'regular') border-primary-custom bg-primary-custom/10 shadow-md 
                                 @else border-gray-200 hover:border-gray-400 bg-white 
                                 @endif">
                         <input type="radio" name="shipping_method" value="regular" 
-                                wire:model="shippingMethod" class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
+                                wire:model="shippingMethod" 
+                                class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
                         <div class="ml-4 flex justify-between w-full items-center">
                             <div>
-                                <p class="font-semibold text-gray-900">JNE / J&T</p>
+                                <p class="font-semibold text-gray-900">Dakota / J&T</p>
                                 <p class="text-sm text-gray-500">Estimasi 3-5 hari kerja (Tergantung lokasi).</p>
                             </div>
-                            <!-- Perbaikan: Tambahkan Livewire format Rupiah secara langsung -->
+                        
                             <span class="font-bold text-red-600">
                                 {{ $regularShippingCost > 0 ? 'Rp ' . number_format($regularShippingCost, 0, ',', '.') : 'Hitung...' }}
                             </span>
@@ -86,90 +93,91 @@
                 </div>
             </div>
 
-            <!--  Metode Pembayaran -->
+         {{-- Metode Pembayaran --}}
             <div class="border-b pb-6">
                 <h4 class="italic text-slate-700 mb-4">Metode Pembayaran</h4>
-                {{-- <h2 class="text-2xl font-bold text-primary-custom mb-4">Metode Pembayaran</h2> --}}
                 <div class="space-y-3">
                     
-                    <!-- Opsi 1: Transfer Bank (BCA) -->
-                    <label class="flex items-center p-4 rounded-lg cursor-pointer border transition-colors
+                   {{-- Opsi tf --}}
+                    <label class="flex items-center p-4 rounded-lg cursor-pointer border 
                                 @if($paymentMethod === 'transfer') border-primary-custom bg-primary-custom/10 shadow-md 
                                 @else border-gray-200 hover:border-gray-400 bg-white 
                                 @endif">
                         <input type="radio" name="payment_method" value="transfer" 
-                                wire:model="paymentMethod" class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
+                                wire:model="paymentMethod" 
+                                class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
                         <div class="ml-4">
-                            <p class="font-semibold text-gray-900">Transfer Bank (BCA)</p>
-                            <p class="text-sm text-gray-500">Pembayaran ke Rekening Resmi Toko Kasur</p>
+                            <p class="font-semibold text-gray-900">Transfer Bank (BSI)</p>
+                            <p class="text-sm text-gray-500">Pembayaran ke Rekening Toko Kasur</p>
                         </div>
                     </label>
 
-                    <!-- Opsi 2: QRIS -->
-                    <label class="flex items-center p-4 rounded-lg cursor-pointer border transition-colors
+                    <!-- Opsi QRIS -->
+                    {{-- <label class="flex items-center p-4 rounded-lg cursor-pointer border
                                 @if($paymentMethod === 'QRIS') border-primary-custom bg-primary-custom/10 shadow-md 
                                 @else border-gray-200 hover:border-gray-400 bg-white 
                                 @endif">
                         <input type="radio" name="payment_method" value="QRIS" 
-                                wire:model="paymentMethod" class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
+                                wire:model="paymentMethod" 
+                                class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom">
                         <div class="ml-4">
                             <p class="font-semibold text-gray-900">Pembayaran via QRIS</p>
-                            <p class="text-sm text-gray-500">Scan kode QR dari aplikasi pembayaran Anda.</p>
+                            <p class="text-sm text-gray-500">Scan kode QR dari aplikasi anda</p>
                         </div>
-                    </label>
+                    </label> --}}
                     
-                    <!-- Opsi 3: COD -->
-                    <label class="flex items-center p-4 rounded-lg cursor-pointer border transition-colors
+                    <!-- Opsi COD -->
+                    <label class="flex items-center p-4 rounded-lg cursor-pointer border
                                 @if($paymentMethod === 'cod') border-primary-custom bg-primary-custom/10 shadow-md 
                                 @else border-gray-200 hover:border-gray-400 bg-white 
                                 @endif
                 
                                 @if($orderTotal > 5000000) opacity-50 cursor-not-allowed hover:border-gray-200 @endif">
-                        <input type="radio" name="payment_method" value="cod" 
+                            <input type="radio" name="payment_method" value="cod" 
                                 wire:model="paymentMethod" 
                                 @if($orderTotal > 5000000) disabled @endif
-                                class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom disabled:opacity-50">
+                                class="form-radio text-primary-custom h-5 w-5 focus:ring-primary-custom disabled:opacity-50
+                            ">
                         <div class="ml-4">
                             <p class="font-semibold text-gray-900">Bayar di Tempat (COD)</p>
-                            <p class="text-sm text-gray-500">Hanya berlaku untuk total pesanan di bawah **Rp 5.000.000**.</p>
+                            <p class="text-sm text-gray-500">Hanya berlaku untuk total pesanan di bawah *Rp 5.000.000*.</p>
                             @if($orderTotal > 5000000)
                                 <p class="text-xs text-red-500 mt-1 font-medium">Pesanan melebihi batas COD.</p>
                             @endif
                         </div>
-                    </label>
+                </label>
                     @error('paymentMethod') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-                </div>
+            </div>
 
-                <!-- Detail Rekening/Instruksi (Tampil jika Transfer atau QRIS dipilih) -->
-                @if(in_array($paymentMethod, ['transfer', 'QRIS']))
+               {{-- Detail Rekening jika dipilih --}}
+                {{-- @if(in_array($paymentMethod, ['transfer', 'QRIS'])) --}}
                     <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 rounded-lg shadow-sm">
                         <p class="font-semibold text-lg mb-2">Instruksi Pembayaran</p>
                         @if($paymentMethod === 'transfer')
-                            <!-- Perbaikan: Gunakan properti yang pasti ada di Livewire, dan tambahkan tombol salin -->
-                            <p class="text-sm">Bank: **BCA**</p>
+                            <p class="text-sm">Bank: BSI</p>
                             <div class="flex items-center justify-between bg-white p-2 rounded mt-1 border">
-                                <p class="text-sm font-mono tracking-wider">No. Rekening: **123-456-7890**</p>
+                                <p class="text-sm font-mono tracking-wider">No. Rekening: *123-456-7890*</p>
                                 <button type="button" onclick="navigator.clipboard.writeText('1234567890').then(() => alert('Nomor Rekening berhasil disalin!')).catch(err => console.error('Gagal menyalin:', err));" 
-                                    class="text-primary-custom hover:text-primary-dark text-xs font-bold transition">
+                                    class="text-primary-custom hover:text-primary-dark text-xs font-bold">
                                     <i class="fa-solid fa-copy"></i> Salin
                                 </button>
                             </div>
                             <p class="text-sm mt-1">Atas Nama: Toko Kasur</p>
                             <p class="mt-3 text-xs italic">Mohon transfer sesuai jumlah Total Akhir Pesanan.</p>
-                        @elseif($paymentMethod === 'QRIS')
+                        {{-- @elseif($paymentMethod === 'QRIS')
                             <p class="text-sm">Silakan siapkan aplikasi pembayaran Anda (Gopay/OVO/Dana/dll).</p>
                             <p class="text-sm">Anda akan melihat kode QR setelah menekan tombol **Lakukan Pembayaran**.</p>
                             <p class="mt-3 text-xs italic">Pembayaran melalui QRIS mungkin dikenakan biaya layanan oleh penyedia.</p>
-                        @endif
+                        @endif --}}
                     </div>
                 @endif
             </div>
 
-            <!--  Konfirmasi Pesanan, Total, dan Unggah Bukti Bayar -->
+            {{-- konfirmasi pesanan &unggah bukti bayar --}}
             <div class="pt-6">
                 <h2 class="text-2xl font-bold text-primary-custom mb-4">Rincian Biaya & Konfirmasi</h2>
 
-                <!-- Ringkasan Total Biaya Detail -->
+                {{-- Ringkasan total biaya --}}
                 <div class="space-y-2 mb-4">
                     <div class="flex justify-between items-center text-gray-600">
                         <span class="text-lg">Total Produk</span>
@@ -178,7 +186,6 @@
                     
                     <div class="flex justify-between items-center text-gray-600">
                         <span class="text-lg">Biaya Pengiriman</span>
-                        <!-- Perbaikan: Gunakan kondisi untuk menampilkan GRATIS atau biaya -->
                         <span class="text-lg font-semibold">
                             @if($shippingMethod === 'store_courier')
                                 <span class="text-green-600">GRATIS</span>
@@ -189,21 +196,22 @@
                     </div>
                 </div>
                 
-                <!-- Ringkasan Total Akhir -->
-                <div class="flex justify-between items-center bg-primary-custom/10 p-4 rounded-xl mb-6 border border-primary-custom shadow-inner">
+                {{-- Total akhir --}}
+                <div class="flex justify-between items-center bg-primary-custom/10 p-4 rounded-xl mb-6 border border-primary-custom shadow-md">
                     <span class="text-xl font-bold text-gray-900">TOTAL AKHIR PESANAN</span>
-                    <!-- Menampilkan Total Akhir yang sudah dihitung -->
+
+                   {{-- Total akhir yg sudah dihitung --}}
                     <span class="text-3xl font-extrabold text-primary-custom">{{ 'Rp ' . number_format($orderTotal, 0, ',', '.') }}</span>
                 </div>
 
-                <!-- Bagian 5. Unggah Bukti Bayar (KHUSUS Transfer/QRIS) -->
+                {{-- nama pengirim --}}
                 @if(in_array($paymentMethod, ['transfer', 'QRIS']))
 
                 <div class="mb-6">
                     @if($paymentMethod === 'transfer')
                         <div class="mt-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">
-                                Nama Pengirim (Rekening Anda)
+                                Nama Pengirim Rekening
                             </label>
                             <input type="text" 
                                 wire:model="accountName" 
@@ -216,14 +224,13 @@
                     @endif
                 </div>
 
-
+                {{-- unggah bukti bayar --}}
                     <div class="mb-6 p-4 border border-dashed border-gray-400 rounded-lg bg-gray-50 shadow-sm">
                         <h3 class="text-xl font-bold text-primary-custom mb-3 flex items-center">
-                            <!-- Asumsi fa-solid fa-cloud-arrow-up tersedia melalui FontAwesome -->
                             <i class="fa-solid fa-cloud-arrow-up w-6 h-6 mr-2"></i> Unggah Bukti Bayar
                         </h3>
                         
-                        <!-- Input file untuk upload bukti bayar -->
+                        {{-- inputnya --}}
                         <input type="file" 
                                 wire:model="paymentProof"
                                 class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-custom/10 file:text-primary-custom hover:file:bg-primary-custom/20">
@@ -233,21 +240,20 @@
                         @enderror
                         
                         @if ($paymentProof)
-                            <!-- Menampilkan nama file untuk konfirmasi upload -->
                             <p class="mt-2 text-xs text-green-700 font-medium">
                                 File terpilih: {{ $paymentProof->getClientOriginalName() }}
                             </p>
-                            {{-- <img src="{{ $paymentProof->temporaryUrl() }}" class="mt-2 w-32 h-32 object-cover rounded-lg border" /> --}}
+                            <img src="{{ $paymentProof->temporaryUrl() }}" class="mt-2 w-32 h-32 object-cover rounded-lg border" />
                         @endif
 
-                        <!-- Loading State saat upload -->
+                        {{-- loading state saat upload --}}
                         <div wire:loading wire:target="paymentProof" class="mt-2 text-sm text-blue-500 flex items-center">
                             <i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Memproses file...
                         </div>
                     </div>
                 @endif
                 
-                <!-- Tombol Lakukan Pembayaran -->
+                {{-- tombol lakukan pembayaran --}}
                 <button wire:click.prevent="placeOrder" 
                         wire:loading.attr="disabled"
                         wire:target="placeOrder, paymentProof"
@@ -275,31 +281,44 @@
     
             <div class="space-y-3">
     
-                <input type="text" wire:model="address_label"
+                <input 
+                    type="text" 
+                    wire:model="address_label"
                     class="w-full p-2 border rounded"
                     placeholder="Label Alamat (Rumah, Kantor, dll)">
     
-                <input type="text" wire:model="recipient_name"
+                <input 
+                    type="text" 
+                    wire:model="recipient_name"
                     class="w-full p-2 border rounded"
                     placeholder="Nama Penerima">
     
-                <input type="text" wire:model="phone_number"
+                <input 
+                    type="text" 
+                    wire:model="phone_number"
                     class="w-full p-2 border rounded"
                     placeholder="Nomor HP">
     
-                <textarea wire:model="address_line"
+                <textarea 
+                    wire:model="address_line"
                     class="w-full p-2 border rounded"
-                    placeholder="Detail Alamat"></textarea>
+                    placeholder="Detail Alamat">
+                </textarea>
     
-                <input type="text" wire:model="city"
+                <input 
+                    type="text" wire:model="city"
                     class="w-full p-2 border rounded"
                     placeholder="Kota">
     
-                <input type="text" wire:model="province"
+                <input 
+                    type="text" 
+                    wire:model="province"
                     class="w-full p-2 border rounded"
                     placeholder="Provinsi">
     
-                <input type="text" wire:model="postal_code"
+                <input 
+                    type="text" 
+                    wire:model="postal_code"
                     class="w-full p-2 border rounded"
                     placeholder="Kode Pos">
             </div>
@@ -320,6 +339,7 @@
     </div>
     @endif
     
+    {{-- modal pilih alamat --}}
 
     @if($showAddressModal)
 <div class="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
@@ -330,7 +350,9 @@
         @foreach($addresses as $address)
         <div 
         class="border rounded-lg px-4 py-3 mb-3 cursor-pointer hover:border-blue-500 transition relative 
-               @if($selectedAddressId == $address->id) border-blue-600 @else border-gray-300 @endif"
+               @if($selectedAddressId == $address->id) border-blue-600 
+               @else border-gray-300 
+               @endif"
         wire:click="applyAddress({{ $address->id }})"
     >
         <!-- RADIO BUTTON -->

@@ -1,10 +1,10 @@
 
 <div>
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
-        <h4 class="text-4xl font-extrabold text-gray-900 mb-8 text-center border-b pb-4">
+        <h2 class="text-3xl  font-semibold text-gray-900 mb-8 border-b pb-4">
             <i class="fa-solid fa-cart-shopping text-primary-custom mr-3"></i>
-            Keranjang Belanja Anda
-        </h4>
+            Keranjang Belanja 
+        </h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
@@ -18,7 +18,7 @@
                     <img src="{{asset('/storage/' . $item['image_url'] ?? 'https://placehold.co/100x100?text=Produk') }}" alt="{{ $item['name'] }}" class="w-24 h-24 object-cover rounded-lg mr-6 mb-4 sm:mb-0 border border-gray-100">
                     
                     <div class="flex-grow">
-                        <a href="#" class="text-lg font-semibold text-gray-900 hover:text-primary-custom ">{{ $item['name'] }}</a>
+                        <a href="{{route('User.detailProduct', $item['product_id'] )}}" class="text-lg font-semibold text-gray-900 hover:text-primary-custom ">{{ $item['name'] }}</a>
 
                         <p class="text-sm text-gray-500 mt-1">Ukuran: {{ $item['size'] ?? '-' }}</p>
                         
@@ -61,8 +61,8 @@
 
                 <!-- Tombol Lanjutkan Belanja -->
                 <div class="text-right">
-                    <a href="{{route('User.katalog')}}" class="text-primary-custom font-semibold hover:underline transition duration-150 flex items-center justify-end">
-                        <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Lanjutkan Belanja
+                    <a href="{{route('User.katalog')}}" class="text-primary-custom font-semibold hover:underline flex items-center justify-end">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Lanjutkan Belanja
                     </a>
                 </div>
 
@@ -75,22 +75,11 @@
                 <div class="bg-white rounded-xl shadow-lg p-6 sticky top-20 border border-gray-100 flex flex-col">
                     <h2 class="text-2xl font-bold text-gray-900 mb-5 border-b pb-3">Ringkasan Pesanan</h2>
                     
-                    <div class="space-y-3 text-gray-700">
+                    <div class="space-y-3">
                         <div class="flex justify-between">
-                            <span>Subtotal</span>
-                            <span class="font-medium">Rp {{number_format($subtotal)}}</span>
+                            <span>Total</span>
+                            <span class="font-semibold">Rp {{number_format($subtotal)}}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Biaya Pengiriman</span>
-                            <span class="font-medium">Rp 0 </span>
-                        </div>
-                    </div>
-
-                    <div class="mt-5 pt-5 border-t border-dashed border-gray-300 flex justify-between items-center">
-                        <span class="text-xl font-bold text-gray-900">Total</span>
-                        <span class="text-2xl font-extrabold text-red-600">
-                            Rp {{ number_format($subtotal) }}
-                        </span>
                     </div>
                     
                     <a href="{{route('User.CartPayment')}}" class="w-full mt-8 bg-primary-custom text-white py-3 px-12 rounded-full font-bold text-lg transition-button hover:bg-primary-dark shadow-lg text-center">

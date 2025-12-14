@@ -84,15 +84,16 @@
                 <div class="mb-8 flex items-center space-x-6">
                     <label class="text-lg font-semibold text-gray-900">Kuantitas:</label>
                     <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                        <button id="qty-minus" class="px-3 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-button">
+                        <button wire:click="minQty" class="px-3 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-button">
                             <i class="fa-solid fa-minus"></i>
                         </button>
-                        <input type="number" id="quantity-input" value="1" min="1" max="10" readonly
+                        <input type="number"  value="{{ $quantity }}" readonly
                                class="w-16 text-center border-y-0 border-x border-gray-300 focus:ring-0 focus:border-gray-300 text-gray-800">
-                        <button id="qty-plus" class="px-3 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-button">
+                        <button wire:click="maxQty" class="px-3 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-button">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
+                    
                     <span class="text-sm text-gray-500">
                         Stok Tersedia: {{ $product->stock_quantity }}
                     </span>
@@ -107,11 +108,16 @@
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span>TAMBAH KE KERANJANG</span>
                     </button>
+                    {{-- wishlist --}}
                     <button 
                     wire:click="addWishlist({{ $product->id }})"
-                    class="px-6 py-3 rounded-xl border-2 border-primary-custom text-primary-custom font-bold text-lg hover:bg-primary-custom hover:text-yellow-600 transition-button flex items-center justify-center space-x-2">
-                        <i class="fa-regular fa-heart"></i>
-                        <span>Wishlist</span>
+                    class="px-6 py-3 hover:bg-primary-custom flex items-center justify-center space-x-2">
+                    
+                    @if (in_array($product->id, $wishlistId)) 
+                    <i class="fa-solid fa-heart fa-2x text-primary-custom"></i> 
+                    @else    
+                    <i class="fa-regular fa-heart fa-2x"></i>
+                    @endif
                     </button>
                 </div>
                 
@@ -124,6 +130,7 @@
             </div>
         </div>
 
+    <div>
        {{-- Tambah Deskripsi & Ulasan --}}
 <div class="mt-10 bg-white p-6 md:p-10 rounded-xl shadow-lg">
     <h2 class="text-2xl font-bold text-gray-900 border-b pb-3 mb-6">Deskripsi & Ulasan</h2>
@@ -131,30 +138,31 @@
     <div id="tab-container">
        {{-- tab  --}}
         <div class="flex border-b mb-6">
-            <button id="tab-description"
+            <button  wire:click="setTab('description')"
                 class="tab-button px-4 py-2 text-lg font-semibold border-b-2 border-primary-custom text-primary-custom">
                 Deskripsi Produk
             </button>
 
             <button
-                id="tab-reviews"
+                wire:click="setTab('reviews')"
                 class="tab-button px-4 py-2 text-lg font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700">
                 Ulasan ({{ $reviews->count() }})
             </button>
         </div>
 
        {{-- tab deskripsi --}}
-        <div id="content-description" class="tab-content">
+       @if ($tab == 'description')
+        <div>
             <h3 class="text-xl font-semibold mb-3">{{ $product->name }}</h3>
             <p class="text-gray-700 mb-4">
                 {!! nl2br(e($product->deskripsi)) !!}
             </p>
         </div>
+    @endif
 
        {{-- tab ulasan --}}
-        <div id="content-reviews" class="tab-content hidden">
-            <div class="space-y-6">
-
+       @if ($tab == 'reviews')
+        <div>
                 @forelse ($reviews as $review)
                     <div class="border-b pb-4">
                         
@@ -181,13 +189,14 @@
             </div>
 
            {{-- form ulasan --}}
-            @if(auth()->check())
+           @auth
                 <div class="mt-8 bg-gray-50 p-6 rounded-xl border">
 
                     <h3 class="text-xl font-semibold mb-4">Tulis Ulasan Anda</h3>
 
-                    <form wire:submit.prevent="submitReview" class="space-y-4">
-
+                    <form method="POST"
+                        wire:submit.prevent="submitReview" class="space-y-4">
+                        @csrf
                         <!-- Rating -->
                         <div>
                             <label class="block font-medium mb-1">Rating:</label>
@@ -216,14 +225,14 @@
                         </div>
 
                         <button type="submit"
-                            wire:click="submitReview"
                             class="bg-primary-custom text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-dark">
                             Kirim Ulasan
                         </button>
 
                     </form>
                 </div>
-            @endif
+              @endauth
+              @endif
 
         </div>
     </div>
@@ -280,36 +289,4 @@
 
     </main>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tabDescription = document.getElementById('tab-description');
-        const tabReviews = document.getElementById('tab-reviews');
-    
-        const contentDescription = document.getElementById('content-description');
-        const contentReviews = document.getElementById('content-reviews');
-    
-        tabDescription.addEventListener('click', function () {
-            // tampilkan deskripsi
-            contentDescription.classList.remove('hidden');
-            contentReviews.classList.add('hidden');
-    
-            // style aktif
-            tabDescription.classList.add('border-primary-custom', 'text-primary-custom');
-            tabReviews.classList.remove('border-primary-custom', 'text-primary-custom');
-            tabReviews.classList.add('text-gray-500');
-        });
-    
-        tabReviews.addEventListener('click', function () {
-            // tampilkan ulasan
-            contentReviews.classList.remove('hidden');
-            contentDescription.classList.add('hidden');
-    
-            // style aktif
-            tabReviews.classList.add('border-primary-custom', 'text-primary-custom');
-            tabDescription.classList.remove('border-primary-custom', 'text-primary-custom');
-            tabDescription.classList.add('text-gray-500');
-        });
-    });
-    </script>
-    
+</div>

@@ -17,8 +17,11 @@ class Checkout extends Component
     public $statusFilter = 'all';
 
     public $showTrackingModal = false;
+    public $showModal = false;
+    public $selectedOrder;
     public $trackingOrder;
     public $trackingData = [];
+    
 
     protected $queryString = ['search', 'statusFilter'];
 
@@ -63,6 +66,8 @@ class Checkout extends Component
     // buka modal lacak
     public function track($orderId)
     {
+        $this->resetModals();
+
         $this->trackingOrder = Order::with(['orderItems.product'])->findOrFail($orderId);
 
         // dummy tracking sementara
@@ -82,8 +87,25 @@ class Checkout extends Component
         $this->showTrackingModal = true;
     }
 
-    public function closeModal()
+    private function resetModals()
     {
+        $this->showModal = false;
         $this->showTrackingModal = false;
     }
+    
+    public function closeModal()
+    {
+        $this->resetModals();
+    }
+
+
+    public function showDetail($orderId)
+    {
+        $this->resetModals();
+
+        $this->selectedOrder = Order::with('orderItems.product')->find($orderId);
+        $this->showModal = true;
+    }
+
+    
 }

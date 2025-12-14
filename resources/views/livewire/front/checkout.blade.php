@@ -27,11 +27,27 @@
                      class="px-4 py-2 rounded-full {{ $statusFilter=='all' ? 'bg-primary-custom text-white' : 'border' }}">
                      Semua
                  </button>
-                 <button wire:click="filterStatus('pending')" class="px-4 py-2 rounded-full border ">Pending</button>
-                 <button wire:click="filterStatus('processing')" class="px-4 py-2 rounded-full border">Processing</button>
-                 <button wire:click="filterStatus('shipped')" class="px-4 py-2 rounded-full border">Shipped</button>
-                 <button wire:click="filterStatus('completed')" class="px-4 py-2 rounded-full border">Completed</button>
-                 <button wire:click="filterStatus('cancelled')" class="px-4 py-2 rounded-full border">Cancelled</button>
+                 <button wire:click="filterStatus('pending')"
+                 class="px-4 py-2 rounded-full {{ $statusFilter=='pending' ? 'bg-primary-custom text-white' : 'border' }}">
+                 Pending
+                 </button>
+                <button wire:click="filterStatus('processing')"
+                    class="px-4 py-2 rounded-full {{ $statusFilter=='processing' ? 'bg-primary-custom text-white' : 'border' }}">
+                    Processing
+                </button>
+                <button wire:click="filterStatus('shipped')"
+                    class="px-4 py-2 rounded-full {{ $statusFilter=='shipped' ? 'bg-primary-custom text-white' : 'border' }}">
+                    Shipped
+                </button>
+                <button wire:click="filterStatus('completed')"
+                    class="px-4 py-2 rounded-full {{ $statusFilter=='completed' ? 'bg-primary-custom text-white' : 'border' }}">
+                    Completed
+                </button>
+                <button wire:click="filterStatus('cancelled')"
+                    class="px-4 py-2 rounded-full {{ $statusFilter=='cancelled' ? 'bg-primary-custom text-white' : 'border' }}">
+                    Cancelled
+                </button>
+             
              </div>
          </div>
  
@@ -63,7 +79,7 @@
                  @foreach ($item->orderItems as $i)
                  @php
             $image = optional($i->product->images)->first();
-        @endphp
+                 @endphp
                  <div class="mt-4 flex gap-4">
                     <img 
                     src="{{ $image ? asset('storage/' . $image->image_url) : 'https://via.placeholder.com/90' }}"
@@ -87,14 +103,17 @@
                  </div>
  
                  <!-- FOOTER -->
-                 <div class="mt-4 flex justify-end gap-3">
-                     <a href="#" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                 <div 
+                    class="mt-4 flex justify-end gap-3">
+                     <button 
+                      wire:click="showDetail({{ $item->id }})"
+                     class="px-4 py-2 border rounded-lg bg-primary-custom text-white hover:bg-yellow-600 ">
                          Lihat Detail Transaksi
-                     </a>
+                     </button>
  
                      <button 
                          wire:click="track({{ $item->id }})"
-                         class="px-5 py-2 border rounded-lg text-primary-custom border-primary-custom hover:bg-primary-custom hover:text-white transition-button">
+                         class="px-5 py-2 border rounded-lg text-primary-custom border-primary-custom hover:bg-primary-custom hover:text-black transition-button">
                          Lacak
                      </button>
                  </div>
@@ -104,7 +123,7 @@
  
      </div>
  
-     <!-- MODAL -->
+     {{-- modal lacak --}}
      @if ($showTrackingModal)
      <div class="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
          <div class="bg-white rounded-xl shadow-xl max-w-3xl w-full p-6 relative">
@@ -118,14 +137,12 @@
              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  
                  <div class="space-y-2">
-                     <p><span class="font-semibold">Kurir:</span> J&T</p>
-                     <p><span class="font-semibold">Service:</span> EZ</p>
- 
-                     <p class="mt-3 font-semibold">Nomor Resi:</p>
+                     <p><span class="font-semibold">Kurir :</span>{{$trackingOrder->courier_name}}</p>
+                     <p><span class="font-semibold">Nomor Resi :</span>{{$trackingOrder->order_number}}</p>
                      <p class="text-primary-custom font-bold text-lg">{{ $trackingOrder->tracking_number }}</p>
                  </div>
  
-                 <!-- Timeline -->
+                 <!-- Timeline data dummy-->
                  <div>
                      <h3 class="font-semibold mb-3">Status Pengiriman</h3>
  
@@ -147,6 +164,100 @@
          </div>
      </div>
      @endif
+
+     {{-- MODAL DETAIL TRANSAKSI --}}
+        @if ($showModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center">
+            
+            {{-- BACKDROP --}}
+            <div 
+                class="absolute inset-0 bg-black bg-opacity-50"
+                wire:click="closeModal"
+            ></div>
+
+            {{-- CONTENT --}}
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative z-10">
+
+                {{-- Close button --}}
+                <button 
+                    wire:click="closeModal"
+                    class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                >
+                    ✕
+                </button>
+
+                <h2 class="text-xl font-bold mb-4 text-center">Detail Transaksi</h2>
+
+                {{-- Informasi Utama --}}
+                <div class="mb-4">
+                    <p><strong>No. Pesanan :</strong> {{ $selectedOrder->order_number }}</p>
+                    <p><strong>Tanggal Pembelian :</strong> {{ $selectedOrder->created_at->format('d M Y') }}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="px-2 py-1 bg-yellow-200 rounded-lg">
+                            {{ $selectedOrder->status }}
+                        </span>
+                    </p>
+                </div>
+
+                <hr class="my-3">
+
+                {{-- Item --}}
+                <h3 class="font-semibold mb-2">Produk</h3>
+
+                @foreach ($selectedOrder->orderItems as $item)
+                <div class="flex gap-3 mb-3 border-b pb-3">
+                    <img src="{{ $image ? asset('storage/' . $image->image_url) : 'https://via.placeholder.com/90' }}" 
+                        class="w-16 h-16 rounded object-cover">
+
+                    <div class="flex-1">
+                        <p class="font-semibold">{{ $item->product->name }}</p>
+                        <p class="text-sm text-gray-500">{{ $item->quantity }} barang × Rp{{ number_format($item->price) }}</p>
+                    </div>
+
+                    <p class="font-semibold">
+                        Rp{{ number_format($item->price * $item->quantity) }}
+                    </p>
+                </div>
+
+                <h3 class="font-semibold mb-2">Info Pengiriman</h3>
+                <div class="flex-1 gap-3 mb-3 border-b pb-2">
+
+                    <p class="text-sm text-gray-500">Alamat : {{ $selectedOrder->user_address_id }}</p>
+                    <p class="text-sm text-gray-500">Kurir : {{$selectedOrder->courier_name}}</p>
+                </div>
+                    
+                <h3 class="font-semibold mb-2">Rincian Pembayaran</h3>
+                <div class="flex-1 gap-3 mb-3 pb-2">
+
+                    <p class="text-sm text-gray-500">Metode Pembayaran : {{ $selectedOrder->payment_method }}</p>
+                    <p class="text-sm text-gray-500">Harga Barang : {{$selectedOrder->price}}</p>
+                    <p class="text-sm text-gray-500">Total Ongkos Kirim : {{$selectedOrder->courier_name}}</p>
+                </div>
+                @endforeach
+
+                <hr class="my-3">
+
+                {{-- Total --}}
+                <div class="flex justify-between text-lg font-bold">
+                    <span>Total Belanja</span>
+                    <span>Rp{{ number_format($selectedOrder->total_amount) }}</span>
+                </div>
+
+                {{-- Footer --}}
+                <div class="mt-6 flex justify-end">
+                    <button 
+                        wire:click="closeModal"
+                        class="px-6 py-2 bg-primary-custom text-white rounded-lg hover:bg-red-700"
+                    >
+                        Tutup
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        @endif
+
     </main>
  </div>
  

@@ -37,7 +37,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/dashboard', function () {
-//     return redirect()->route('User.katalog');
+//     return redirect()->route('landingpage');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 

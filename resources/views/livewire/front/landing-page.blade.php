@@ -159,39 +159,20 @@
                 <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Apa Kata Pelanggan Kami?</h2>
                 
                 <div class="grid md:grid-cols-3 gap-8">
+
+                    @forelse($reviews as $review)
                     <div class="bg-gray-50 p-6 rounded-lg shadow-md border-t-4 border-primary-custom">
-                        <p class="italic text-gray-700">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ratione molestias provident omnis asperiores esse tenetur dolore, aliquid aut iste pariatur cupiditate repudiandae laboriosam, libero assumenda accusamus totam officia aperiam.!"</p>
-                        <div class="mt-4 text-sm font-semibold text-gray-900">Ani</div>
+                        <p class="italic text-gray-700">"{{ $review->comment }}"</p>
+                        <div class="mt-4 text-sm font-semibold text-gray-900"> {{ $review->user->name }}</div>
                         <div class="flex justify-center text-yellow-400 mt-1">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                        @for($i = 1; $i <= 5; $i++)
+                            <i class="fa-solid fa-star {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}"></i>
+                        @endfor
                         </div>
                     </div>
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md border-t-4 border-primary-custom">
-                        <p class="italic text-gray-700">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ratione molestias provident omnis asperiores esse tenetur dolore, aliquid aut iste pariatur cupiditate repudiandae laboriosam, libero assumenda accusamus totam officia aperiam.!"</p>
-                        <div class="mt-4 text-sm font-semibold text-gray-900">Budi</div>
-                        <div class="flex justify-center text-yellow-400 mt-1">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star w-4 h-4 text-gray-300"></i>
-                        </div>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md border-t-4 border-primary-custom">
-                        <p class="italic text-gray-700">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ratione molestias provident omnis asperiores esse tenetur dolore, aliquid aut iste pariatur cupiditate repudiandae laboriosam, libero assumenda accusamus totam officia aperiam.!"</p>
-                        <div class="mt-4 text-sm font-semibold text-gray-900">Citra</div>
-                        <div class="flex justify-center text-yellow-400 mt-1">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
+                    @empty
+                    <p class="text-gray-500 col-span-3">Belum ada ulasan.</p>
+                     @endforelse
                 </div>
             </div>
         </section>

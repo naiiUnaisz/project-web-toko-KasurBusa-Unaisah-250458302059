@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class Wislist extends Component
 {
 
+    public $wishlistId = [];
+
+    public function mount()
+    {
+        
+        $this->wishlistId = Wishlist::where('user_id', Auth::id())
+            ->pluck('product_id')
+            ->toArray();
+    }
+
     public function render()
     {
         $items = Wishlist::where('user_id', Auth::id())
@@ -27,33 +37,11 @@ class Wislist extends Component
             ->where('product_id', $productId)
             ->delete();
 
+            $this->wishlistId = array_filter($this->wishlistId, function($id) use ($productId) {
+                return $id !== $productId;
+            });
+
         session()->flash('success', 'Item Berhasil Dihapus dari Wishlist.');
     }
 
-
-
-    // public function addWishlist($productId)
-    // {
-    //     $user = Auth::user();
-
-    //     if (!$user) {
-    //         session()->flash('error', 'login untuk menambahkan wishlist.');
-    //         return;
-    //     }
-
-    //     $wishlist = Wishlist::where('user_id', $user->id)
-    //     ->where('product_id', $productId)
-    //     ->first();
-
-    //     if ($wishlist) {
-    //         session()->flash('info', 'item ini sudah tersedia di wishlist.');
-    //     } else {
-    //         Wishlist::create([
-    //             'user_id' => $user->id,
-    //             'product_id' => $productId,
-    //         ]);
-        
-    //         session()->flash('success', 'item ditambahkan ke wishlist.');
-    //     }
-    // }   
 }

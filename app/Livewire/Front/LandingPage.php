@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Front;
 
+use App\Models\Review;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\CartItem;
@@ -15,6 +16,13 @@ class LandingPage extends Component
 {
     public function render()
     {
+
+        $reviews = Review::with('user')
+        ->where('is_approved', 1)
+        ->latest()
+        ->take(3)
+        ->get();
+
         $products = Product::with('primaryImage')
         ->latest()
         ->take(3)
@@ -22,6 +30,8 @@ class LandingPage extends Component
 
         return view('livewire.front.landing-page', [
         'products' => $products
+        ,'reviews' => $reviews
+        
     ]);
     }
 

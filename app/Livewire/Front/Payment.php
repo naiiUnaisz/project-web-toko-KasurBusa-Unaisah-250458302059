@@ -13,7 +13,7 @@ use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Payment as PaymentModel;
 
-#[Layout('layouts.PaymentCart')]
+#[Layout('layouts.landingPage')]
 
 class Payment extends Component
 {
