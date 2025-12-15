@@ -12,9 +12,6 @@
             <div class="w-1/3">
                 <input type="text" wire:model.live="search" placeholder="Cari nama atau email pengguna..." class="form-input w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200/50">
             </div>
-            {{-- <a href="/admin/addresses" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150">
-                Kelola Semua Alamat
-            </a>  --}}
         </div>
     
         <div class="overflow-x-auto">
@@ -41,9 +38,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->created_at->format('d M Y') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <button wire:click="editUser({{ $user->id }})" class="text-indigo-600 hover:text-indigo-900 mx-2 transition duration-150">Edit</button>
                                 <button wire:click="showUserDetail({{ $user->id }})" class="text-indigo-600 hover:text-indigo-900 mx-2 transition duration-150">Detail</button>
-                                {{-- <a href="/admin/addresses?search={{ $user->name }}" class="text-blue-600 hover:text-blue-900 mx-2 transition duration-150">Lihat Alamat</a> --}}
-                            </td>
+                                <button wire:click="DeleteUser({{ $user->id }})" class="text-red-500 hover:text-indigo-900 mx-2 transition duration-150">Delete</button>
+                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                
+                             </td>
                         </tr>
                     @empty
                         <tr>
@@ -73,21 +74,6 @@
             
             <!-- Form Update Role -->
             <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                {{-- <h4 class="font-semibold mb-2 text-lg">Ganti Role Pengguna</h4>
-                <form wire:submit.prevent="updateRole({{ $selectedUser->id }})" class="flex space-x-3 items-end">
-                    <div class="flex-grow">
-                        <label for="newRole" class="block text-sm font-medium text-gray-700">Pilih Role</label>
-                        <select wire:model.live="newRole" id="newRole" class="mt-1 form-select w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200/50">
-                            @foreach ($availableRoles as $role)
-                                <option value="{{ $role }}">{{ $role }}</option>
-                            @endforeach
-                        </select>
-                        @error('newRole') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
-                    </div>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150 h-full">
-                        Simpan
-                    </button>
-                </form> --}}
                 <p class="text-sm mt-2 text-gray-500">Role saat ini: 
                     <span class="font-bold {{ $selectedUser->role === 'admin' ? 'text-indigo-600' : 'text-green-600' }}">
                         {{ $selectedUser->role }}
@@ -102,6 +88,61 @@
         </div>
     </div>
     @endif
+
+    @if ($showEditModal && $selectedUser)
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-75 z-50 flex justify-center items-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6"
+             @click.away="$wire.showEditModal = false">
     
+            <h3 class="text-2xl font-bold border-b pb-4 mb-4">
+                Edit Pengguna: {{ $selectedUser->name }}
+            </h3>
     
-    </div>
+            <form wire:submit.prevent="updateUser">
+    
+                {{-- Nama --}}
+                <div class="mb-4">
+                    <label class="block text-sm font-medium">Nama</label>
+                    <input type="text"
+                        wire:model.defer="name"
+                        class="form-input w-full rounded-lg">
+                </div>
+    
+                {{-- Email --}}
+                <div class="mb-4">
+                    <label class="block text-sm font-medium">Email</label>
+                    <input type="email"
+                        wire:model.defer="email"
+                        class="form-input w-full rounded-lg">
+                </div>
+    
+                {{-- Role --}}
+                <div class="mb-6">
+                    <label class="block text-sm font-medium">Role</label>
+                    <select wire:model.defer="newRole"
+                        class="form-select w-full rounded-lg">
+                        @foreach ($availableRoles as $role)
+                            <option value="{{ $role }}">{{ $role }}</option>
+                        @endforeach
+                    </select>
+                </div>
+    
+                {{-- Action --}}
+                <div class="flex justify-end space-x-3">
+                    <button type="submit"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+                        Simpan
+                    </button>
+    
+                    <button type="button"
+                        wire:click="$set('showEditModal', false)"
+                        class="px-4 py-2 bg-gray-200 rounded-lg">
+                        Batal
+                    </button>
+                </div>
+    
+            </form>
+        </div>
+     </div>
+    @endif
+</div>

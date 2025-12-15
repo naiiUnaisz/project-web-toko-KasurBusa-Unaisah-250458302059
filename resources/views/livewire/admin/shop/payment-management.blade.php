@@ -1,5 +1,4 @@
 <div class="p-6">
-    <link rel="stylesheet" href="https://www.google.com/search?q=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Manajemen Konfirmasi Pembayaran</h1>
     
@@ -15,7 +14,7 @@
         </div>
     @endif
     
-    <!-- Filter dan Pencarian -->
+    {{-- Filter Pencarian --}}
     <div class="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0 md:space-x-4">
         <input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari No. Order, Nama Bank..." 
                class="w-full md:w-1/2 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -29,7 +28,7 @@
         </select>
     </div>
     
-    <!-- Tabel Konfirmasi Pembayaran -->
+    {{-- Tabel konfirmasi Pembayaran --}}
     <div class="bg-white shadow-xl rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -70,7 +69,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @if ($item->status == 'pending')
                                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                @elseif ($item->status == 'approved')
+                                @elseif ($item->status == 'verified')
                                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                 @elseif ($item->status == 'rejected')
                                     <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
@@ -82,13 +81,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2 justify-center">
                                 @if ($item->status === 'pending')
-                                    <button wire:click="updateStatus({{ $item->id }}, 'approved')" 
-                                            wire:confirm="Setujui pembayaran ini? Status order akan diubah menjadi PAID."
+                                    <button wire:click="updateStatus({{ $item->id }}, 'verified')" 
+                                            wire:confirm="Setujui pembayaran ini? Status order akan diubah menjadi Verified."
                                             class="text-green-600 hover:text-green-900 transition duration-150 p-1 rounded-full hover:bg-green-50" title="Setujui Pembayaran">
                                         <i class="fas fa-check w-4 h-4"></i> Setujui
                                     </button>
                                     <button wire:click="updateStatus({{ $item->id }}, 'rejected')" 
-                                            wire:confirm="Tolak pembayaran ini? Status order akan tetap PENDING."
+                                            wire:confirm="Tolak pembayaran ini? Status order akan menjadi rejected!."
                                             class="text-red-600 hover:text-red-900 transition duration-150 p-1 rounded-full hover:bg-red-50" title="Tolak Pembayaran">
                                         <i class="fas fa-times w-4 h-4"></i> Tolak
                                     </button>

@@ -13,19 +13,19 @@
             <div class="w-1/3">
                 <input type="text" wire:model.live="search" placeholder="Cari penerima, user, atau label..." class="form-input w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200/50">
             </div>
-            {{-- <button wire:click="openAddressModal()" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150">Tambah Alamat Baru</button> --}}
+            
         </div>
     
-        <!-- Tabel Data Alamat -->
+       {{-- tabel alamat --}}
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                        
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemilik (User)</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Label Alamat</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Penerima</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kontak Penerima</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kontak</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail Alamat</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kota</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode Pos</th>
@@ -72,6 +72,7 @@
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium flex space-x-2 justify-center">
+                                <button wire:click="showAddressDetail({{ $address->id }})" class="text-indigo-600 hover:text-indigo-900 transition duration-150">Detail</button>
                                 <button wire:click="openAddressModal({{ $address->id }})" class="text-indigo-600 hover:text-indigo-900 transition duration-150">Edit</button>
                                 <button wire:click="deleteAddress({{ $address->id }})" 
                                         wire:confirm="Yakin ingin menghapus alamat ini? Ini akan permanen."
@@ -93,70 +94,198 @@
         </div>
     </div>
     
-    <!-- Modal create & edit -->
+  {{-- modal edit alamat --}}
     @if ($showAddressModal)
     <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
-        <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 mx-4" @click.away="$wire.showAddressModal = false">
-            <h3 class="text-2xl font-bold mb-4 text-gray-800">{{ $addressId ? 'Edit Alamat' : 'Tambah Alamat Baru' }}</h3>
-            
+        <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 mx-4"
+            @click.away="$wire.showAddressModal = false">
+
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">
+                Edit Alamat
+            </h3>
+
             <form wire:submit.prevent="saveAddress">
                 <div class="space-y-4">
+
                     <div>
-                        <label for="address_label" class="block text-sm font-medium text-gray-700">Label Alamat</label>
-                        <input type="text" wire:model="address_label" id="address_label" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('address_label') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <label for="address_label" class="block text-sm font-medium text-gray-700">
+                            Label Alamat
+                        </label>
+                        <input type="text" wire:model="address_label" id="address_label"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('address_label') 
+                            <span class="text-red-500 text-xs">{{ $message }}</span> 
+                        @enderror
                     </div>
+
                     <div>
-                        <label for="recipient_name" class="block text-sm font-medium text-gray-700">Nama Penerima</label>
-                        <input type="text" wire:model="recipient_name" id="recipient_name" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('recipient_name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <label for="recipient_name" class="block text-sm font-medium text-gray-700">
+                            Nama Penerima
+                        </label>
+                        <input type="text" wire:model="recipient_name" id="recipient_name"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('recipient_name') 
+                            <span class="text-red-500 text-xs">{{ $message }}</span> 
+                        @enderror
                     </div>
-                    
+
                     <div>
-                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
-                        <input type="text" wire:model="phone_number" id="phone_number" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('phone_number') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700">
+                            Nomor Telepon
+                        </label>
+                        <input type="text" wire:model="phone_number" id="phone_number"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('phone_number') 
+                            <span class="text-red-500 text-xs">{{ $message }}</span> 
+                        @enderror
                     </div>
-    
+
                     <div>
-                        <label for="address_line" class="block text-sm font-medium text-gray-700">Detail Jalan/Alamat</label>
-                        <textarea wire:model="address_line" id="address_line" rows="3" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                        @error('address_line') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <label for="address_line" class="block text-sm font-medium text-gray-700">
+                            Detail Alamat
+                        </label>
+                        <textarea wire:model="address_line" id="address_line" rows="3"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                        @error('address_line') 
+                            <span class="text-red-500 text-xs">{{ $message }}</span> 
+                        @enderror
                     </div>
-    
+
                     <div class="grid grid-cols-3 gap-4">
                         <div>
-                            <label for="city" class="block text-sm font-medium text-gray-700">Kota</label>
-                            <input type="text" wire:model="city" id="city" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            @error('city') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            <label for="city" class="block text-sm font-medium text-gray-700">
+                                Kota
+                            </label>
+                            <input type="text" wire:model="city" id="city"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                    focus:border-indigo-500 focus:ring-indigo-500">
+                            @error('city') 
+                                <span class="text-red-500 text-xs">{{ $message }}</span> 
+                            @enderror
                         </div>
+
                         <div>
-                            <label for="province" class="block text-sm font-medium text-gray-700">Provinsi</label>
-                            <input type="text" wire:model="province" id="province" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            @error('province') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            <label for="province" class="block text-sm font-medium text-gray-700">
+                                Provinsi
+                            </label>
+                            <input type="text" wire:model="province" id="province"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                    focus:border-indigo-500 focus:ring-indigo-500">
+                            @error('province') 
+                                <span class="text-red-500 text-xs">{{ $message }}</span> 
+                            @enderror
                         </div>
+
                         <div>
-                            <label for="postal_code" class="block text-sm font-medium text-gray-700">Kode Pos</label>
-                            <input type="text" wire:model="postal_code" id="postal_code" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            @error('postal_code') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            <label for="postal_code" class="block text-sm font-medium text-gray-700">
+                                Kode Pos
+                            </label>
+                            <input type="text" wire:model="postal_code" id="postal_code"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm
+                                    focus:border-indigo-500 focus:ring-indigo-500">
+                            @error('postal_code') 
+                                <span class="text-red-500 text-xs">{{ $message }}</span> 
+                            @enderror
                         </div>
                     </div>
-    
+
                     <div class="flex items-center">
-                        <input id="is_default" type="checkbox" wire:model="is_default" class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                        <label for="is_default" class="ml-2 block text-sm text-gray-900">Jadikan Alamat Utama?</label>
+                        <input id="is_default" type="checkbox" wire:model="is_default"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 rounded
+                                focus:ring-indigo-500">
+                        <label for="is_default" class="ml-2 block text-sm text-gray-900">
+                            Jadikan Alamat Utama
+                        </label>
                     </div>
+
                 </div>
-    
+
                 <div class="mt-6 flex justify-end space-x-3">
-                    <button type="button" wire:click="$set('showAddressModal', false)" class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition duration-150">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150">
-                        Simpan Alamat
+                    <button type="button"
+                        wire:click="$set('showAddressModal', false)"
+                        class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700
+                            hover:bg-gray-300 transition duration-150">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                        class="px-4 py-2 bg-indigo-600 text-white font-semibold
+                            rounded-lg hover:bg-indigo-700 transition duration-150">
+                        Simpan Perubahan
                     </button>
                 </div>
             </form>
+
         </div>
     </div>
+    @endif
+
+    @if ($showAddressDetailModal)
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
+        <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md p-6 mx-4"
+            @click.away="$wire.showAddressDetailModal = false">
+
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">
+                Detail Alamat Pengiriman
+            </h3>
+
+            <div class="space-y-4 text-gray-700">
+
+                <div class="flex items-center justify-between col-span-2">
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Label Alamat</h4>
+                        <p class="text-gray-600">{{ $address_label }}</p>
+                    </div>
+                
+                    <span class="flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full
+                        {{ $is_default ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' }}">
+                        
+                        @if($is_default)
+                            <i class="fa-solid fa-star text-green-500"></i>
+                            Utama
+                        @else
+                            <i class="fa-regular fa-bookmark"></i>
+                            Sekunder
+                        @endif
+                    </span>
+
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold">Nama Penerima:</h4>
+                    <p>{{ $recipient_name }}</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold">Nomor Telepon:</h4>
+                    <p>{{ $phone_number }}</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold">Detail Alamat:</h4>
+                    <p>{{ $address_line }}</p>
+                    <p>{{ $city }}</p>
+                    <p>{{ $province }}</p>
+                    <p>{{ $postal_code }}</p>
+                </div>
+
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button type="button"
+                    wire:click="$set('showAddressDetailModal', false)"
+                    class="px-4 py-2 bg-indigo-600 text-white font-semibold
+                        rounded-lg hover:bg-indigo-700 transition duration-150">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+        
     @endif
     
     

@@ -19,10 +19,13 @@ class User extends Component
     
     // Detail Pengguna
     public $showDetailModal = false;
+    public $showEditModal = false;
     public ?UserModel $selectedUser = null; 
+    public $name = '';
+    public $email = '';
   
     public $availableRoles = ['admin', 'Customer'];
-    public $newRole = ''; 
+    public $newRole ; 
 
     public function render()
     {
@@ -74,7 +77,47 @@ class User extends Component
              session()->flash('success', 'Tidak ada perubahan role.');
         }
 
-        $this->showDetailModal = false;
+        $this->showEditModal = false;
     }
    
+        public function editUser($userId)
+    {
+        $this->selectedUser = UserModel::findOrFail($userId);
+
+        $this->name    = $this->selectedUser->name;
+        $this->email   = $this->selectedUser->email;
+        $this->newRole = $this->selectedUser->role;
+
+        $this->showEditModal = true;
+    }
+
+    public function updateUser()
+    {
+        $this->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email',
+            'newRole' => 'required|in:admin,Customer',
+        ]);
+    
+        $this->selectedUser->update([
+            'name'  => $this->name,
+            'email' => $this->email,
+            'role'  => $this->newRole,
+        ]);
+    
+        $this->reset(['name', 'email', 'newRole', 'selectedUser']);
+        $this->showEditModal = false;
+    
+        session()->flash('success', 'Data user berhasil diperbarui');
+    }
+    
+
+    public function deleteUser($userId)
+        {
+            $user = UserModel::findOrFail($userId);
+            $user->delete();
+
+            session()->flash('success', 'Pengguna ' . $user->name . ' berhasil dihapus.');
+            $this->showDetailModal = false;
+        }
 }

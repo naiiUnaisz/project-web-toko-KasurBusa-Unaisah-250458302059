@@ -71,7 +71,7 @@
                                 <button 
                                     wire:click="addToCart({{ $product->id }})"
                                     class="flex-1 bg-red-700 text-white py-2 rounded-full text-sm font-semibold hover:bg-red-800">
-                                    Tambah Keranjang
+                                    Keranjang
                                 </button>
                     
                             </div>

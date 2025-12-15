@@ -19,6 +19,11 @@ class OrderManagement extends Component
     public $showEditModal = false;
     public $orderId;
 
+    // properti untuk modal detail
+    public $showDetailModal = false;
+    public $detailOrder = null;
+
+
     // Properti Form Edit
     public $currentStatus;
     public $courier_name;
@@ -57,6 +62,21 @@ class OrderManagement extends Component
         $this->showEditModal = true;
     }
 
+    public function closeEditModal()
+    {
+        $this->showEditModal = false;
+    }
+
+    public function openDetailModal($orderId)
+    {
+        $this->detailOrder = Order::with([
+            'user',
+            'address',
+            'orderItems'
+        ])->findOrFail($orderId);
+    
+        $this->showDetailModal = true;
+    }
     // Method untuk menyimpan perubahan
     public function updateOrder()
     {

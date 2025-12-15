@@ -20,7 +20,7 @@ class PaymentManagement extends Component
 
     public $availableStatuses = [
         'pending' => 'Menunggu Verifikasi',
-        'approved' => 'Disetujui',
+        'verified' => 'Disetujui',
         'rejected' => 'Ditolak',
     ];
 
@@ -64,9 +64,9 @@ class PaymentManagement extends Component
             $payment->status = $status;
             $payment->save();
 
-            // Jika disetujui, update status order menjadi 'paid'
-            if ($status === 'approved' && $payment->order) {
-                $payment->order->status = 'paid';
+            // Jika disetujui, update status order menjadi 'verified'
+            if ($status === 'verified' && $payment->order) {
+                $payment->payment_confirmations->status = 'verified';
                 $payment->order->save();
             }
 

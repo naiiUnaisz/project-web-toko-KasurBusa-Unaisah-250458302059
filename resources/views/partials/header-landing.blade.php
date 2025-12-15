@@ -1,9 +1,12 @@
 <div>
-    <header class="sticky top-0 bg-[#EEEBDD] shadow-md z-40">
+    <header   x-data="{ open: false }"
+    class="sticky top-0 bg-[#EEEBDD] shadow-md z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center justify-center w-40 rounded-lg p-2 shadow-md" style="background-color: rgb(239, 218, 218)">
+            <div class="flex items-center justify-between h-16 gap-4">
+
+               {{-- logo --}}
+                <div class="flex items-center justify-center w-36 sm:w-40 rounded-lg p-2 shadow-md"
+                 style="background-color: rgb(239, 218, 218)">
                     <img
                       src="{{asset('Frontend/landingPage_TokoKasur/img/logo_buscil.png')}}"
                       alt="logo"
@@ -11,9 +14,9 @@
                     />
                   </div>
                 
-                <!-- Pencarian  -->
-                <div class="flex justify-center md:flex flex-grow max-w-lg mx-10 ">
-                    <nav class="  md:flex space-x-8 ">
+                {{-- pencarian --}}
+                <div class="hidden md:flex flex-grow justify-center">
+                    <nav class="flex space-x-6">
                         <a href="{{route('landingpage')}}" class="text-gray-900 hover:text-yellow-700  font-medium">Home</a>
 
                         <a href="{{ route('User.katalog') }}" 
@@ -32,24 +35,32 @@
                     </nav>
                 </div>
                 
+                <button
+                    @click="open = !open"
+                    type="button"
+                    class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-yellow-700"
+                >
+                    <i class="fa-solid fa-bars fa-lg"></i>
+                </button>
+
                 
-                <div class="flex items-center space-x-4">
-                    <!-- Wishlist  -->
-                    <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-yellow-700">
+                <div class="flex items-center gap-3 sm:gap-4">
+                   {{-- wishlist --}}
+                    <a href="{{route('User.CartWishlist')}}" class="p-2 text-gray-600 hover:text-yellow-700">
                         <i class="fa-solid fa-heart"></i>
                     </a>
-                    <!-- Keranjang Belanja  -->
-                    <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-yellow-700 ">
+                    {{-- keranjang belanja --}}
+                    <a href="{{route('User.CartShopping')}}" class="p-2 text-gray-600 hover:text-yellow-700 ">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                     @guest
                     
                     @if (Route::has('login')) 
-                    <a href="{{route('login')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full  bg-primary-custom:hover">Login</a>
+                    <a href="{{route('login')}}" class= "text-xs sm:text-sm font-medium text-white bg-primary-custom py-1.5 sm:py-2 px-3 sm:px-4 rounded-full">Login</a>
                     @endif
     
                     @if (Route::has('register'))
-                    <a href="{{route('register')}}" class="text-sm font-medium text-white bg-primary-custom py-2 px-4 rounded-full transition duration-150 bg-primary-custom:hover">Register</a>
+                    <a href="{{route('register')}}" class="text-xs sm:text-sm font-medium text-white bg-primary-custom py-1.5 sm:py-2 px-3 sm:px-4 rounded-full">Register</a>
                     @endif
                     @else
                         <li class="nav-item dropdown list-unstyled">
@@ -102,6 +113,36 @@
                 </div>
             </div>
         </div>
+
+        {{-- Menu Mobile --}}
+        <div
+        x-show="open"
+        x-transition
+        @click.outside="open = false"
+        class="md:hidden mt-2 px-4 pb-4"
+        >
+        <nav class="flex flex-col space-y-3">
+            <a href="{{ route('landingpage') }}"
+            class="text-gray-900 hover:text-yellow-700 font-medium">
+                Home
+            </a>
+
+            <a href="{{ route('User.katalog') }}"
+            class="text-gray-900 hover:text-yellow-700 font-medium">
+                @if (request()->routeIs('User.detailProduct'))
+                    Produk
+                @else
+                    Katalog
+                @endif
+            </a>
+
+            <a href="{{ route('User.Checkout') }}"
+            class="text-gray-900 hover:text-yellow-700 font-medium">
+                Shopping
+            </a>
+        </nav>
+        </div>
+
     </header>
 </div>
 

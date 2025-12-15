@@ -22,6 +22,7 @@ class UserAddress extends Component
     public $sortAsc = false;
 
     public $showAddressModal = false;
+    public $showAddressDetailModal = false;
     public $addressId = null;
     public $userId; 
     
@@ -66,64 +67,79 @@ class UserAddress extends Component
         $this->resetPage();
     }
 
-    // Mengatur data form saat membuat/mengedit
-    public function openAddressModal($addressId = null)
+        public function openAddressModal($addressId)
     {
+        $this->reset([
+            'addressId',
+            'userId',
+            'address_label',
+            'recipient_name',
+            'phone_number',
+            'address_line',
+            'city',
+            'province',
+            'postal_code',
+            'is_default',
+        ]);
 
-        $this->reset(['addressId', 'address_label', 'recipient_name', 'phone_number', 'address_line', 'city', 'province', 'postal_code', 'is_default']);
         $this->addressId = $addressId;
 
-        if ($this->addressId) {
-            $address = AlamatUser::findOrFail($addressId);
-            
-            // Memuat data baru
-            $this->address_label = $address->address_label;
-            $this->address_line = $address->address_line; 
-            
-            // Memuat data lama
-            $this->recipient_name = $address->recipient_name;
-            $this->phone_number = $address->phone_number;
-            $this->city = $address->city;
-            $this->province = $address->province;
-            $this->postal_code = $address->postal_code;
-            $this->is_default = (bool) $address->is_default;
-            $this->userId = $address->user_id; 
-        }
-        
+        $address = AlamatUser::findOrFail($addressId);
+
+        $this->address_label  = $address->address_label;
+        $this->recipient_name = $address->recipient_name;
+        $this->phone_number   = $address->phone_number;
+        $this->address_line   = $address->address_line;
+        $this->city           = $address->city;
+        $this->province       = $address->province;
+        $this->postal_code    = $address->postal_code;
+        $this->is_default     = (bool) $address->is_default;
+        $this->userId         = $address->user_id;
+
         $this->showAddressModal = true;
     }
 
     public function saveAddress()
     {
-        $this->validate();
-        
-        $data = [
-            'address_label' => $this->address_label, 
-            'recipient_name' => $this->recipient_name,
-            'phone_number' => $this->phone_number,
-            'address_line' => $this->address_line, 
-            'city' => $this->city,
-            'province' => $this->province,
-            'postal_code' => $this->postal_code,
-            'is_default' => $this->is_default,
-        ];
+        if (!$this->addressId) {
+            return;
+        }
 
-        if ($this->addressId) {
-            AlamatUser::findOrFail($this->addressId)->update($data);
-            session()->flash('success', 'Alamat berhasil diperbarui.');
-        } 
-        // else {
-        //     $data['user_id'] = $this->userId;
-        //     AlamatUser::create($data);
-        //     session()->flash('success', 'Alamat baru berhasil ditambahkan.'); 
-        // }
+        $this->validate();
+
+        AlamatUser::findOrFail($this->addressId)->update([
+            'user_id'        => $this->userId,
+            'address_label'  => $this->address_label,
+            'recipient_name' => $this->recipient_name,
+            'phone_number'   => $this->phone_number,
+            'address_line'   => $this->address_line,
+            'city'           => $this->city,
+            'province'       => $this->province,
+            'postal_code'    => $this->postal_code,
+            'is_default'     => $this->is_default,
+        ]);
 
         $this->showAddressModal = false;
+
+        session()->flash('success', 'Alamat berhasil diperbarui.');
     }
 
-    public function deleteAddress($addressId)
+    public function showAddressDetail($addressId)
     {
-        AlamatUser::findOrFail($addressId)->delete();
-        session()->flash('success', 'Alamat berhasil dihapus.');
+        $address = AlamatUser::findOrFail($addressId);
+    
+        $this->addressId       = $address->id;
+        $this->address_label  = $address->address_label;
+        $this->recipient_name = $address->recipient_name;
+        $this->phone_number   = $address->phone_number;
+        $this->address_line   = $address->address_line;
+        $this->city           = $address->city;
+        $this->province       = $address->province;
+        $this->postal_code    = $address->postal_code;
+        $this->is_default     = (bool) $address->is_default;
+    
+        $this->showAddressDetailModal = true;
     }
+    
+
 }

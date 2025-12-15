@@ -89,7 +89,7 @@ class ManageImage extends Component
     public function setMainImage($imageId)
     {
        
-        ProductImage::where('product_id', $this->productId)->update(['is_primary' => false]);
+        ProductImage::where('produk_id', $this->productId)->update(['is_primary' => false]);
 
     
         ProductImage::where('id', $imageId)->update(['is_primary' => true]);

@@ -1,4 +1,4 @@
-<div class="p-6 bg-white shadow-xl sm:rounded-lg">
+<div class="p-6">
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Kelola Produk</h2>
     
     @if (session()->has('success'))
@@ -8,11 +8,11 @@
         </div>
     @endif
     
-    <div class="flex justify-between items-center mb-4"><
+    <div class="flex justify-between items-center mb-4">
         <button wire:click="createProduct" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-150 shadow-md">
             + Tambah Produk Baru
         </button>
-    
+        
         <!-- Search dan Pagination -->
         <div class="flex space-x-3 items-center">
            <select wire:model.live="perPage" class="border-gray-300 rounded-md shadow-sm text-sm">
@@ -58,11 +58,6 @@
                             Edit
                         </button>
                         
-                        
-                        {{-- <a href="{{ route('admin.images', ['productId' => $product->id]) }}" 
-                           class="text-blue-600 hover:text-blue-900 mr-4 transition duration-150">
-                            Gambar
-                        </a> --}}
                         <button wire:click="deleteProduct({{ $product->id }})" 
                                  onclick="confirm('Apakah Anda yakin ingin menghapus produk ini?') || event.stopImmediatePropagation()"
                                  class="text-red-600 hover:text-red-900 transition duration-150">

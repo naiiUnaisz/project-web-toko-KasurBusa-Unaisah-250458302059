@@ -1,4 +1,4 @@
-<div>
+<div class="p-6">
     <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-800">Kelola Gambar Produk</h1>
    
@@ -7,18 +7,16 @@
     </a>
     </div>
     
-    <!-- Informasi Produk yang sedang dikelola -->
+    {{-- Produk yang sedang dikelola --}}
     <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
         <h2 class="text-xl font-semibold text-indigo-700">Produk: {{ $product->name }}</h2>
         <p class="text-sm text-gray-500">ID Produk: {{ $product->id }}</p>
     </div>
     
-    <!-- Kotak Upload Gambar Baru -->
+    {{-- upload image --}}
     <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
         <h3 class="text-lg font-semibold mb-4 text-gray-800">Unggah Gambar Baru</h3>
         <form wire:submit.prevent="uploadImages">
-            
-            <!-- Input File Gambar -->
             <div class="mb-4">
                 <label for="images" class="block text-sm font-medium text-gray-700">Pilih File Gambar (Maks 5 file)</label>
                 <input type="file" wire:model="images" id="images" multiple 
@@ -29,7 +27,7 @@
                 @error('images.*') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
             </div>
             
-            <!-- Input Alt Text -->
+        {{-- input Alt Text --}}
             <div class="mb-4">
                 <label for="alt_text" class="block text-sm font-medium text-gray-700">Teks Alternatif (Alt Text)</label>
                 <input type="text" wire:model.defer="alt_text" id="alt_text" placeholder="Deskripsi singkat gambar untuk SEO"
@@ -38,7 +36,7 @@
                 @error('alt_text') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
             </div>
     
-            <!-- Preview Gambar Sementara -->
+            {{-- preview gambar --}}
             @if ($images)
                 <div class="mt-4 mb-4 flex space-x-3 overflow-x-auto p-2 border border-dashed rounded-lg">
                     @foreach ($images as $image)
@@ -58,7 +56,7 @@
         </form>
     </div>
     
-    <!-- Daftar Gambar yang Sudah Ada -->
+    {{-- gaambar yang tersimpan --}}
     <div class="bg-white p-6 rounded-xl shadow-lg">
         <h3 class="text-lg font-semibold mb-4 text-gray-800">Gambar yang Sudah Tersimpan ({{ $productImages->count() }})</h3>
     
@@ -71,7 +69,7 @@
                         <img src="{{ Storage::url($image->image_url) }}" alt="{{ $image->alt_text ?: $product->name . ' Gambar' }}" 
                              class="w-full h-40 object-cover">
                         
-                        <!-- Badge Gambar Utama  -->
+                      {{-- gambar utama --}}
                         @if ($image->is_primary)
                             <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">UTAMA</span>
                         @endif
@@ -95,7 +93,7 @@
         @endif
     </div>
     
-    <!-- Modal Konfirmasi Hapus -->
+    {{-- Modal Konfirmasi Hapus Gambar --}}
     @if ($isDeleting)
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
             <div class="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-2xl">

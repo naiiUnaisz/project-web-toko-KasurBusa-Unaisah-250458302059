@@ -21,9 +21,6 @@
                 <option value="{{ $key }}">{{ $label }}</option>
             @endforeach
         </select>
-        {{-- <button wire:click="openEditModal()" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-150">
-            Tambah Order Baru
-        </button> --}}
     </div>
     
     <div class="bg-white shadow-xl rounded-xl overflow-hidden">
@@ -59,43 +56,30 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-bold">
                                 Rp {{ number_format($item->total_amount, 0, ',', '.') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if ($item->status === 'pending')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @elseif ($item->status === 'paid')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @elseif ($item->status === 'processing')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @elseif ($item->status === 'shipped')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @elseif ($item->status === 'completed')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @elseif ($item->status === 'cancelled')
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                        {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
-                                    </span>
-                                @endif
+                            <td class="px-3 py-2">
+                                @php
+                                    $statusClass = match ($item->status) {
+                                        'pending'    => 'badge bg-warning text-dark',
+                                        'paid'       => 'badge bg-primary',
+                                        'processing' => 'badge bg-info text-dark',
+                                        'shipped'    => 'badge bg-secondary',
+                                        'completed'  => 'badge bg-success',
+                                        'cancelled'  => 'badge bg-danger',
+                                        default      => 'badge bg-light text-dark',
+                                    };
+                                @endphp
+                            
+                                <span class="{{ $statusClass }}">
+                                    {{ $availableStatuses[$item->status] ?? ucfirst($item->status) }}
+                                </span>
                             </td>
+                            
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <p class="font-medium text-gray-800">{{ $item->courier_name ?? 'Belum Diatur' }}</p>
                                 <p class="text-xs text-indigo-500">{{ $item->tracking_number ?? 'N/A' }}</p>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium flex space-x-2 justify-center">
-                                <button wire:click="#" class="text-blue-600 hover:text-blue-900 transition duration-150 p-1 rounded-full hover:bg-blue-50" title="Lihat Detail">
+                                <button wire:click="openDetailModal({{ $item->id }})" class="text-blue-600 hover:text-blue-900 transition duration-150 p-1 rounded-full hover:bg-blue-50" title="Lihat Detail">
                                     <i class="fas fa-eye w-4 h-4"></i>
                                 </button>
                                 <button wire:click="openEditModal({{ $item->id }})" class="text-indigo-600 hover:text-indigo-900 transition duration-150 p-1 rounded-full hover:bg-indigo-50" title="Edit Status">
@@ -126,11 +110,11 @@
     </div>
     
     
-    <!--  Modal Edit Status & Kurir -->
+    {{-- Modal edit --}}
     @if ($showEditModal)
         <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
             <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 mx-4" @click.away="$wire.showEditModal = false">
-                <h3 class="text-2xl font-bold mb-6 text-gray-800">Update Pesanan #{{ $orderId }}</h3>
+                <h3 class="text-2xl font-bold mb-6 text-gray-800">Update Pesanan {{ $orderId }}</h3>
                 
                 <form wire:submit.prevent="updateOrder">
                     <div class="space-y-4">
@@ -170,6 +154,96 @@
             </div>
         </div>
     @endif
+
+    {{-- Modal Detail --}}
     
-    
+    @if ($showDetailModal)
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl p-6"
+            @click.away="$wire.showDetailModal = false">
+
+            <div class="col-span-2 flex items-center justify-between border-b mb-6 pb-3">
+                {{-- judul & tanggal --}}
+                <div class="flex items-center gap-4">
+                    <h3 class="text-2xl font-bold">
+                        Detail Pesanan {{ $detailOrder->order_number }}
+                    </h3>
+            
+                    <span class="text-sm text-gray-500">
+                        • {{ $detailOrder->created_at->format('d M Y H:i') }}
+                    </span>
+                </div>
+            
+                {{-- kanan status --}}
+                <span
+                    class="badge rounded-pill px-3 py-2
+                    @if($detailOrder->status === 'pending')
+                        bg-warning text-dark
+                    @elseif($detailOrder->status === 'paid')
+                        bg-primary
+                    @elseif($detailOrder->status === 'processing')
+                        bg-info text-dark
+                    @elseif($detailOrder->status === 'shipped')
+                        bg-secondary
+                    @elseif($detailOrder->status === 'completed')
+                        bg-success
+                    @elseif($detailOrder->status === 'cancelled')
+                        bg-danger
+                    @endif
+                    "
+                >
+                    {{ ucfirst($detailOrder->status) }}
+                </span>
+            </div>
+            
+            
+
+            {{-- Informasi Pelanggan --}}
+            <p><strong class="mt-4 text-lg">Nama:</strong> {{ $detailOrder->user->name }}</p>
+
+            {{-- Alamat --}}
+            @if ($detailOrder->address)
+            <div class="mt-4">
+                <div class="font-semibold text-lg mb-1">
+                    Alamat Pengiriman:
+                </div>
+        
+                <div class="text-gray-700 leading-relaxed border-b pb-4">
+                    <p>{{ $detailOrder->address->recipient_name }}</p>
+                    <p>{{ $detailOrder->address->phone_number }}</p>
+                    <p>
+                        {{ $detailOrder->address->address }}
+                        {{ $detailOrder->address->city }}
+                        {{ $detailOrder->address->province }}
+                    </p>
+                    <p>{{ $detailOrder->address->postal_code }}</p>
+                </div>
+            </div>
+        @endif
+        
+
+            {{-- Items --}}
+            @foreach ($detailOrder->orderItems as $item)
+                <p><strong class="mt-4 text-lg">Produk Dibeli :</strong></p>
+                <div class="text-gray-700   ">
+                    <p>{{ $item->product->name }}</p>
+                    <p>Jumlah : Rp {{ number_format($item->price, 0, ',', '.') }} x {{ $item->quantity }} pcs</p>
+                    <p><b>Harga Total :</b> Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</p>
+                </div>
+            @endforeach
+
+            <div class="mt-6 text-right">
+                <button
+                    wire:click="$set('showDetailModal', false)"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg"
+                >
+                    Tutup
+                </button>
+            </div>
+        </div>
     </div>
+    @endif
+
+                                        
+    
+ </div>

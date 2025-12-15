@@ -1,4 +1,4 @@
-<div>
+<div class="p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Kelola Gambar Produk</h1>
     
     <div class="mb-4 flex justify-between items-center">
