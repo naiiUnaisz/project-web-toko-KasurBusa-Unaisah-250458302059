@@ -93,6 +93,8 @@ class DetailProduct extends Component
         'produk_id' => $idProduk,
         'quantity' => $this->quantity,
     ]);
+
+    session()->flash('success', 'Produk berhasil ditambahkan ke keranjang');
 }
 
     public function maxQty()

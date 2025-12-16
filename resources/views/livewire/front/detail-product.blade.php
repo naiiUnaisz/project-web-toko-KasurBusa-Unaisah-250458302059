@@ -3,6 +3,19 @@
 <div>
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
     
+             {{-- NOTIFIKASI --}}
+            @if (session()->has('success'))
+            <div class="mb-4 p-4 rounded-lg bg-green-100 text-green-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session()->has('error'))
+            <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-700">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <nav class="text-sm mb-6">
             <a href="{{ url('/') }}" class="text-gray-500 hover:text-primary-custom">Home /</a> 
             <a href="{{ route('User.katalog') }}" class="text-gray-500 hover:text-primary-custom">Produk /</a> 
