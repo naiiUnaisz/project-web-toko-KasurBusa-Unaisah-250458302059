@@ -45,7 +45,7 @@ class Checkout extends Component
 
         // FILTER SEARCH berdasarkan nama produk
         if ($this->search) {
-            $query->whereHas('items.product', function ($q) {
+            $query->whereHas('orderItems.product', function ($q) {
                 $q->where('name', 'like', "%{$this->search}%");
             });
         }
