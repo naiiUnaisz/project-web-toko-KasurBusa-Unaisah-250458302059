@@ -173,7 +173,7 @@
                 @endif
             </div>
 
-            {{-- konfirmasi pesanan &unggah bukti bayar --}}
+            {{-- konfirmasi pesanan & unggah bukti bayar --}}
             <div class="pt-6">
                 <h2 class="text-2xl font-bold text-primary-custom mb-4">Rincian Biaya & Konfirmasi</h2>
 

@@ -29,7 +29,7 @@
                         </div>
                     </div>
 
-                    <!-- kanan gambar -->
+                    {{-- gambar kanan --}}
                     <div class="hidden md:block">
                         <img src="{{asset ('Frontend/landingPage_TokoKasur/img/gambar toko kasur.webp')}}" alt="Ilustrasi Kasur" class="w-full h-auto rounded-xl shadow-2xl">
                     </div>
@@ -60,7 +60,6 @@
                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                             </p>
                     
-                            <!-- Tombol selalu di bawah -->
                             <div class="mt-auto flex space-x-2 pt-4">
                     
                                 <a href="{{ route('User.detailProduct', $product->id) }}"
@@ -94,7 +93,7 @@
                 
                 <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     
-                    <!-- Fitur: Filter Berlapis  & Sorting  -->
+        
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl">
                         <div class="flex items-center space-x-3 text-primary-custom">
                             <i class="fa-solid fa-filter text-2xl w-8 h-8"></i>
@@ -104,7 +103,7 @@
                         <p class="mt-2 text-gray-500">Filter produk berdasarkan ukuran, merek, jenis busa, dan rentang harga sekaligus. Tidak ada lagi pencarian yang sia-sia!</p>
                     </div>
 
-                    <!-- Fitur: Checkout & Bukti Bayar  -->
+                    
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
                         <div class="flex items-center space-x-3 text-primary-custom">
                             <i class="fa-solid fa-credit-card text-2xl"></i>
@@ -114,7 +113,7 @@
                         <p class="mt-2 text-gray-500">Alur checkout . Lakukan pembayaran manual dan unggah bukti bayar langsung di halaman konfirmasi. Praktis!</p>
                     </div>
 
-                    <!-- Fitur: Riwayat & Pelacakan  -->
+                   
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl">
                         <div class="flex items-center space-x-3 text-primary-custom">
                             <i class="fa-solid fa-location-dot text-2xl"></i>
@@ -123,7 +122,7 @@
                         <p class="mt-2 text-gray-500">Cek riwayat dan status pesanan Anda</p>
                     </div>
                     
-                    <!-- Fitur: Rekomendasi  -->
+                  
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl ">
                         <div class="flex items-center space-x-3 text-primary-custom">
                             <i class="fa-solid fa-lightbulb text-2xl"></i>
@@ -132,7 +131,7 @@
                         <p class="mt-2 text-gray-500">Bingung memilih? Di halaman detail produk, kami akan menampilkan rekomendasi produk serupa yang mungkin Anda suka.</p>
                     </div>
 
-                    <!-- Fitur Tambahan: Garansi -->
+    
                      <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl">
                         <div class="flex items-center space-x-3 text-primary-custom">
                             <i class="fa-solid fa-shield-check text-2xl"></i>
@@ -141,7 +140,6 @@
                         <p class="mt-2 text-gray-500">Semua produk kami datang dengan garansi resmi pabrik. Kami hanya menjual produk kasur berkualitas terbaik.</p>
                     </div>
                     
-                    <!-- Fitur Tambahan: Pengiriman -->
                      <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl">
                         <div class="flex items-center space-x-3 text-primary-custom">
                             <i class="fa-solid fa-paper-plane text-2xl"></i>

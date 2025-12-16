@@ -3,6 +3,7 @@
 namespace App\Livewire\Front;
 
 use Livewire\Component;
+use App\Models\CartItem;
 use App\Models\Wishlist;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
@@ -44,4 +45,29 @@ class Wislist extends Component
         session()->flash('success', 'Item Berhasil Dihapus dari Wishlist.');
     }
 
+
+    public function addToCart($produkId = null)
+{
+    if (!Auth::check()) {
+        return redirect()->guest('login');
+    }
+
+    $idProduk = $produkId ?? $this->product->id;
+
+    $cartItem = CartItem::where('user_id', Auth::id())
+                ->where('produk_id', $idProduk)
+                ->first();
+
+    if ($cartItem) {
+        $cartItem->quantity += 1;
+        $cartItem->save();
+        return;
+    }
+
+    CartItem::create([
+        'user_id' => Auth::id(),
+        'produk_id' => $idProduk,
+        'quantity' => 1
+    ]);
+}
 }
