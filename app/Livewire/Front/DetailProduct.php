@@ -83,7 +83,7 @@ class DetailProduct extends Component
                 ->first();
 
     if ($cartItem) {
-        $cartItem->quantity += 1;
+        $cartItem->quantity += $this->quantity;
         $cartItem->save();
         return;
     }
@@ -91,7 +91,7 @@ class DetailProduct extends Component
     CartItem::create([
         'user_id' => Auth::id(),
         'produk_id' => $idProduk,
-        'quantity' => 1
+        'quantity' => $this->quantity,
     ]);
 }
 
