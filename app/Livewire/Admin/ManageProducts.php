@@ -81,7 +81,7 @@ class ManageProducts extends Component
         $this->slug = Str::slug($value);
     }
     
-    // Mengatur ulang paginasi saat pencarian diubah
+
     public function updatedSearch()
     {
         $this->resetPage();

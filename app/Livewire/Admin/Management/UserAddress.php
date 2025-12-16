@@ -41,7 +41,7 @@ class UserAddress extends Component
 
     public function render()
     {
-
+        // mencari user
         $addresses = AlamatUser::query()
             ->with('user') 
             ->when($this->search, function ($query) {
@@ -67,6 +67,7 @@ class UserAddress extends Component
         $this->resetPage();
     }
 
+    
         public function openAddressModal($addressId)
     {
         $this->reset([

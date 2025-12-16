@@ -51,7 +51,7 @@ class Payment extends Component
     // upload bukti bayar
     public $paymentProof; 
     
-    // -payment confirmation
+    // payment confirmation
     public $bankName = 'BCA'; 
     public $accountName; 
 

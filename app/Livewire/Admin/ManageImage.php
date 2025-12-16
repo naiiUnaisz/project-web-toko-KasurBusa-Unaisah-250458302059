@@ -30,6 +30,7 @@ class ManageImage extends Component
 
         return view('livewire.admin.imgProduct.manage-image', [
             'product' => $this->product,
+            'productImages' => $this->productImages,
         ]);
     }
 

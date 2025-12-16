@@ -40,7 +40,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                 <button wire:click="editUser({{ $user->id }})" class="text-indigo-600 hover:text-indigo-900 mx-2 transition duration-150">Edit</button>
                                 <button wire:click="showUserDetail({{ $user->id }})" class="text-indigo-600 hover:text-indigo-900 mx-2 transition duration-150">Detail</button>
-                                <button wire:click="DeleteUser({{ $user->id }})" class="text-red-500 hover:text-indigo-900 mx-2 transition duration-150">Delete</button>
+                                <button wire:click="deleteUser({{ $user->id }})" class="text-red-500 hover:text-indigo-900 mx-2 transition duration-150">Delete</button>
                              </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                 

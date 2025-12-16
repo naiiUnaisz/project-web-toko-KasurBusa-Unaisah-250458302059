@@ -55,7 +55,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 @if ($item->proof_image_url)
-                                    <a href="{{ $item->proof_image_url }}" target="_blank" class="text-blue-500 hover:text-blue-700 font-semibold">
+                                    <a href="{{ asset('storage/' . $item->proof_image_url) }}" target="_blank" class="text-blue-500 hover:text-blue-700 font-semibold">
                                         Lihat Bukti <i class="fas fa-external-link-alt ml-1"></i>
                                     </a>
                                 @else

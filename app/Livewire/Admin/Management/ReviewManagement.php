@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin\Management;
 
+use id;
 use App\Models\Review;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Illuminate\Container\Attributes\Auth;
 
 
 #[Layout('layouts.app')]
@@ -55,14 +57,13 @@ class ReviewManagement extends Component
             $query->where('rating', (int)$this->starFilter);
         }
 
-        // Memuat relasi 'user' dan 'product'
         return $query->with(['user', 'product'])
                      ->orderBy('created_at', 'desc')
                      ->paginate(10);
     }
 
 
-    // Method untuk mengupdate status ulasan menjadi Approved atau Rejected/Pending
+    // Method untuk mengupdate status ulasan 
     public function updateStatus($reviewId, $isApproved)
     {
         try {
@@ -70,7 +71,7 @@ class ReviewManagement extends Component
             $review->is_approved = $isApproved;
             
             if ($isApproved) {
-                $review->approved_byadmin_id = 1; 
+                $review->approved_byadmin_id = 3; 
                 $message = 'Disetujui';
             } else {
                 $review->approved_byadmin_id = null;

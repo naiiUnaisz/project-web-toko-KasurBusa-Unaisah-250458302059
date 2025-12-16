@@ -66,9 +66,11 @@ class PaymentManagement extends Component
 
             // Jika disetujui, update status order menjadi 'verified'
             if ($status === 'verified' && $payment->order) {
-                $payment->payment_confirmations->status = 'verified';
-                $payment->order->save();
+                $order = $payment->order;
+                $order->status = 'completed'; 
+                $order->save();
             }
+            
 
             session()->flash('success', 'Status Konfirmasi Pembayaran berhasil diubah menjadi ' . ucfirst($status) . '!');
         } catch (\Exception $e) {

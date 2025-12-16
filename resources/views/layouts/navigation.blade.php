@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex overflow-x-auto no-scrollbar">
                     @if (auth()->user()->role == 'admin')
                         
                     <x-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')">

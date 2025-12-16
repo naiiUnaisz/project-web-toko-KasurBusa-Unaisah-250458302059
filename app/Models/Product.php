@@ -40,8 +40,6 @@ class Product extends Model
         return $this->belongsTo(JenisBusa::class, 'foam_type_id');
     }
 
-
-   // Relasi ke Ukuran (Size)
    public function size()
    {
        return $this->belongsTo(Size::class, 'size_id');
