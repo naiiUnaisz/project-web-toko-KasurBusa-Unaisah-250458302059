@@ -6,15 +6,15 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-4"><i class="fa-solid fa-user "></i> Total Pengguna</h3>
-                    <p class="text-3xl">3</p>
+                    <p class="text-3xl">{{$totalUsers}}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-4"><i class="fa-solid fa-box-archive"></i> Total Produk</h3>
-                    <p class="text-3xl">2</p>
+                    <p class="text-3xl">{{$totalProducts}}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-4"><i class="fa-solid fa-coins"></i>  Total Penghasilan</h3>
-                    <p class="text-3xl">1</p>
+                    <p class="text-3xl">Rp {{ number_format($totalIncome, 0, ',', '.') }}</p>
                 </div>
             </div>
         @else

@@ -64,6 +64,12 @@
                     <x-nav-link :href="route('admin.reviews')" :active="request()->routeIs('admin.reviews')">
                         {{ __('Kelola Review') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.reviews')" :active="request()->routeIs('admin.reviews')">
+                        {{ __('Kelola Wishlist') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.reviews')" :active="request()->routeIs('admin.reviews')">
+                        {{ __('Kelola Chart Item') }}
+                    </x-nav-link>
                     @endif
                   
                 </div>
