@@ -14,7 +14,10 @@
             </div>
         </div>
   
-    
+      
+        @include('partials.footer-admin')
+            
+     
         
 
 </x-app-layout>
