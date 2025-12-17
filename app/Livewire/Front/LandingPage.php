@@ -36,30 +36,32 @@ class LandingPage extends Component
     }
 
     // Menambahkan produk ke keranjang
-    public function addToCart($productId)
-{
-    if (!Auth::check()) {
-        return redirect()->route('login');
+   public function addToCart($produkId = null)
+    {
+        if (!Auth::check()) {
+            return redirect()->guest('login');
+        }
+    
+        $idProduk = $produkId ?? $this->product->id;
+    
+        $cartItem = CartItem::where('user_id', Auth::id())
+                    ->where('produk_id', $idProduk)
+                    ->first();
+    
+         if ($cartItem) {
+             $cartItem->increment('quantity');
+        } else {
+                CartItem::create([
+                'user_id'   => Auth::id(),
+                'produk_id'=> $produkId,
+                'quantity' => 1
+            ]);
+        }
+        
+        $this->dispatch('cartUpdated'); 
+        
+        session()->flash('success', 'Produk berhasil ditambahkan ke keranjang');
     }
-
-    $cartItem = CartItem::where('user_id', Auth::id())
-                ->where('produk_id', $productId)
-                ->first();
-
-    if ($cartItem) {
-        $cartItem->quantity += 1;
-        $cartItem->save();
-    } else {
-        CartItem::create([
-            'user_id'   => Auth::id(),
-            'produk_id' => $productId,
-            'quantity'  => 1,
-        ]);
-    }
-
-    session()->flash('success', 'Produk berhasil ditambahkan ke keranjang!');
-    $this->dispatch('keranjang Diperbarui');
-}
 
 
 public function addWishlist($productId)

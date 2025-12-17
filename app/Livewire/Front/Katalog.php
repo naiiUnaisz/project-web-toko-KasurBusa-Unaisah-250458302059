@@ -84,29 +84,30 @@ class Katalog extends Component
         ]);
     }
 
-    public function addToCart($productId)
+    public function addToCart($produkId = null)
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->guest('login');
         }
-
+    
+        $idProduk = $produkId ?? $this->product->id;
+    
         $cartItem = CartItem::where('user_id', Auth::id())
-            ->where('produk_id', $productId)
-            ->first();
-
-        if ($cartItem) {
-            $cartItem->quantity += 1;
-            $cartItem->save();
+                    ->where('produk_id', $idProduk)
+                    ->first();
+    
+         if ($cartItem) {
+             $cartItem->increment('quantity');
         } else {
-            CartItem::create([
+                CartItem::create([
                 'user_id'   => Auth::id(),
-                'produk_id' => $productId,
-                'quantity'  => 1,
+                'produk_id'=> $produkId,
+                'quantity' => 1
             ]);
         }
-
-        session()->flash('success', 'Produk berhasil ditambahkan ke keranjang!');
-        $this->dispatch('keranjangDiperbarui');
+        
+        $this->dispatch('cartUpdated'); 
+        session()->flash('success', 'Produk berhasil ditambahkan ke keranjang');
     }
 
     public function addWishlist($productId)

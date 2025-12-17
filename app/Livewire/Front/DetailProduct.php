@@ -70,33 +70,6 @@ class DetailProduct extends Component
     }
 
 
-    public function addToCart($produkId = null)
-{
-    if (!Auth::check()) {
-        return redirect()->guest('login');
-    }
-
-    $idProduk = $produkId ?? $this->product->id;
-
-    $cartItem = CartItem::where('user_id', Auth::id())
-                ->where('produk_id', $idProduk)
-                ->first();
-
-    if ($cartItem) {
-        $cartItem->quantity += $this->quantity;
-        $cartItem->save();
-        return;
-    }
-
-    CartItem::create([
-        'user_id' => Auth::id(),
-        'produk_id' => $idProduk,
-        'quantity' => $this->quantity,
-    ]);
-
-    session()->flash('success', 'Produk berhasil ditambahkan ke keranjang');
-}
-
     public function maxQty()
     {
         if ($this->quantity < $this->product->stock_quantity) {
@@ -142,6 +115,36 @@ public function setTab($tab)
     $this->tab = $tab;
 }
 
+public function addToCart($produkId = null)
+{
+    if (!Auth::check()) {
+        return redirect()->guest('login');
+    }
+
+    $idProduk = $produkId ?? $this->product->id;
+
+    $cartItem = CartItem::where('user_id', Auth::id())
+                ->where('produk_id', $idProduk)
+                ->first();
+
+    if ($cartItem) {
+        $cartItem->quantity += $this->quantity;
+        $cartItem->save();
+        return;
+
+        $this->dispatch('cartUpdated'); 
+        return;
+    }
+
+    CartItem::create([
+        'user_id' => Auth::id(),
+        'produk_id' => $idProduk,
+        'quantity' => $this->quantity,
+    ]);
+    
+    $this->dispatch('cartUpdated'); 
+    session()->flash('success', 'Produk berhasil ditambahkan ke keranjang');
+}
 
 public function addWishlist($productId)
     {
@@ -159,15 +162,20 @@ public function addWishlist($productId)
                 ->where('product_id', $productId)
                 ->delete();
 
+            $this->dispatch('wishlistUpdated'); 
             session()->flash('info', 'item dihapus dari wishlist.');
+            
         } else {
             Wishlist::create([
                 'user_id' => Auth::id(),
                 'product_id' => $productId,
             ]);
         
+            $this->dispatch('wishlistUpdated'); 
             session()->flash('success', 'item ditambahkan ke wishlist.');
         }
+
+        
 
          // Refresh list supaya icon berubah
          $this->wishlistId = Wishlist::where('user_id', Auth::id())

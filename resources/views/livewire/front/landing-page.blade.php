@@ -2,6 +2,18 @@
 <div>
     <main>
         
+    @if (session()->has('success'))
+        <div class="mb-4 p-4 rounded-lg bg-green-100 text-green-700">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
+    
         <section class="bg-[#662222] py-20 md:py-32">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-12 items-center">

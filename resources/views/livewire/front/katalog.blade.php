@@ -3,6 +3,19 @@
 
 
     <main class="bg- max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        @if (session()->has('success'))
+        <div class="mb-4 p-4 rounded-lg bg-green-100 text-green-700">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
+    
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Katalog Produk</h1>
 
          {{-- SIDEBAR FILTER  --}}

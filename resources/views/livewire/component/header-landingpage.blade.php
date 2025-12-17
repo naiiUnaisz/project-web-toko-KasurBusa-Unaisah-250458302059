@@ -45,21 +45,26 @@
 
                 
                 <div class="flex items-center gap-3 sm:gap-4">
-                   {{-- wishlist --}}
-                    <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-yellow-700">
-                        <i class="fa-solid fa-heart"></i>
+                   {{-- wishlist --}}     
+                   <a href="{{route('User.CartWishlist')}}" class="relative p-2 text-gray-600 hover:text-yellow-700">
+                       <i class="fa-solid fa-heart"></i>
 
-                        <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs 
-                         w-5 h-5 flex items-center justify-center rounded-full">1
-                        </span>
-                    </a>
+                    @if ($wishlistCount > 0)
+                       <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs 
+                        w-5 h-5 flex items-center justify-center rounded-full">{{$wishlistCount}}
+                       </span>
+                    @endif
+                   </a>
+                  
                     {{-- keranjang belanja --}}
                     <a href="{{route('User.CartShopping')}}" class="relative p-2 text-gray-600 hover:text-yellow-700 ">
                         <i class="fa-solid fa-cart-shopping"></i>
+                    @if ($cartCount > 0)
                         
-                        <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs 
-                        w-5 h-5 flex items-center justify-center rounded-full">2
-                        </span>
+                    <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs 
+                    w-5 h-5 flex items-center justify-center rounded-full">{{$cartCount}}
+                    </span>
+                    @endif
                     </a>
                     @guest
                     

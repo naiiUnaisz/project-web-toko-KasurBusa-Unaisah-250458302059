@@ -20,7 +20,7 @@
 <body>
 
   
-        @include('partials.header-landing')
+        @livewire('component.header-landingpage')
    
 
    {{$slot}}

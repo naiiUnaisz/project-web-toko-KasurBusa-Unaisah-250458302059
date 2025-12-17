@@ -15,7 +15,7 @@
         </div>
   
       
-        @include('partials.footer-admin')
+        @livewire('partials.footer-admin')
             
      
         
