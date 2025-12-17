@@ -103,7 +103,10 @@ class Checkout extends Component
     {
         $this->resetModals();
 
-        $this->selectedOrder = Order::with('orderItems.product')->find($orderId);
+        $this->selectedOrder = Order::with(
+            'orderItems.product',
+            'payment'
+        )->find($orderId);
         $this->showModal = true;
     }
 

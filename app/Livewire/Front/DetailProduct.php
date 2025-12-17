@@ -177,7 +177,6 @@ public function addWishlist($productId)
 
         
 
-         // Refresh list supaya icon berubah
          $this->wishlistId = Wishlist::where('user_id', Auth::id())
         ->pluck('product_id')
         ->toArray();

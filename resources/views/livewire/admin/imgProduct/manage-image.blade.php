@@ -75,15 +75,19 @@
                             <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow">UTAMA</span>
                         @endif
     
-                        <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div x-data="{ hover: false }"
+                        @mouseenter="hover = true"
+                        @mouseleave="hover = false"
+                        class="absolute inset-0  bg-opacity-40 flex flex-col items-center justify-center transition-opacity duration-300"
+                        :class="hover ? 'opacity-100' : 'opacity-0'">
                             @if (!$image->is_primary)
-                                <button wire:click="setMainImage({{ $image->id }})" 
+                                <button type="button" wire:click="setMainImage({{ $image->id }})" 
                                         class="text-white bg-indigo-500 hover:bg-indigo-600 text-xs px-3 py-1 rounded-full mb-2 transition duration-150">
                                     Jadikan Utama
                                 </button>
                             @endif
                             
-                            <button wire:click="confirmImageDeletion({{ $image->id }})" 
+                            <button type="button" wire:click="confirmImageDeletion({{ $image->id }})" 
                                     class="text-white bg-red-600 hover:bg-red-700 text-xs px-3 py-1 rounded-full transition duration-150">
                                 Hapus
                             </button>

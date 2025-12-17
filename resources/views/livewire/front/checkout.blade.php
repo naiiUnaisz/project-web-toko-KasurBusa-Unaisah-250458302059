@@ -12,7 +12,7 @@
              <div class="flex flex-col md:flex-row gap-4">
                  <input type="search"
                      wire:model.live.debounce.300ms="search"
-                     placeholder="Cari pesanan di katalog..." 
+                     placeholder="Cari pesanan riwayat pesanan..." 
                      class="w-full border border-gray-300 rounded-l-md px-4 py-2 text-sm focus:ring-primary-500 focus:border-primary-500">
                  <button class="bg-primary-custom text-white p-2 px-3 rounded-md transition duration-150 bg-primary-custom:hover">
                      <i class="fa-solid fa-magnifying-glass"></i>
@@ -229,8 +229,8 @@
                 <h3 class="font-semibold mb-2">Rincian Pembayaran</h3>
                 <div class="flex-1 gap-3 mb-3 pb-2">
 
-                    <p class="text-sm text-gray-500">Metode Pembayaran : {{ $selectedOrder->payment_method }}</p>
-                    <p class="text-sm text-gray-500">Harga Barang : {{$selectedOrder->price}}</p>
+                    <p class="text-sm text-gray-500">Metode Pembayaran : {{ $selectedOrder->payment->payment_method ?? '-'}}</p>
+                    <p class="text-sm text-gray-500">Harga Barang : {{$selectedOrder->payment->price ?? '-'}}</p>
                     <p class="text-sm text-gray-500">Total Ongkos Kirim : {{$selectedOrder->courier_name}}</p>
                 </div>
                 @endforeach

@@ -286,9 +286,11 @@
                         </a>
 
                         <button 
+
                             wire:click="addToCart({{ $item->id }})" 
                             class="flex-1 bg-primary-custom text-white py-2 rounded-full text-sm font-semibold hover:bg-primary-dark">
                             Keranjang
+                            
                         </button>
                     </div>
                 </div>

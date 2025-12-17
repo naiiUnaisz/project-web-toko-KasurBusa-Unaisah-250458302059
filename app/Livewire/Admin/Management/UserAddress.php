@@ -142,5 +142,10 @@ class UserAddress extends Component
         $this->showAddressDetailModal = true;
     }
     
+    public function deleteAddress($id)
+    {
+        AlamatUser::where('id', $id)->delete();
 
+         session()->flash('success', 'Alamat berhasil dihapus');
+    }
 }
