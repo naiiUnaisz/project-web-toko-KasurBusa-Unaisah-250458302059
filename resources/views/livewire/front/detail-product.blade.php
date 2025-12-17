@@ -152,13 +152,14 @@
        {{-- tab  --}}
         <div class="flex border-b mb-6">
             <button  wire:click="setTab('description')"
-                class="tab-button px-4 py-2 text-lg font-semibold border-b-2 border-primary-custom text-primary-custom">
+                class="tab-button px-4 py-2 text-lg font-semibold border-b-2 border-primary-custom
+                {{ $tab === 'description' ? 'text-red-900 ' : 'text-gray-500'}}">
                 Deskripsi Produk
             </button>
 
             <button
                 wire:click="setTab('reviews')"
-                class="tab-button px-4 py-2 text-lg font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700">
+                class="tab-button px-4 py-2 text-lg font-semibold text-gray-500 border-b-2 border-transparent  {{ $tab === 'reviews' ? 'text-red-900 ' : 'text-gray-500'}}">
                 Ulasan ({{ $reviews->count() }})
             </button>
         </div>

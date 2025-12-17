@@ -30,6 +30,7 @@ class HeaderLandingpage extends Component
             $this->wishlistCount = Wishlist::where('user_id', Auth::id())->count();
         }
     }
+
     
     public function render()
     {

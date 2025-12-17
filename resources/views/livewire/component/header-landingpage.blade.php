@@ -17,22 +17,22 @@
                 {{-- pencarian --}}
                 <div class="hidden md:flex flex-grow justify-center">
                     <nav class="flex space-x-6">
-                        <a href="{{route('landingpage')}}" class="text-gray-900 hover:text-yellow-700  font-medium">Home</a>
-
-                        <a href="{{ route('User.katalog') }}" 
-                        class="text-gray-900 hover:text-yellow-700 font-medium">
-
-                            @if (request()->routeIs('User.detailProduct'))
-                                Produk
-                            @else
-                                Katalog
-                            @endif
-
+                        <a href="{{ route('landingpage') }}"
+                           class="font-bold {{ request()->routeIs('landingpage') ? 'text-red-800  border-b-2 border-red-800 hover:text-yellow-700' : 'text-gray-900 hover:text-yellow-700' }}">
+                            Home
                         </a>
-
-                        <a href="{{route('User.Checkout')}}" class="text-gray-900 hover:text-yellow-700 font-medium">Shopping</a>
-
+                    
+                        <a href="{{ route('User.katalog') }}"
+                           class="font-bold {{ request()->routeIs('User.katalog', 'User.detailProduct') ? 'text-red-800  border-b-2 border-red-800 hover:text-yellow-700' : 'text-gray-900 hover:text-yellow-700' }}">
+                            {{ request()->routeIs('User.detailProduct') ? 'Produk' : 'Katalog' }}
+                        </a>
+                    
+                        <a href="{{ route('User.Checkout') }}"
+                           class="font-bold {{ request()->routeIs('User.Checkout') ? 'text-red-800  border-b-2 border-red-800 hover:text-yellow-700' : 'text-gray-900 hover:text-yellow-700' }}">
+                            Shopping
+                        </a>
                     </nav>
+                    
                 </div>
                 
                 <button
