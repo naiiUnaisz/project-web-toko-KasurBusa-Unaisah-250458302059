@@ -29,13 +29,13 @@
         <div class="flex items-center justify-between pt-6">
             <label for="password" class="block text-sm/6 font-medium text-gray-600">Password</label>
 
-            @if (Route::has('password.request'))
+            {{-- @if (Route::has('password.request'))
             <div class="text-sm">
                 <a class="font-semibold text-red-800 hover:text-indigo-300" href="{{ route('password.request') }}">
                     {{ __('Lupa Password?') }}
                 </a>
             </div>
-            @endif
+            @endif --}}
         </div>
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"

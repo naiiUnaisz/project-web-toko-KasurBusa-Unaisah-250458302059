@@ -52,7 +52,7 @@
          </div>
  
          <!-- CARD RIWAYAT -->
-         @foreach($orders as $item)
+         @forelse($orders as $item)
              <div class="bg-white p-5 rounded-xl shadow mb-5">
  
                  <!-- Header Card -->
@@ -101,7 +101,7 @@
                      <p class="text-sm text-gray-500">Total Belanja</p>
                      <p class="text-primary-custom font-bold text-lg">Rp {{ number_format($item->total_amount) }}</p>
                  </div>
- 
+                
                  <!-- FOOTER -->
                  <div 
                     class="mt-4 flex justify-end gap-3">
@@ -119,9 +119,20 @@
                  </div>
  
              </div>
-         @endforeach
- 
-     </div>
+         
+             @empty
+    
+            <div class="bg-white p-10 rounded-xl shadow text-center">
+                    <i class="fa-solid fa-box-open text-5xl text-primary-custom mb-4"></i>
+                    <p class="text-lg font-semibold text-gray-700">
+                        Produk / Pesanan tidak ditemukan
+                    </p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Coba gunakan kata kunci lain atau ubah filter status.
+                    </p>
+                </div>
+            @endforelse
+        </div>
  
      {{-- modal lacak --}}
      @if ($showTrackingModal)
@@ -167,7 +178,7 @@
 
      {{-- MODAL DETAIL TRANSAKSI --}}
         @if ($showModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center">
+        <div class="fixed inset-0 z-50 flex items-center justify-center ">
             
             {{-- BACKDROP --}}
             <div 

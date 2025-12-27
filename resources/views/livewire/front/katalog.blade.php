@@ -174,7 +174,7 @@
                     </div>
                 @empty
                     <div class="col-span-full text-center p-10 bg-white rounded-xl shadow">
-                        <i class="fa-solid fa-box text-primary-custom"></i>
+                        <i class="fa-solid fa-box-open text-5xl text-primary-custom mb-4"></i>
                         <p>Tidak ada produk ditemukan.</p>
                     </div>
                 @endforelse

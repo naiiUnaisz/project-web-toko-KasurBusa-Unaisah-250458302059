@@ -1,6 +1,19 @@
 <x-guest-layout>
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+                {{-- Logo --}}
+                <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <img src="{{ asset('Frontend/landingPage_TokoKasur/img/logo_buscil.png') }}"
+                         class="mx-auto h-10 w-auto" alt="Logo">
+    
+                    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-black">
+                        Login ke Akun Anda
+                    </h2>
+                </div>
+
+    <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
     <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+       Masukkan email anda untuk verifikasi
     </div>
 
     <!-- Session Status -->
@@ -17,9 +30,12 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+            <button type="submit"
+               class="w-full bg-red-700 text-white py-3 rounded-lg font-semibold hover:bg-red-800 transition">
+               Reset Password
+           </button>
         </div>
     </form>
+ </div>
+ </div>
 </x-guest-layout>
